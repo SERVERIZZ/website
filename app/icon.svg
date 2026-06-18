@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="SERVERIZZ">
+  <!-- SERVERIZZ brand mark: the terminal chip (red/yellow/green lights over a $ prompt
+       with a blinking-cursor block). Colors from the SERVERIZZ Design System tokens
+       (navy surface, steel hairline, traffic-light signals, terminal-green $,
+       electric-blue cursor). -->
+  <rect x="2.5" y="3.5" width="27" height="25" rx="5" fill="#111827" stroke="#1E3A5F" stroke-width="1.5"/>
+  <g>
+    <circle cx="8.6" cy="9.4" r="1.9" fill="#EF4444"/>
+    <circle cx="13.8" cy="9.4" r="1.9" fill="#F59E0B"/>
+    <circle cx="19" cy="9.4" r="1.9" fill="#22C55E"/>
+  </g>
+  <text x="9.5" y="24" font-family="'JetBrains Mono','SF Mono',ui-monospace,monospace" font-size="12" font-weight="700" fill="#22C55E">$</text>
+  <rect x="17.5" y="17.5" width="5.2" height="6.5" rx="1" fill="#60A5FA"/>
+</svg>
