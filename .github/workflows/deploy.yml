@@ -50,19 +50,23 @@ jobs:
           ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
       - name: Upload build to server
-        # Exclude node_modules so the CloudLinux selector's symlink is preserved.
+        # The CageFS jail has no rsync (only tar), so we stream a tar archive
+        # over ssh instead. node_modules is excluded so the CloudLinux selector's
+        # symlink is preserved; .env*/.htaccess are excluded so the server's
+        # copies survive. Stale .next build output is removed before extraction
+        # so deleted routes/chunks don't linger (rsync --delete equivalent).
         run: |
-          rsync -az --delete \
-            --rsync-path="/usr/bin/rsync" \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='node_modules' \
-            --exclude='tmp' \
+          tar czf - \
+            --exclude='./.git' \
+            --exclude='./.github' \
+            --exclude='./node_modules' \
+            --exclude='./tmp' \
             --exclude='*.log' \
-            --exclude='.htaccess' \
-            --exclude='.env*' \
-            -e "ssh -i ~/.ssh/deploy_key -p $SSH_PORT" \
-            ./ "$SSH_USER@$SSH_HOST:$REMOTE_PATH/"
+            --exclude='./.htaccess' \
+            --exclude='./.env*' \
+            -C . . \
+          | ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+              "mkdir -p '$REMOTE_PATH' && rm -rf '$REMOTE_PATH/.next' && tar xzf - -C '$REMOTE_PATH'"
 
       - name: Install runtime deps & restart app
         run: |
