@@ -2,17 +2,20 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { UserRound, Mail, Activity, type LucideIcon } from "lucide-react";
+import { BreadcrumbJsonLd } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Support",
   description:
     "How can we help? A real account manager on every plan, 24/7 email tickets and a live status page.",
-};
+  path: "/support",
+});
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
@@ -56,6 +59,7 @@ const topics = [
 export default function SupportPage() {
   return (
     <div>
+      <BreadcrumbJsonLd items={breadcrumbTrail("Support", "/support")} />
       {/* hero */}
       <section style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 22, padding: "80px 24px 50px", maxWidth: 640, margin: "0 auto", textAlign: "center" }}>
         <SectionEyebrow>Support</SectionEyebrow>

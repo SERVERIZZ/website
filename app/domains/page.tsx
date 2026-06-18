@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { EyeOff, Forward, Settings2, RefreshCcw } from "lucide-react";
+import { BreadcrumbJsonLd } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Domains",
   description:
     "Search 400+ extensions, register in seconds and point it at your SERVERIZZ site automatically. Free WHOIS privacy on every domain.",
-};
+  path: "/domains",
+});
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
@@ -39,6 +42,7 @@ const includes = [
 export default function DomainsPage() {
   return (
     <div>
+      <BreadcrumbJsonLd items={breadcrumbTrail("Domains", "/domains")} />
       {/* hero */}
       <section style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24, padding: "80px 24px 60px", maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
         <SectionEyebrow>Domains</SectionEyebrow>

@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import { BreadcrumbJsonLd } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Card } from "@/components/ui/card";
 import { PlanPricing } from "@/components/szz/plan-pricing";
+import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Hosting plans",
   description:
     "Two fully-managed hosting plans — Entrepreneur and Engineer. Free migration, SSL, daily backups and a dedicated account manager as standard.",
-};
+  path: "/hosting",
+});
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
@@ -47,6 +50,7 @@ const cell = { padding: "14px 20px" } as const;
 export default function HostingPage() {
   return (
     <div>
+      <BreadcrumbJsonLd items={breadcrumbTrail("Hosting plans", "/hosting")} />
       {/* hero */}
       <section
         style={{

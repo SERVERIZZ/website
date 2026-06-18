@@ -8,17 +8,20 @@ import {
   GitBranch,
   Headset,
 } from "lucide-react";
+import { BreadcrumbJsonLd } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Terminal } from "@/components/szz/terminal";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { wpLines } from "@/lib/szz-data";
+import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Managed WordPress hosting",
   description:
     "WordPress that updates, backs up and secures itself. Core and plugin updates, malware scanning, caching and daily backups — all handled for you.",
-};
+  path: "/wordpress",
+});
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
@@ -47,6 +50,7 @@ const specs = [
 export default function WordPressPage() {
   return (
     <div style={{ maxWidth: 1180, margin: "0 auto", padding: "48px 24px 0" }}>
+      <BreadcrumbJsonLd items={breadcrumbTrail("Managed WordPress hosting", "/wordpress")} />
       {/* breadcrumb */}
       <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)", marginBottom: 24 }}>
         <Link href="/hosting" className="szz-link-accent" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)" }}>

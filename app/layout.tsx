@@ -1,8 +1,17 @@
 import type { Metadata } from "next";
 import { Sora, Inter, JetBrains_Mono } from "next/font/google";
+import { OrganizationJsonLd, JsonLdScript } from "next-seo";
 import "./globals.css";
 import { SiteNav } from "@/components/szz/site-nav";
 import { SiteFooter } from "@/components/szz/site-footer";
+import {
+  ORG,
+  SITE_DESCRIPTION,
+  SITE_LOCALE,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_URL,
+} from "@/lib/seo";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -25,19 +34,46 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const DEFAULT_TITLE = `${SITE_NAME} — ${SITE_TAGLINE}`;
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.serverizz.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "SERVERIZZ — Managed hosting for small business",
-    template: "%s · SERVERIZZ",
+    default: DEFAULT_TITLE,
+    template: `%s · ${SITE_NAME}`,
   },
-  description:
-    "Claim your domain, then launch a fast, fully-managed website on it — email, SSL and daily backups included. Free migration on every plan.",
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: ORG.legalName, url: SITE_URL }],
+  creator: ORG.legalName,
+  publisher: ORG.legalName,
+  category: "technology",
+  alternates: { canonical: "/" },
+  // Don't let phone numbers / addresses in copy get auto-linked by Safari.
+  formatDetection: { telephone: false, address: false, email: false },
   openGraph: {
-    title: "SERVERIZZ — Managed hosting for small business",
-    description:
-      "Ship infrastructure. Ship software. Ship brands. Fully-managed hosting, WordPress and domains for small business.",
     type: "website",
+    siteName: SITE_NAME,
+    locale: SITE_LOCALE,
+    url: "/",
+    title: DEFAULT_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: DEFAULT_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -60,6 +96,34 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
+        <OrganizationJsonLd
+          type="Organization"
+          name={SITE_NAME}
+          legalName={ORG.legalName}
+          url={SITE_URL}
+          logo={`${SITE_URL}/opengraph-image`}
+          description={SITE_DESCRIPTION}
+          email={ORG.email}
+          address={{ "@type": "PostalAddress", ...ORG.address }}
+          contactPoint={{
+            "@type": "ContactPoint",
+            contactType: "customer support",
+            email: ORG.supportEmail,
+          }}
+        />
+        <JsonLdScript
+          id="website-jsonld"
+          scriptKey="website-jsonld"
+          data={{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: SITE_NAME,
+            url: SITE_URL,
+            description: SITE_DESCRIPTION,
+            inLanguage: "en-US",
+            publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+          }}
+        />
         <div style={{ minHeight: "100vh", background: "var(--szz-bg-deep)" }}>
           <SiteNav />
           <main>{children}</main>

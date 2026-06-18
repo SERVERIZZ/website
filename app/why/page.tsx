@@ -10,18 +10,21 @@ import {
   Wallet,
   type LucideIcon,
 } from "lucide-react";
+import { BreadcrumbJsonLd } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Terminal } from "@/components/szz/terminal";
 import { Stat } from "@/components/szz/stat";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { heroLines } from "@/lib/szz-data";
+import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Why SERVERIZZ",
   description:
     "“Managed” should mean we actually manage it. Free migration, daily backups, 99.9% uptime and a dedicated account manager on every plan.",
-};
+  path: "/why",
+});
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
@@ -48,6 +51,7 @@ const sixUp: {
 export default function WhyPage() {
   return (
     <div>
+      <BreadcrumbJsonLd items={breadcrumbTrail("Why SERVERIZZ", "/why")} />
       {/* hero */}
       <section style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18, padding: "80px 24px 50px", maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
         <SectionEyebrow>Why_Serverizz</SectionEyebrow>
