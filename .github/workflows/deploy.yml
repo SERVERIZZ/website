@@ -58,6 +58,8 @@ jobs:
             --exclude='node_modules' \
             --exclude='tmp' \
             --exclude='*.log' \
+            --exclude='.htaccess' \
+            --exclude='.env*' \
             -e "ssh -i ~/.ssh/deploy_key -p $SSH_PORT" \
             ./ "$SSH_USER@$SSH_HOST:$REMOTE_PATH/"
 
