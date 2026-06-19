@@ -24,6 +24,17 @@ describe("POST /api/login", () => {
     expect(res.status).toBe(400);
   });
 
+  it("400s on a malformed JSON body", async () => {
+    const res = await POST(
+      new Request("http://localhost/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: "not-json",
+      })
+    );
+    expect(res.status).toBe(400);
+  });
+
   it("returns ok:true on valid credentials", async () => {
     vi.stubGlobal("fetch", mockFetch({ status: 302, location: "https://account.serverizz.com/index.php?fuse=clients" }));
     const res = await POST(req({ email: "a@b.com", password: "pw" }));

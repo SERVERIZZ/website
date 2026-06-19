@@ -23,18 +23,20 @@ export function LoginForm({
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email || !password) {
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail || !password) {
       setStatus("error");
       setError("Enter your email and password.");
       return;
     }
+    setEmail(trimmedEmail);
     setStatus("verifying");
     setError(null);
     try {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: trimmedEmail, password }),
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data?.ok) {
@@ -103,6 +105,7 @@ export function LoginForm({
           <Input
             type="password"
             name="password"
+            aria-label="Password"
             autoComplete="current-password"
             placeholder="••••••••••"
             value={password}
