@@ -49,6 +49,15 @@ jobs:
         env:
           NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
 
+      - name: DEBUG runner egress IP + port reachability
+        run: |
+          echo "runner_ipv4=$(curl -s --max-time 10 https://api.ipify.org)"
+          if timeout 8 bash -c "cat < /dev/null > /dev/tcp/$SSH_HOST/$SSH_PORT" 2>/dev/null; then
+            echo "port_$SSH_PORT=OPEN"
+          else
+            echo "port_$SSH_PORT=BLOCKED_OR_TIMEOUT"
+          fi
+
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
