@@ -7,6 +7,15 @@ const ONE_YEAR_PERIOD_ID = "12";
 /** Long, unlikely-to-be-registered label used only to read a TLD's list price. */
 const PRICE_PROBE_LABEL = "availability-probe-7x9q2z";
 
+type CePrice = { period_id?: string; formated_price?: string };
+type CeResponse = {
+  error?: unknown;
+  search_results?: {
+    status?: number;
+    available_options?: Array<{ price?: CePrice[] }>;
+  };
+};
+
 export function buildOrderUrl(d: { name: string; tld: string }): string {
   const u = new URL(`${CE_URL}/order.php`);
   u.searchParams.set("step", "1");
@@ -16,15 +25,14 @@ export function buildOrderUrl(d: { name: string; tld: string }): string {
   return u.toString();
 }
 
-export function oneYearPrice(json: unknown): string | null {
-  const opt = (json as any)?.search_results?.available_options?.[0];
-  const prices = opt?.price as Array<{ period_id?: string; formated_price?: string }> | undefined;
+export function oneYearPrice(json: CeResponse): string | null {
+  const prices = json.search_results?.available_options?.[0]?.price;
   if (!prices?.length) return null;
   const oneYear = prices.find((p) => String(p.period_id) === ONE_YEAR_PERIOD_ID) ?? prices[0];
   return oneYear?.formated_price ?? null;
 }
 
-async function rawCheck(name: string, tld: string, init: RequestInit): Promise<any> {
+async function rawCheck(name: string, tld: string, init: RequestInit): Promise<CeResponse> {
   const body = new URLSearchParams({ name, tld, group: GROUP_ID });
   const res = await fetch(`${CE_URL}/index.php?fuse=clients&action=checkdomain`, {
     method: "POST",
@@ -33,7 +41,7 @@ async function rawCheck(name: string, tld: string, init: RequestInit): Promise<a
     ...init,
   });
   if (!res.ok) throw new Error(`ClientExec HTTP ${res.status}`);
-  return res.json();
+  return res.json() as Promise<CeResponse>;
 }
 
 export async function checkDomain(d: { name: string; tld: string }): Promise<DomainResult> {
