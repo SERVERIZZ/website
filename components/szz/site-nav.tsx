@@ -7,6 +7,32 @@ import { TerminalLogo } from "@/components/szz/terminal-logo";
 import { ThemeToggle } from "@/components/szz/theme-toggle";
 import { Button } from "@/components/ui/button";
 
+type MaintenanceState = { active: boolean; title: string | null };
+
+function useMaintenanceStatus(): MaintenanceState {
+  const [state, setState] = React.useState<MaintenanceState>({ active: false, title: null });
+  React.useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const res = await fetch("/api/maintenance-status");
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled) setState({ active: !!data.active, title: data.title ?? null });
+      } catch {
+        /* keep the default marketing line on any error */
+      }
+    };
+    load();
+    const id = setInterval(load, 60_000);
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
+  }, []);
+  return state;
+}
+
 const NAV_LINKS = [
   { href: "/hosting", label: "Hosting" },
   { href: "/wordpress", label: "WordPress" },
@@ -56,6 +82,7 @@ function NavLink({
 
 export function SiteNav() {
   const pathname = usePathname();
+  const maintenance = useMaintenanceStatus();
 
   return (
     <div
@@ -86,20 +113,38 @@ export function SiteNav() {
             width: 6,
             height: 6,
             borderRadius: 999,
-            background: "var(--szz-green)",
+            background: maintenance.active ? "var(--szz-yellow)" : "var(--szz-green)",
           }}
         />
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            fontWeight: 500,
-            letterSpacing: ".5px",
-            color: "var(--szz-text-muted)",
-          }}
-        >
-          Free site migrations on every plan — we do the moving for you.
-        </span>
+        {maintenance.active ? (
+          <Link
+            href="https://status.serverizz.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 11,
+              fontWeight: 500,
+              letterSpacing: ".5px",
+              color: "var(--szz-text-muted)",
+              textDecoration: "none",
+            }}
+          >
+            Scheduled maintenance in progress — you may notice slower performance. View status →
+          </Link>
+        ) : (
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 11,
+              fontWeight: 500,
+              letterSpacing: ".5px",
+              color: "var(--szz-text-muted)",
+            }}
+          >
+            Free site migrations on every plan — we do the moving for you.
+          </span>
+        )}
       </div>
 
       {/* main nav */}
