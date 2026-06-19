@@ -5,8 +5,10 @@ import { Terminal } from "@/components/szz/terminal";
 import { Stat } from "@/components/szz/stat";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { heroLines } from "@/lib/szz-data";
+import { getTldPricing } from "@/lib/clientexec";
+import { FEATURED_TLDS } from "@/lib/domains";
+import { DomainSearch } from "@/components/szz/domain-search";
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
@@ -42,7 +44,8 @@ const products = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const pricing = await getTldPricing(FEATURED_TLDS);
   return (
     <div>
       {/* hero */}
@@ -76,24 +79,18 @@ export default function HomePage() {
           Claim your name, then launch a fast, fully-managed website on it — email, SSL and
           backups included. No servers to babysit.
         </p>
-        <div className="szz-inline-search" style={{ display: "flex", gap: 10, width: "100%", maxWidth: 560 }}>
-          <div style={{ flex: 1 }}>
-            <Input mono placeholder="find yourbakery.com" aria-label="Search for a domain" />
-          </div>
-          <Button asChild variant="primary" size="lg">
-            <Link href="/domains">Search</Link>
-          </Button>
-        </div>
+        <DomainSearch placeholder="find yourbakery.com" />
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--szz-text-dim)" }}>
-          .com <span style={{ color: "var(--szz-accent-blue)" }}>$11</span> &nbsp;·&nbsp; .co{" "}
-          <span style={{ color: "var(--szz-accent-blue)" }}>$24</span> &nbsp;·&nbsp; .io{" "}
-          <span style={{ color: "var(--szz-accent-blue)" }}>$39</span> &nbsp;·&nbsp; .org{" "}
-          <span style={{ color: "var(--szz-accent-blue)" }}>$13</span> &nbsp;—&nbsp;{" "}
-          <Link
-            href="/domains"
-            className="szz-link-accent"
-            style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--szz-text-light)" }}
-          >
+          {pricing.map(({ tld, formatedPrice }, i) => (
+            <span key={tld}>
+              {i > 0 ? " · " : ""}.{tld}{" "}
+              <span style={{ color: "var(--szz-accent-blue)" }}>
+                {formatedPrice ? formatedPrice.replace(/\s*USD\s*$/i, "") : "—"}
+              </span>
+            </span>
+          ))}
+          {" — "}
+          <Link href="/domains" className="szz-link-accent" style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--szz-text-light)" }}>
             already own one? bring it free →
           </Link>
         </div>
