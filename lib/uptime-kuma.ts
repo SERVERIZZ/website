@@ -14,10 +14,11 @@ type MaintenanceEntry = {
 export type StatusPageResponse = { maintenanceList?: MaintenanceEntry[] };
 
 function isEntryActive(m: MaintenanceEntry, now: Date): boolean {
+  // A disabled maintenance is never active, regardless of computed status.
+  if (m.active === false) return false;
   // Prefer Kuma's computed status (handles recurrence + timezone for us).
   if (typeof m.status === "string") return m.status === "under-maintenance";
   // Fallback for versions without a computed status: check timeslot windows.
-  if (m.active === false) return false;
   const t = now.getTime();
   return (m.timeslotList ?? []).some((s) => {
     const start = s.startDate ? Date.parse(s.startDate) : NaN;
@@ -26,7 +27,7 @@ function isEntryActive(m: MaintenanceEntry, now: Date): boolean {
   });
 }
 
-export function evaluateMaintenance(data: StatusPageResponse, now: Date): MaintenanceStatus {
+export function evaluateMaintenance(data: StatusPageResponse | null | undefined, now: Date): MaintenanceStatus {
   for (const m of data?.maintenanceList ?? []) {
     if (isEntryActive(m, now)) {
       return { active: true, title: m.title?.trim() || null };

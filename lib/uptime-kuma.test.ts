@@ -51,6 +51,11 @@ describe("evaluateMaintenance", () => {
     expect(evaluateMaintenance(data, NOW)).toEqual({ active: false, title: null });
   });
 
+  it("treats active:false as never active even when status says under-maintenance", () => {
+    const data = { maintenanceList: [{ title: "Disabled", active: false, status: "under-maintenance" }] };
+    expect(evaluateMaintenance(data, NOW)).toEqual({ active: false, title: null });
+  });
+
   it("returns null title when the active entry has no usable title", () => {
     const data = { maintenanceList: [{ title: "   ", status: "under-maintenance" }] };
     expect(evaluateMaintenance(data, NOW)).toEqual({ active: true, title: null });
