@@ -20,6 +20,12 @@ export async function POST(request: Request): Promise<Response> {
 
   try {
     const results = await Promise.all(tlds.map((t) => checkDomain({ name, tld: t })));
+    if (results.length > 0 && results.every((r) => r.status === "error")) {
+      return Response.json(
+        { error: "Domain search is temporarily unavailable. Please try again." },
+        { status: 502 }
+      );
+    }
     return Response.json({ query: { name, tld }, results });
   } catch {
     return Response.json(

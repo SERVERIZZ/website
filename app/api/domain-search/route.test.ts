@@ -22,6 +22,12 @@ describe("POST /api/domain-search", () => {
     expect(res.status).toBe(400);
   });
 
+  it("returns 502 when every lookup fails (total outage)", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network")));
+    const res = await POST(req({ domain: "yourbakery.com" }));
+    expect(res.status).toBe(502);
+  });
+
   it("returns results with the typed domain first", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve(AVAILABLE) }));
     const res = await POST(req({ domain: "yourbakery.io" }));
