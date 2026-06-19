@@ -87,7 +87,7 @@ export function DomainSearch({ placeholder = "find yourbakery.com" }: { placehol
                 ) : (
                   <X size={18} style={{ color: "var(--szz-text-dim)", flex: "none" }} />
                 )}
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 15, color: "var(--szz-text-primary)", overflow: "hidden", textOverflow: "ellipsis" }}>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 15, color: "var(--szz-text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {r.domain}
                 </span>
               </span>
@@ -99,9 +99,11 @@ export function DomainSearch({ placeholder = "find yourbakery.com" }: { placehol
                       {r.formatedPrice}
                     </span>
                   )}
-                  <Button asChild variant="primary" size="sm">
-                    <a href={r.continueUrl ?? "#"}>Continue →</a>
-                  </Button>
+                  {r.continueUrl && (
+                    <Button asChild variant="primary" size="sm">
+                      <a href={r.continueUrl}>Continue →</a>
+                    </Button>
+                  )}
                 </span>
               ) : (
                 <span style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--szz-text-dim)", flex: "none" }}>
