@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { evaluateMaintenance } from "@/lib/uptime-kuma";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { evaluateMaintenance, getMaintenanceStatus } from "@/lib/uptime-kuma";
 
 const NOW = new Date("2026-06-19T12:00:00.000Z");
 
@@ -59,5 +59,28 @@ describe("evaluateMaintenance", () => {
   it("returns null title when the active entry has no usable title", () => {
     const data = { maintenanceList: [{ title: "   ", status: "under-maintenance" }] };
     expect(evaluateMaintenance(data, NOW)).toEqual({ active: true, title: null });
+  });
+});
+
+function mockFetchOnce(json: unknown, ok = true) {
+  return vi.fn().mockResolvedValue({ ok, status: ok ? 200 : 500, json: () => Promise.resolve(json) });
+}
+
+afterEach(() => vi.unstubAllGlobals());
+
+describe("getMaintenanceStatus", () => {
+  it("reports active when the upstream shows an in-progress maintenance", async () => {
+    vi.stubGlobal("fetch", mockFetchOnce({ maintenanceList: [{ title: "DB upgrade", status: "under-maintenance" }] }));
+    expect(await getMaintenanceStatus()).toEqual({ active: true, title: "DB upgrade" });
+  });
+
+  it("fails safe to inactive on a non-200 response", async () => {
+    vi.stubGlobal("fetch", mockFetchOnce({}, false));
+    expect(await getMaintenanceStatus()).toEqual({ active: false, title: null });
+  });
+
+  it("fails safe to inactive when the fetch rejects (network/timeout)", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network")));
+    expect(await getMaintenanceStatus()).toEqual({ active: false, title: null });
   });
 });

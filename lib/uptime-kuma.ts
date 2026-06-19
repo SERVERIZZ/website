@@ -35,3 +35,27 @@ export function evaluateMaintenance(data: StatusPageResponse | null | undefined,
   }
   return { active: false, title: null };
 }
+
+const STATUS_URL =
+  process.env.UPTIME_KUMA_STATUS_URL ?? "https://status.serverizz.com/api/status-page/web";
+const TIMEOUT_MS = 3000;
+
+export async function getMaintenanceStatus(): Promise<MaintenanceStatus> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  try {
+    const res = await fetch(STATUS_URL, {
+      signal: controller.signal,
+      headers: { Accept: "application/json" },
+      // Share one upstream call across visitors for ~45s.
+      next: { revalidate: 45 },
+    });
+    if (!res.ok) return { active: false, title: null };
+    const data = (await res.json()) as StatusPageResponse;
+    return evaluateMaintenance(data, new Date());
+  } catch {
+    return { active: false, title: null };
+  } finally {
+    clearTimeout(timer);
+  }
+}
