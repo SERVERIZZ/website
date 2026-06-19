@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { TerminalLogo } from "@/components/szz/terminal-logo";
+import { PaymentMarks } from "@/components/szz/payment-marks";
 
 const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] = [
   {
@@ -106,9 +107,7 @@ export function SiteFooter() {
         <span style={{ fontSize: 12, color: "var(--szz-text-dim)" }}>
           © 2026 Rizz Enterprises, LLC. Privacy · Terms · AUP
         </span>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--szz-text-dim)" }}>
-          Made with ♥ and too much caffeine
-        </span>
+        <PaymentMarks />
       </div>
     </footer>
   );
