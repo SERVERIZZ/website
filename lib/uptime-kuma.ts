@@ -1,0 +1,36 @@
+/** Server-side Uptime Kuma status-page access. Do not import from client components. */
+
+export type MaintenanceStatus = { active: boolean; title: string | null };
+
+type Timeslot = { startDate?: string; endDate?: string };
+type MaintenanceEntry = {
+  title?: string;
+  /** Kuma sets this to false for disabled maintenances. */
+  active?: boolean;
+  /** Computed by Kuma: "under-maintenance" | "scheduled" | "inactive" | "ended". */
+  status?: string;
+  timeslotList?: Timeslot[];
+};
+export type StatusPageResponse = { maintenanceList?: MaintenanceEntry[] };
+
+function isEntryActive(m: MaintenanceEntry, now: Date): boolean {
+  // Prefer Kuma's computed status (handles recurrence + timezone for us).
+  if (typeof m.status === "string") return m.status === "under-maintenance";
+  // Fallback for versions without a computed status: check timeslot windows.
+  if (m.active === false) return false;
+  const t = now.getTime();
+  return (m.timeslotList ?? []).some((s) => {
+    const start = s.startDate ? Date.parse(s.startDate) : NaN;
+    const end = s.endDate ? Date.parse(s.endDate) : NaN;
+    return Number.isFinite(start) && Number.isFinite(end) && t >= start && t <= end;
+  });
+}
+
+export function evaluateMaintenance(data: StatusPageResponse, now: Date): MaintenanceStatus {
+  for (const m of data?.maintenanceList ?? []) {
+    if (isEntryActive(m, now)) {
+      return { active: true, title: m.title?.trim() || null };
+    }
+  }
+  return { active: false, title: null };
+}
