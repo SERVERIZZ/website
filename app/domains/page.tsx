@@ -5,8 +5,10 @@ import { BreadcrumbJsonLd } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
+import { getTldPricing } from "@/lib/clientexec";
+import { TLDS, formatYearlyPrice } from "@/lib/domains";
+import { DomainSearch } from "@/components/szz/domain-search";
 
 export const metadata: Metadata = pageMetadata({
   title: "Domains",
@@ -19,19 +21,6 @@ const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
 const primary = "var(--szz-text-primary)";
 
-const heroPills = [".com $11", ".co $24", ".io $39", ".org $13", ".shop $9"];
-
-const tlds = [
-  [".com", "$11/yr"],
-  [".co", "$24/yr"],
-  [".io", "$39/yr"],
-  [".org", "$13/yr"],
-  [".shop", "$9/yr"],
-  [".dev", "$15/yr"],
-  [".app", "$16/yr"],
-  [".studio", "$19/yr"],
-];
-
 const includes = [
   { Icon: EyeOff, color: "var(--szz-accent-blue)", title: "WHOIS privacy", body: "Your details stay private — free, forever." },
   { Icon: Forward, color: "var(--szz-accent-blue)", title: "Email forwarding", body: "Forward you@name.com anywhere." },
@@ -39,7 +28,8 @@ const includes = [
   { Icon: RefreshCcw, color: "var(--szz-green)", title: "Auto-renew", body: "Never lose your name to an expiry." },
 ];
 
-export default function DomainsPage() {
+export default async function DomainsPage() {
+  const pricing = await getTldPricing(TLDS);
   return (
     <div>
       <BreadcrumbJsonLd items={breadcrumbTrail("Domains", "/domains")} />
@@ -53,18 +43,11 @@ export default function DomainsPage() {
           Search 400+ extensions, register in seconds, and point it at your SERVERIZZ site
           automatically. Free WHOIS privacy on every domain.
         </p>
-        <div className="szz-inline-search" style={{ display: "flex", gap: 10, width: "100%", maxWidth: 600 }}>
-          <div style={{ flex: 1 }}>
-            <Input mono placeholder="search yourbusiness.com" aria-label="Search for a domain" />
-          </div>
-          <Button asChild variant="primary" size="lg">
-            <Link href="/support">Search</Link>
-          </Button>
-        </div>
+        <DomainSearch placeholder="search yourbusiness.com" />
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
-          {heroPills.map((p) => (
-            <span key={p} style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)", border: "1px solid var(--szz-border)", borderRadius: 999, padding: "5px 12px" }}>
-              {p}
+          {pricing.slice(0, 5).map(({ tld, formatedPrice }) => (
+            <span key={tld} style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)", border: "1px solid var(--szz-border)", borderRadius: 999, padding: "5px 12px" }}>
+              .{tld} {formatedPrice ? formatedPrice.replace(/\s*USD\s*$/i, "") : "—"}
             </span>
           ))}
         </div>
@@ -82,10 +65,10 @@ export default function DomainsPage() {
             </p>
           </div>
           <div className="szz-grid-4">
-            {tlds.map(([tld, price]) => (
+            {pricing.map(({ tld, formatedPrice }) => (
               <div key={tld} style={{ border: "1px solid var(--szz-border)", borderRadius: 10, background: "var(--szz-bg-deep)", padding: 20, display: "flex", flexDirection: "column", gap: 6 }}>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 22, fontWeight: 700, color: primary }}>{tld}</span>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 14, color: "var(--szz-accent-blue)" }}>{price}</span>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 22, fontWeight: 700, color: "var(--szz-text-primary)" }}>.{tld}</span>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 14, color: "var(--szz-accent-blue)" }}>{formatYearlyPrice(formatedPrice)}</span>
               </div>
             ))}
           </div>
