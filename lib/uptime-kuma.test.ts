@@ -83,4 +83,9 @@ describe("getMaintenanceStatus", () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network")));
     expect(await getMaintenanceStatus()).toEqual({ active: false, title: null });
   });
+
+  it("fails safe to inactive when the response body is malformed JSON", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.reject(new SyntaxError("Unexpected token")) }));
+    expect(await getMaintenanceStatus()).toEqual({ active: false, title: null });
+  });
 });
