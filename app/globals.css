@@ -398,6 +398,8 @@ html[data-theme="light"] .szz-term {
 
 /* ---------- Login brand aside (always dark, regardless of theme) ---------- */
 .szz-login-aside {
+  --szz-bg-card: #111827;   /* keep terminal emblem chip dark in light theme */
+  --szz-border: #1e3a5f;    /* keep emblem chip hairline dark in light theme */
   --szz-text-light: #cbd5e1;
   --szz-text-muted: #94a3b8;
   --szz-text-faint: #64748b;
