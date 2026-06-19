@@ -4,7 +4,7 @@ import { Gauge, DatabaseBackup, ShieldCheck, type LucideIcon } from "lucide-reac
 import { TerminalLogo } from "@/components/szz/terminal-logo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { LoginForm } from "@/components/szz/login-form";
-import { buildLoginUrl, buildForgotPasswordUrl, buildSignupUrl } from "@/lib/clientexec";
+import { buildLoginUrl, buildForgotPasswordUrl } from "@/lib/clientexec";
 import { isLoggedOut } from "@/lib/login";
 
 export const metadata: Metadata = {
@@ -63,7 +63,7 @@ export default async function LoginPage({
         <LoginForm
           ceLoginUrl={buildLoginUrl()}
           ceForgotUrl={buildForgotPasswordUrl()}
-          ceSignupUrl={buildSignupUrl()}
+          ceSignupUrl="/register"
           loggedOut={loggedOut}
         />
       </div>
