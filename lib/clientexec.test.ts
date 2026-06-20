@@ -113,13 +113,13 @@ describe("buildForgotPasswordUrl / buildSignupUrl", () => {
 
 describe("isLoginSuccess", () => {
   it("treats a redirect away from the login screen as success", () => {
-    expect(isLoginSuccess(302, "https://account.serverizz.com/index.php?fuse=clients")).toBe(true);
+    expect(isLoginSuccess(302, "https://go.serverizz.com/index.php?fuse=clients")).toBe(true);
   });
   it("treats a 200 (login form re-rendered) as failure", () => {
     expect(isLoginSuccess(200, null)).toBe(false);
   });
   it("treats a redirect back to the login screen as failure", () => {
-    expect(isLoginSuccess(302, "https://account.serverizz.com/index.php?fuse=admin&action=Login")).toBe(false);
+    expect(isLoginSuccess(302, "https://go.serverizz.com/index.php?fuse=admin&action=Login")).toBe(false);
   });
   it("treats a redirect with no location as failure", () => {
     expect(isLoginSuccess(302, null)).toBe(false);
@@ -128,7 +128,7 @@ describe("isLoginSuccess", () => {
 
 describe("verifyCredentials", () => {
   it("returns true when CE redirects to the dashboard", async () => {
-    vi.stubGlobal("fetch", mockFetchResponse({ status: 302, location: "https://account.serverizz.com/index.php?fuse=clients" }));
+    vi.stubGlobal("fetch", mockFetchResponse({ status: 302, location: "https://go.serverizz.com/index.php?fuse=clients" }));
     expect(await verifyCredentials({ email: "a@b.com", password: "pw" })).toBe(true);
   });
   it("returns false when CE re-renders the login form (200)", async () => {
@@ -172,10 +172,10 @@ describe("parseSessionHash", () => {
 
 describe("isRegisterSuccess", () => {
   it("treats a redirect away from the register form as success", () => {
-    expect(isRegisterSuccess(302, "https://account.serverizz.com/index.php?fuse=clients", "")).toBe(true);
+    expect(isRegisterSuccess(302, "https://go.serverizz.com/index.php?fuse=clients", "")).toBe(true);
   });
   it("treats a redirect back to the register form as failure", () => {
-    expect(isRegisterSuccess(302, "https://account.serverizz.com/index.php?fuse=home&action=register", "")).toBe(false);
+    expect(isRegisterSuccess(302, "https://go.serverizz.com/index.php?fuse=home&action=register", "")).toBe(false);
   });
   it("treats a 200 with a success marker as success", () => {
     expect(isRegisterSuccess(200, null, "Thanks! Please verify your email to continue.")).toBe(true);
@@ -194,7 +194,7 @@ describe("createAccount", () => {
       })
       .mockResolvedValueOnce({
         status: 302,
-        headers: { get: (k: string) => (k.toLowerCase() === "location" ? "https://account.serverizz.com/index.php?fuse=clients" : null) },
+        headers: { get: (k: string) => (k.toLowerCase() === "location" ? "https://go.serverizz.com/index.php?fuse=clients" : null) },
         text: () => Promise.resolve(""),
       });
     vi.stubGlobal("fetch", fetchMock);

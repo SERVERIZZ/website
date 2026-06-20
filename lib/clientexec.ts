@@ -1,7 +1,7 @@
 /** Server-side ClientExec (billing) access. Do not import from client components. */
 import { TLDS, type DomainResult, type TldPrice } from "@/lib/domains";
 
-const CE_URL = process.env.CLIENTEXEC_URL ?? "https://account.serverizz.com";
+const CE_URL = process.env.CLIENTEXEC_URL ?? "https://go.serverizz.com";
 const GROUP_ID = process.env.CLIENTEXEC_DOMAIN_GROUP_ID ?? "2";
 const ONE_YEAR_PERIOD_ID = "12";
 /** Long, unlikely-to-be-registered label used only to read a TLD's list price. */
@@ -80,7 +80,7 @@ export function buildLoginUrl(): string {
   return `${CE_URL}/index.php?fuse=admin&action=Login`;
 }
 
-// NOTE: verify-against-live-instance — confirm these paths on account.serverizz.com.
+// NOTE: verify-against-live-instance — confirm these paths on go.serverizz.com.
 export function buildForgotPasswordUrl(): string {
   return `${CE_URL}/index.php?fuse=clients&action=forgotpassword`;
 }
@@ -94,7 +94,7 @@ export function buildSignupUrl(): string {
 // hidden sessionHash (a CSRF token tied to a CE PHP session). We GET the form page
 // for a session cookie + hash, then POST createaccount with that cookie.
 // verify-against-live-instance: confirm the form page URL, the cookie name, the
-// success signal, and the sessionHash field on account.serverizz.com.
+// success signal, and the sessionHash field on go.serverizz.com.
 
 export function buildRegisterFormUrl(): string {
   return `${CE_URL}/index.php?fuse=home&controller=order&action=register`;

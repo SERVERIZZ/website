@@ -106,7 +106,7 @@ export function PlanPricing() {
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)", marginTop: -8 }}>{billNote}</span>
               <Button asChild variant="primary" size="lg" style={{ width: "100%" }}>
                 <a
-                  href="https://account.serverizz.com/order.php?step=1&productGroup=1&product=1"
+                  href="https://go.serverizz.com/order.php?step=1&productGroup=1&product=1"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -138,7 +138,7 @@ export function PlanPricing() {
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)", marginTop: -8 }}>{billNote}</span>
               <Button asChild variant="secondary" size="lg" style={{ width: "100%" }}>
                 <a
-                  href="https://account.serverizz.com/order.php?step=1&productGroup=1&product=2"
+                  href="https://go.serverizz.com/order.php?step=1&productGroup=1&product=2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
