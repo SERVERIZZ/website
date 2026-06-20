@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 
-// Affiliate referral tracking from our billing system (account.serverizz.com).
+// Affiliate referral tracking from our billing system (go.serverizz.com).
 // aff.js defines the global CEAffTracker; the init below must run *after* it
 // loads, so we drive it from the Script component's onReady handler rather than
 // a separate inline <script> whose execution order isn't guaranteed.
@@ -19,7 +19,7 @@ declare global {
 export function AffiliateTracker() {
   return (
     <Script
-      src="https://account.serverizz.com/templates/default/js/aff.js"
+      src="https://go.serverizz.com/templates/default/js/aff.js"
       strategy="afterInteractive"
       onReady={() => {
         const tracker = window.CEAffTracker;
