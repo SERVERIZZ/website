@@ -126,6 +126,18 @@ export function parseKbTopics(html: string): KbTopic[] {
   return topics;
 }
 
+/** Live KB category-lead topics for the support page; falls back on any failure. */
+export async function getPopularKbTopics(): Promise<KbTopic[]> {
+  try {
+    const res = await fetch(KB_MAIN_URL, { next: { revalidate: 86400 } } as RequestInit);
+    if (!res.ok) return KB_FALLBACK_TOPICS;
+    const topics = parseKbTopics(await res.text());
+    return topics.length ? topics : KB_FALLBACK_TOPICS;
+  } catch {
+    return KB_FALLBACK_TOPICS;
+  }
+}
+
 // ---- Account creation (external registration form) ----
 // CE's external registration posts guestFirstName/guestLastName/guestEmail plus a
 // hidden sessionHash (a CSRF token tied to a CE PHP session). We GET the form page

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { buildOrderUrl, oneYearPrice, checkDomain, getTldPricing, parseKbTopics, KB_FALLBACK_TOPICS } from "@/lib/clientexec";
+import { buildOrderUrl, oneYearPrice, checkDomain, getTldPricing, parseKbTopics, KB_FALLBACK_TOPICS, getPopularKbTopics } from "@/lib/clientexec";
 
 const AVAILABLE = {
   error: false, success: true,
@@ -281,5 +281,36 @@ describe("KB_FALLBACK_TOPICS", () => {
       title: "Opening WP Toolkit",
       href: "https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=42",
     });
+  });
+});
+
+function mockFetchHtml(html: string, ok = true) {
+  return vi.fn().mockResolvedValue({ ok, status: ok ? 200 : 500, text: () => Promise.resolve(html) });
+}
+
+describe("getPopularKbTopics", () => {
+  it("returns parsed topics when the KB responds", async () => {
+    vi.stubGlobal("fetch", mockFetchHtml(KB_HTML));
+    const topics = await getPopularKbTopics();
+    expect(topics).toHaveLength(4);
+    expect(topics[0]).toEqual({
+      title: "Types of Domain Names",
+      href: "https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=22",
+    });
+  });
+
+  it("falls back when the response has no parseable topics", async () => {
+    vi.stubGlobal("fetch", mockFetchHtml("<html>nothing here</html>"));
+    expect(await getPopularKbTopics()).toEqual(KB_FALLBACK_TOPICS);
+  });
+
+  it("falls back on a non-ok response", async () => {
+    vi.stubGlobal("fetch", mockFetchHtml("", false));
+    expect(await getPopularKbTopics()).toEqual(KB_FALLBACK_TOPICS);
+  });
+
+  it("falls back when fetch rejects", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network")));
+    expect(await getPopularKbTopics()).toEqual(KB_FALLBACK_TOPICS);
   });
 });
