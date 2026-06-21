@@ -215,3 +215,73 @@ describe("createAccount", () => {
     await expect(createAccount({ firstName: "A", lastName: "B", email: "a@b.com" })).rejects.toThrow();
   });
 });
+
+import { parseKbTopics, KB_FALLBACK_TOPICS } from "@/lib/clientexec";
+
+const KB_HTML = `
+<div class="col"><div class="knowledge-base-box">
+  <h4><a href="index.php?fuse=knowledgebase&controller=articles&view=main&categoryId=9">Managing Domains in cPanel (10)</a></h4>
+  <ul class="knowledge-box-ul cm-height">
+    <li><a href="https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=22">Types of Domain Names</a></li>
+    <li><a href="https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=23">Connecting to SERVERIZZ</a></li>
+  </ul>
+</div></div>
+<div class="col"><div class="knowledge-base-box">
+  <h4><a href="index.php?fuse=knowledgebase&controller=articles&view=main&categoryId=8">Managing Email in cPanel (12)</a></h4>
+  <ul class="knowledge-box-ul cm-height">
+    <li><a href="https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=10">Where to Find Email Tools</a></li>
+    <li><a href="https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=11">Creating an Email Account</a></li>
+  </ul>
+</div></div>
+<div class="col"><div class="knowledge-base-box">
+  <h4><a href="index.php?fuse=knowledgebase&controller=articles&view=main&categoryId=12">WordPress (19)</a></h4>
+  <ul class="knowledge-box-ul cm-height">
+    <li><a href="https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=42">Opening WP Toolkit</a></li>
+    <li><a href="https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=43">Installing WordPress</a></li>
+  </ul>
+</div></div>
+<div class="col"><div class="knowledge-base-box">
+  <h4><a href="index.php?fuse=knowledgebase&controller=articles&view=main&categoryId=7">Files &amp; Websites (54)</a></h4>
+  <ul class="knowledge-box-ul cm-height">
+    <li><a href="https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=1">Understanding the File Structure</a></li>
+    <li><a href="https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=2">File Manager</a></li>
+  </ul>
+</div></div>`;
+
+describe("parseKbTopics", () => {
+  it("extracts the lead article of each category, in order", () => {
+    const topics = parseKbTopics(KB_HTML);
+    expect(topics).toEqual([
+      { title: "Types of Domain Names", href: "https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=22" },
+      { title: "Where to Find Email Tools", href: "https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=10" },
+      { title: "Opening WP Toolkit", href: "https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=42" },
+      { title: "Understanding the File Structure", href: "https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=1" },
+    ]);
+  });
+
+  it("returns an empty array for garbage or empty HTML", () => {
+    expect(parseKbTopics("")).toEqual([]);
+    expect(parseKbTopics("<html><body>no kb here</body></html>")).toEqual([]);
+  });
+
+  it("decodes HTML entities in titles", () => {
+    const html = `<div class="knowledge-base-box"><ul><li><a href="https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=99">Backups &amp; Restores</a></li></ul></div>`;
+    expect(parseKbTopics(html)).toEqual([
+      { title: "Backups & Restores", href: "https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=99" },
+    ]);
+  });
+});
+
+describe("KB_FALLBACK_TOPICS", () => {
+  it("lists the four category leads as absolute article URLs", () => {
+    expect(KB_FALLBACK_TOPICS).toHaveLength(4);
+    for (const t of KB_FALLBACK_TOPICS) {
+      expect(t.title.length).toBeGreaterThan(0);
+      expect(t.href).toMatch(/^https:\/\/go\.serverizz\.com\/index\.php\?fuse=knowledgebase.*view=article&articleId=\d+$/);
+    }
+    expect(KB_FALLBACK_TOPICS[2]).toEqual({
+      title: "Opening WP Toolkit",
+      href: "https://go.serverizz.com/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=42",
+    });
+  });
+});
