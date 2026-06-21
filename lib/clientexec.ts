@@ -138,6 +138,119 @@ export async function getPopularKbTopics(): Promise<KbTopic[]> {
   }
 }
 
+// ---- Support ticket types + guest ticket submission ----
+// CE's guest ticket form posts userid=0 + guestName/guestEmail/subject/message/
+// ticket-type as multipart/form-data. We live-fetch the type list (with a fallback)
+// and submit via a two-step GET (session cookie) → POST, like createAccount.
+// verify-against-live-instance: confirm the success signal on go.serverizz.com,
+// and that Turnstile is disabled on saveticket (else POSTs bounce to logout).
+
+export type TicketType = { value: string; label: string };
+
+const SUBMIT_TICKET_URL = `${CE_URL}/index.php?fuse=support&controller=ticket&view=submitticket`;
+const SAVE_TICKET_URL = `${CE_URL}/index.php?fuse=support&controller=ticket&action=saveticket`;
+const TICKET_VALID_EXTNS = "png,jpg,jpeg,gif,zip,txt,log";
+
+export function buildSubmitTicketUrl(): string {
+  return SUBMIT_TICKET_URL;
+}
+
+/** Public ticket types, used when the live fetch/parse fails. */
+export const SUPPORT_TICKET_TYPES_FALLBACK: TicketType[] = [
+  { value: "3", label: "Plan & Pricing Questions" },
+  { value: "4", label: "Pre-sales Technical Question" },
+  { value: "5", label: "Migration Inquiry" },
+  { value: "6", label: "Partners & Bulk Purchases" },
+  { value: "7", label: "Custom / Enterprise Requests" },
+  { value: "8", label: "Spam / Outbound Mail" },
+  { value: "9", label: "Malware / Compromised Account" },
+  { value: "10", label: "Phishing Report" },
+  { value: "11", label: "DMCA / Copyright Complaint" },
+  { value: "12", label: "Terms of Service Violation" },
+  { value: "13", label: "Network Abuse" },
+];
+
+const TICKET_SELECT = /<select[^>]*name=["']ticket-type["'][^>]*>([\s\S]*?)<\/select>/i;
+const TICKET_OPTION = /<option\s+value=["'](\d+)["'][^>]*>([\s\S]*?)<\/option>/gi;
+
+/** Parse CE's `ticket-type` <select>, excluding the value="0" placeholder. */
+export function parseTicketTypes(html: string): TicketType[] {
+  const block = html.match(TICKET_SELECT);
+  if (!block) return [];
+  const types: TicketType[] = [];
+  for (const m of block[1].matchAll(TICKET_OPTION)) {
+    const value = m[1];
+    if (value === "0") continue;
+    const label = decodeEntities(m[2]).trim();
+    if (label) types.push({ value, label });
+  }
+  return types;
+}
+
+/** Live public ticket types for the support form; falls back on any failure. */
+export async function getSupportTicketTypes(): Promise<TicketType[]> {
+  try {
+    const res = await fetch(SUBMIT_TICKET_URL, { next: { revalidate: 86400 } } as RequestInit);
+    if (!res.ok) return SUPPORT_TICKET_TYPES_FALLBACK;
+    const types = parseTicketTypes(await res.text());
+    return types.length ? types : SUPPORT_TICKET_TYPES_FALLBACK;
+  } catch {
+    return SUPPORT_TICKET_TYPES_FALLBACK;
+  }
+}
+
+/**
+ * Decide whether a saveticket POST succeeded, from the (redirect:"manual")
+ * response. Heuristic — isolated for tuning against the live instance:
+ *   - a 3xx redirect that does NOT go back to the submit-ticket view and is
+ *     NOT the logout/login bounce → success
+ *   - a non-3xx response (200/4xx/5xx) → failure
+ */
+export function isTicketSuccess(status: number, location: string | null): boolean {
+  const isRedirect = status >= 300 && status < 400;
+  if (isRedirect) {
+    const loc = (location ?? "").toLowerCase();
+    if (!loc) return false;
+    if (loc.includes("view=submitticket")) return false;
+    if (loc.includes("action=logout") || loc.includes("action=login") || loc.includes("/login")) return false;
+    return true;
+  }
+  return false;
+}
+
+/** Submit a ClientExec guest support ticket. Throws if CE is unreachable. */
+export async function createSupportTicket(input: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  ticketType: string;
+}): Promise<boolean> {
+  const formRes = await fetch(SUBMIT_TICKET_URL, { cache: "no-store" });
+  if (!formRes.ok) throw new Error(`ClientExec HTTP ${formRes.status}`);
+  const setCookie = formRes.headers.get("set-cookie") ?? "";
+  const cookie = setCookie.split(";")[0];
+
+  const body = new FormData();
+  body.set("userid", "0");
+  body.set("guestName", input.name);
+  body.set("guestEmail", input.email);
+  body.set("subject", input.subject);
+  body.set("message", input.message);
+  body.set("ticket-type", input.ticketType);
+  body.set("validExtns", TICKET_VALID_EXTNS);
+
+  const res = await fetch(SAVE_TICKET_URL, {
+    method: "POST",
+    // No Content-Type: fetch sets the multipart boundary for FormData.
+    headers: { ...(cookie ? { Cookie: cookie } : {}) },
+    body,
+    redirect: "manual",
+    cache: "no-store",
+  });
+  return isTicketSuccess(res.status, res.headers.get("location"));
+}
+
 // ---- Account creation (external registration form) ----
 // CE's external registration posts guestFirstName/guestLastName/guestEmail plus a
 // hidden sessionHash (a CSRF token tied to a CE PHP session). We GET the form page
