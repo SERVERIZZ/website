@@ -21,7 +21,6 @@ export const metadata: Metadata = pageMetadata({
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
 const primary = "var(--szz-text-primary)";
-const light = "var(--szz-text-light)";
 
 const TEST_SITE_KEY = "1x00000000000000000000AA";
 
