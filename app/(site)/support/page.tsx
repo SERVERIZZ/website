@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { getPopularKbTopics } from "@/lib/clientexec";
+import { getPopularKbTopics, getSupportTicketTypes } from "@/lib/clientexec";
+import { SupportForm } from "@/components/szz/support-form";
 import { UserRound, Mail, Activity, type LucideIcon } from "lucide-react";
 import { BreadcrumbJsonLd } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
@@ -21,6 +22,8 @@ const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
 const primary = "var(--szz-text-primary)";
 const light = "var(--szz-text-light)";
+
+const TEST_SITE_KEY = "1x00000000000000000000AA";
 
 const channels: {
   Icon: LucideIcon;
@@ -50,7 +53,8 @@ const channels: {
 ];
 
 export default async function SupportPage() {
-  const topics = await getPopularKbTopics();
+  const [topics, ticketTypes] = await Promise.all([getPopularKbTopics(), getSupportTicketTypes()]);
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? TEST_SITE_KEY;
   return (
     <div>
       <BreadcrumbJsonLd items={breadcrumbTrail("Support", "/support")} />
@@ -91,29 +95,7 @@ export default async function SupportPage() {
       <section style={{ padding: "60px 48px 90px" }}>
         <div className="szz-form-grid" style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Card>
-            <form style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-              <h2 style={{ margin: 0, fontFamily: display, fontSize: 22, fontWeight: 700, color: primary }}>Send us a message</h2>
-              <div className="szz-grid-2" style={{ gap: 14 }}>
-                <Input label="Name" placeholder="Jane Baker" />
-                <Input label="Email" type="email" placeholder="jane@mybakery.com" />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <span style={{ fontFamily: "var(--font-body)", fontSize: 13, fontWeight: 500, color: light }}>Topic</span>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 44, background: "var(--szz-bg-deep)", border: "1px solid var(--szz-border)", borderRadius: 8, padding: "0 14px", fontSize: 14, color: muted }}>
-                  Billing · Technical · Sales <span style={{ color: "var(--szz-text-dim)" }}>▾</span>
-                </div>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <span style={{ fontFamily: "var(--font-body)", fontSize: 13, fontWeight: 500, color: light }}>Message</span>
-                <textarea
-                  placeholder="Tell us what's up…"
-                  style={{ minHeight: 120, background: "var(--szz-bg-deep)", border: "1px solid var(--szz-border)", borderRadius: 8, padding: "12px 14px", fontFamily: "var(--font-body)", fontSize: 14, color: primary, resize: "vertical", outline: "none" }}
-                />
-              </div>
-              <div>
-                <Button type="submit" variant="primary" size="lg">Send message</Button>
-              </div>
-            </form>
+            <SupportForm turnstileSiteKey={siteKey} ticketTypes={ticketTypes} />
           </Card>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
