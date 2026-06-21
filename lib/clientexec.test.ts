@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { buildOrderUrl, oneYearPrice, checkDomain, getTldPricing } from "@/lib/clientexec";
+import { buildOrderUrl, oneYearPrice, checkDomain, getTldPricing, parseKbTopics, KB_FALLBACK_TOPICS } from "@/lib/clientexec";
 
 const AVAILABLE = {
   error: false, success: true,
@@ -215,8 +215,6 @@ describe("createAccount", () => {
     await expect(createAccount({ firstName: "A", lastName: "B", email: "a@b.com" })).rejects.toThrow();
   });
 });
-
-import { parseKbTopics, KB_FALLBACK_TOPICS } from "@/lib/clientexec";
 
 const KB_HTML = `
 <div class="col"><div class="knowledge-base-box">
