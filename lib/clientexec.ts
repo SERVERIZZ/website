@@ -89,6 +89,55 @@ export function buildSignupUrl(): string {
   return `${CE_URL}/order.php`;
 }
 
+export type KbTopic = { title: string; href: string };
+
+const KB_MAIN_URL = `${CE_URL}/index.php?fuse=knowledgebase&controller=articles&view=main`;
+
+/** Real KB category-lead links, used when the live KB fetch/parse fails. */
+export const KB_FALLBACK_TOPICS: KbTopic[] = [
+  { title: "Types of Domain Names", href: `${CE_URL}/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=22` },
+  { title: "Where to Find Email Tools", href: `${CE_URL}/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=10` },
+  { title: "Opening WP Toolkit", href: `${CE_URL}/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=42` },
+  { title: "Understanding the File Structure", href: `${CE_URL}/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=1` },
+];
+
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;/g, "'");
+}
+
+const ARTICLE_ANCHOR = /<a\s+href="([^"]*view=article&(?:amp;)?articleId=\d+[^"]*)"[^>]*>\s*([^<]+?)\s*<\/a>/i;
+
+/** First article link inside each `knowledge-base-box`, in document order. */
+export function parseKbTopics(html: string): KbTopic[] {
+  const boxes = html.split("knowledge-base-box").slice(1);
+  const topics: KbTopic[] = [];
+  for (const box of boxes) {
+    const m = box.match(ARTICLE_ANCHOR);
+    if (!m) continue;
+    const href = decodeEntities(m[1]);
+    const title = decodeEntities(m[2]).trim();
+    if (title && href) topics.push({ title, href });
+  }
+  return topics;
+}
+
+/** Live KB category-lead topics for the support page; falls back on any failure. */
+export async function getPopularKbTopics(): Promise<KbTopic[]> {
+  try {
+    const res = await fetch(KB_MAIN_URL, { next: { revalidate: 86400 } } as RequestInit);
+    if (!res.ok) return KB_FALLBACK_TOPICS;
+    const topics = parseKbTopics(await res.text());
+    return topics.length ? topics : KB_FALLBACK_TOPICS;
+  } catch {
+    return KB_FALLBACK_TOPICS;
+  }
+}
+
 // ---- Account creation (external registration form) ----
 // CE's external registration posts guestFirstName/guestLastName/guestEmail plus a
 // hidden sessionHash (a CSRF token tied to a CE PHP session). We GET the form page

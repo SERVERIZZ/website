@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import type { ReactNode } from "react";
+import { getPopularKbTopics } from "@/lib/clientexec";
 import { UserRound, Mail, Activity, type LucideIcon } from "lucide-react";
 import { BreadcrumbJsonLd } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
@@ -49,14 +49,8 @@ const channels: {
   },
 ];
 
-const topics = [
-  { label: "→ Migrate my site to SERVERIZZ", href: "/wordpress" },
-  { label: "→ Set up email on my domain", href: "/domains" },
-  { label: "→ Point a domain I own", href: "/domains" },
-  { label: "→ Restore from a backup", href: "/why" },
-];
-
-export default function SupportPage() {
+export default async function SupportPage() {
+  const topics = await getPopularKbTopics();
   return (
     <div>
       <BreadcrumbJsonLd items={breadcrumbTrail("Support", "/support")} />
@@ -127,9 +121,16 @@ export default function SupportPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <span style={{ fontFamily: display, fontSize: 18, fontWeight: 700, color: primary }}>Popular help topics</span>
                 {topics.map((t) => (
-                  <Link key={t.label} href={t.href} className="szz-link-accent" style={{ fontSize: 14 }}>
-                    {t.label}
-                  </Link>
+                  <a
+                    key={t.href}
+                    href={t.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="szz-link-accent"
+                    style={{ fontSize: 14 }}
+                  >
+                    → {t.title}
+                  </a>
                 ))}
               </div>
             </Card>
