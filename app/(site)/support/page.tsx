@@ -22,6 +22,7 @@ const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
 const primary = "var(--szz-text-primary)";
 
+// Cloudflare's always-pass test site key — overridden by env in real environments.
 const TEST_SITE_KEY = "1x00000000000000000000AA";
 
 const channels: {

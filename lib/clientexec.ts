@@ -205,8 +205,6 @@ export async function getSupportTicketTypes(): Promise<TicketType[]> {
  *   - a 3xx redirect that does NOT go back to the submit-ticket view and is
  *     NOT the logout/login bounce → success
  *   - a non-3xx response (200/4xx/5xx) → failure
- *   - everything else → failure
- *
  */
 export function isTicketSuccess(status: number, location: string | null): boolean {
   const isRedirect = status >= 300 && status < 400;
