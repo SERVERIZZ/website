@@ -34,13 +34,34 @@ export function SupportForm({
   const [email, setEmail] = React.useState("");
   const [subject, setSubject] = React.useState("");
   const [ticketType, setTicketType] = React.useState("");
+  const [topicOpen, setTopicOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [token, setToken] = React.useState<string | null>(null);
   const [status, setStatus] = React.useState<Status>("idle");
   const [error, setError] = React.useState<string | null>(null);
 
+  const topicRef = React.useRef<HTMLDivElement>(null);
+
   const onVerify = React.useCallback((t: string) => setToken(t), []);
   const onExpire = React.useCallback(() => setToken(null), []);
+
+  React.useEffect(() => {
+    if (!topicOpen) return;
+    function onPointerDown(e: PointerEvent) {
+      if (topicRef.current && !topicRef.current.contains(e.target as Node)) setTopicOpen(false);
+    }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setTopicOpen(false);
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [topicOpen]);
+
+  const selectedTopic = ticketTypes.find((t) => t.value === ticketType);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -111,18 +132,88 @@ export function SupportForm({
 
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <span style={{ fontFamily: "var(--font-body)", fontSize: 13, fontWeight: 500, color: light }}>Topic</span>
-        <select
-          aria-label="Topic"
-          value={ticketType}
-          onChange={(e) => setTicketType(e.target.value)}
-          required
-          style={{ ...fieldStyle, appearance: "auto" }}
-        >
-          <option value="" disabled>Select a topic…</option>
-          {ticketTypes.map((t) => (
-            <option key={t.value} value={t.value}>{t.label}</option>
-          ))}
-        </select>
+        <div ref={topicRef} style={{ position: "relative" }}>
+          <button
+            type="button"
+            onClick={() => setTopicOpen((v) => !v)}
+            aria-haspopup="listbox"
+            aria-expanded={topicOpen}
+            aria-label="Topic"
+            style={{
+              ...fieldStyle,
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 8,
+              cursor: "pointer",
+              textAlign: "left",
+            }}
+          >
+            <span style={{ color: selectedTopic ? primary : "var(--szz-text-muted)" }}>
+              {selectedTopic ? selectedTopic.label : "Select a topic…"}
+            </span>
+            <span
+              style={{
+                color: "var(--szz-text-dim)",
+                transition: "transform .15s ease",
+                transform: topicOpen ? "rotate(180deg)" : "none",
+              }}
+            >
+              ▾
+            </span>
+          </button>
+          {topicOpen && (
+            <ul
+              role="listbox"
+              style={{
+                position: "absolute",
+                top: "calc(100% + 6px)",
+                left: 0,
+                right: 0,
+                zIndex: 20,
+                maxHeight: 264,
+                overflowY: "auto",
+                margin: 0,
+                padding: 4,
+                listStyle: "none",
+                background: "var(--szz-bg-card)",
+                border: "1px solid var(--szz-border)",
+                borderRadius: 8,
+                boxShadow: "0 8px 24px rgba(0,0,0,.35)",
+              }}
+            >
+              {ticketTypes.map((t) => (
+                <li key={t.value}>
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={t.value === ticketType}
+                    onClick={() => {
+                      setTicketType(t.value);
+                      setTopicOpen(false);
+                    }}
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      textAlign: "left",
+                      border: "none",
+                      borderRadius: 6,
+                      padding: "9px 12px",
+                      cursor: "pointer",
+                      fontFamily: "var(--font-body)",
+                      fontSize: 14,
+                      background: t.value === ticketType ? "var(--szz-border)" : "transparent",
+                      color: t.value === ticketType ? primary : light,
+                    }}
+                  >
+                    {t.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
