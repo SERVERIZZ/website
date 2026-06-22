@@ -7,12 +7,13 @@ import { LEGAL_DOCS } from "@/lib/legal";
 
 const COLUMNS: {
   heading: string;
-  links: { label: string; href: string; external?: boolean; indent?: boolean }[];
+  links: { label: string; href?: string; external?: boolean; indent?: boolean; header?: boolean }[];
 }[] = [
   {
     heading: "PRODUCTS",
     links: [
-      { label: "Hosting", href: "/hosting" },
+      { label: "Hosting", header: true },
+      { label: "Shared", href: "/hosting", indent: true },
       { label: "WordPress", href: "/hosting/wordpress", indent: true },
       { label: "Domains", href: "/domains" },
     ],
@@ -95,19 +96,33 @@ export function SiteFooter() {
               >
                 {col.heading}
               </span>
-              {col.links.map((link, i) => (
-                <Link
-                  key={`${link.label}-${i}`}
-                  href={link.href}
-                  className="szz-foot-link"
-                  style={link.indent ? { paddingLeft: 12 } : undefined}
-                  {...(link.external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {col.links.map((link, i) =>
+                link.header || !link.href ? (
+                  <span
+                    key={`${link.label}-${i}`}
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: 13,
+                      color: "var(--szz-text-dim)",
+                      cursor: "default",
+                    }}
+                  >
+                    {link.label}
+                  </span>
+                ) : (
+                  <Link
+                    key={`${link.label}-${i}`}
+                    href={link.href}
+                    className="szz-foot-link"
+                    style={link.indent ? { paddingLeft: 12 } : undefined}
+                    {...(link.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
             </div>
           ))}
         </div>

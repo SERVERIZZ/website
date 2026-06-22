@@ -42,8 +42,8 @@ const NAV_LINKS: NavEntry[] = [
   {
     label: "Hosting",
     items: [
-      { href: "/hosting", label: "Shared Hosting", Icon: Globe },
-      { href: "/hosting/wordpress", label: "WordPress Hosting", Icon: LayoutTemplate },
+      { href: "/hosting", label: "Shared", Icon: Globe },
+      { href: "/hosting/wordpress", label: "WordPress", Icon: LayoutTemplate },
     ],
   },
   { href: "/domains", label: "Domains" },
