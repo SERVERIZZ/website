@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { getPopularKbTopics, getSupportTicketTypes } from "@/lib/clientexec";
 import { SupportForm } from "@/components/szz/support-form";
 import { UserRound, Mail, Activity, type LucideIcon } from "lucide-react";
@@ -31,6 +31,7 @@ const channels: {
   body: string;
   badge?: ReactNode;
   note?: string;
+  href?: string;
 }[] = [
   {
     Icon: UserRound,
@@ -49,6 +50,7 @@ const channels: {
     title: "Status & uptime",
     body: "status.serverizz.com",
     badge: <Badge variant="success" dot>All systems operational</Badge>,
+    href: "https://status.serverizz.com",
   },
 ];
 
@@ -75,19 +77,28 @@ export default async function SupportPage() {
       {/* channels */}
       <section style={{ padding: "0 48px 20px" }}>
         <div className="szz-grid-3" style={{ maxWidth: 1100, margin: "0 auto", gap: 18 }}>
-          {channels.map(({ Icon, title, body, badge, note }) => (
-            <Card key={title} interactive>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-start" }}>
-                <div style={{ width: 42, height: 42, borderRadius: 10, background: "var(--szz-border)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Icon size={20} style={{ color: "var(--szz-accent-blue)" }} />
+          {channels.map(({ Icon, title, body, badge, note, href }) => {
+            const card = (
+              <Card interactive style={{ height: "100%" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-start", height: "100%" }}>
+                  <div style={{ width: 42, height: 42, borderRadius: 10, background: "var(--szz-border)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Icon size={20} style={{ color: "var(--szz-accent-blue)" }} />
+                  </div>
+                  <span style={{ fontFamily: display, fontSize: 19, fontWeight: 700, color: primary }}>{title}</span>
+                  <span style={{ fontSize: 14, lineHeight: 1.5, color: muted }}>{body}</span>
+                  {badge && <div style={{ marginTop: "auto" }}>{badge}</div>}
+                  {note && <span style={{ marginTop: badge ? undefined : "auto", fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)" }}>{note}</span>}
                 </div>
-                <span style={{ fontFamily: display, fontSize: 19, fontWeight: 700, color: primary }}>{title}</span>
-                <span style={{ fontSize: 14, lineHeight: 1.5, color: muted }}>{body}</span>
-                {badge}
-                {note && <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)" }}>{note}</span>}
-              </div>
-            </Card>
-          ))}
+              </Card>
+            );
+            return href ? (
+              <a key={title} href={href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
+                {card}
+              </a>
+            ) : (
+              <Fragment key={title}>{card}</Fragment>
+            );
+          })}
         </div>
       </section>
 

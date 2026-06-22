@@ -133,7 +133,7 @@ export function SupportForm({
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
-          style={{ minHeight: 120, background: "var(--szz-bg-deep)", border: "1px solid var(--szz-border)", borderRadius: 8, padding: "12px 14px", fontFamily: "var(--font-body)", fontSize: 14, color: primary, resize: "vertical", outline: "none" }}
+          style={{ minHeight: 120, background: "var(--szz-bg-deep)", border: "1px solid var(--szz-border)", borderRadius: 8, padding: "12px 14px", fontFamily: "var(--font-body)", fontSize: 14, color: primary, resize: "none", outline: "none" }}
         />
       </div>
 
