@@ -20,7 +20,7 @@ const light = "var(--szz-text-light)";
 const included = [
   ["cPanel & WHM", "the control panel you know"],
   ["CloudLinux 10 Shared Pro", "stable, isolated tenancy"],
-  ["MultiPHP Selector", "PHP 5.6 to current"],
+  ["PHP Selector", "PHP 7.4 to current"],
   ["Imunify360", "proactive security & WAF"],
   ["CageFS", "per-account isolation"],
   ["WP Toolkit & Softaculous", "1-click installs & updates"],
@@ -64,7 +64,7 @@ const faqs: [string, string][] = [
   ],
   [
     "Can I host Node.js or Python apps?",
-    "Yes — on the Engineer plan. It runs up to 10 applications through the CloudLinux Node.js and Python selectors, with jailed SSH and Git deploy so you can ship straight from your repository. Entrepreneur is tuned for sites, WordPress and email rather than custom apps. (Ruby app hosting isn’t available on either plan yet.)",
+    "Yes — on the Engineer plan. It runs up to 10 applications through the CloudLinux Node.js and Python selectors, with jailed SSH and Git deploy so you can ship straight from your repository. Entrepreneur is tuned for sites, WordPress and email rather than custom apps.",
   ],
   [
     "Is “unmetered” bandwidth really unlimited?",
