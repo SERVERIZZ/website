@@ -15,3 +15,11 @@ export const wpLines: TerminalLine[] = [
   { type: "success", text: "Daily backups + auto-updates enabled" },
   { type: "comment", text: "log in at /wp-admin — we’ll keep it patched" },
 ];
+
+export const rsLines: TerminalLine[] = [
+  { type: "command", text: "whm create-acct --domain clientsite.com --plan starter" },
+  { type: "spinner", text: "Provisioning cPanel account…" },
+  { type: "success", text: "Account live · AutoSSL issued" },
+  { type: "success", text: "Nameservers: ns1.yourbrand.com" },
+  { type: "comment", text: "your client never sees serverizz" },
+];
