@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Globe, LayoutTemplate, type LucideIcon } from "lucide-react";
 import { TerminalLogo } from "@/components/szz/terminal-logo";
 import { ThemeToggle } from "@/components/szz/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,7 @@ function useMaintenanceStatus(): MaintenanceState {
   return state;
 }
 
-type NavItem = { href: string; label: string };
+type NavItem = { href: string; label: string; Icon?: LucideIcon };
 type NavGroup = { label: string; items: NavItem[] };
 type NavEntry = NavItem | NavGroup;
 
@@ -42,8 +42,8 @@ const NAV_LINKS: NavEntry[] = [
   {
     label: "Hosting",
     items: [
-      { href: "/hosting", label: "Hosting" },
-      { href: "/hosting/wordpress", label: "WordPress" },
+      { href: "/hosting", label: "Shared Hosting", Icon: Globe },
+      { href: "/hosting/wordpress", label: "WordPress Hosting", Icon: LayoutTemplate },
     ],
   },
   { href: "/domains", label: "Domains" },
@@ -182,6 +182,9 @@ function NavDropdown({
                   data-active={active}
                   onClick={() => setOpen(false)}
                   style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 10,
                     fontFamily: "var(--font-body)",
                     fontSize: 14,
                     fontWeight: 500,
@@ -190,6 +193,12 @@ function NavDropdown({
                     borderRadius: 6,
                   }}
                 >
+                  {it.Icon && (
+                    <it.Icon
+                      size={16}
+                      style={{ flexShrink: 0, color: "var(--szz-accent-blue)" }}
+                    />
+                  )}
                   {it.label}
                 </Link>
               );
