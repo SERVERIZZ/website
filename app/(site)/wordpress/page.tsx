@@ -61,7 +61,7 @@ export default function WordPressPage() {
       </div>
 
       {/* hero */}
-      <section className="szz-hero-grid" style={{ display: "grid", gridTemplateColumns: "1.25fr 1fr", gap: 40, alignItems: "start", paddingBottom: 70 }}>
+      <section className="szz-hero-grid" style={{ display: "grid", gridTemplateColumns: "1.25fr 1fr", gap: 40, alignItems: "center", paddingBottom: 70 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <SectionEyebrow>Managed WordPress</SectionEyebrow>
           <h1 style={{ margin: 0, fontFamily: display, fontSize: "clamp(32px, 6vw, 48px)", fontWeight: 700, lineHeight: 1.08, letterSpacing: "-1.5px", color: primary }}>
