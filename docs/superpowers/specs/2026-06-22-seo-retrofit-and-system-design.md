@@ -42,10 +42,11 @@ chases a head term.
 | `/support` | (not a plan target) | metadata polish only | — |
 | `/about` | brand/trust + Austin local signal | founder story already present | (LocalBusiness anchor) |
 
-The strongest *uncaptured* Tier-1 clusters — Passenger app hosting (Rails/Node/
+The strongest *uncaptured* Tier-1 clusters — Passenger app hosting (Node /
 Python), the geo pages (Austin / Miami), and Tier-3 comparison pages — are the
 new-page roadmap (§5). `/hosting` captures Node/Python interim because it already
-lists them.
+lists them. **Ruby on Rails is excluded** — SERVERIZZ does not offer Ruby
+hosting, so the plan's Rails keywords are deliberately not targeted.
 
 ## 1. Reusable SEO system
 
@@ -126,7 +127,6 @@ the props object consumed by `next-seo`'s components; pages stay declarative.
 Each is a ready-to-build card: target keyword, intent, outline. Building them later
 is mechanical (registry entry + page).
 
-- `/hosting/rails` — "Ruby on Rails shared hosting cPanel" (Passenger).
 - `/hosting/nodejs` — "Node.js shared hosting Passenger".
 - `/hosting/python` — "Python / Django app hosting cPanel" (Passenger).
 - `/hosting/austin` — "Austin cPanel hosting" / "Texas web hosting" (local).
