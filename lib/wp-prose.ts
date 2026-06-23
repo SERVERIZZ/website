@@ -4,6 +4,7 @@ import rehypeSlug from "rehype-slug";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
 import { visit } from "unist-util-visit";
+import type { Element } from "hast";
 import { toString as hastToString } from "hast-util-to-string";
 
 export interface TocItem {
@@ -18,6 +19,7 @@ const schema = {
   clobberPrefix: "",
   attributes: {
     ...defaultSchema.attributes,
+    // className is the HAST property name for the HTML `class` attribute (rehype-sanitize operates on HAST property names)
     "*": [...(defaultSchema.attributes?.["*"] ?? []), "id", "className"],
     img: [...(defaultSchema.attributes?.img ?? []), "src", "alt", "width", "height", "loading"],
     a: [...(defaultSchema.attributes?.a ?? []), "href", "title", "target", "rel"],
@@ -36,13 +38,13 @@ export function renderProse(html: string): { html: string; toc: TocItem[] } {
     .use(rehypeParse, { fragment: true })
     .use(rehypeSlug)
     .use(() => (tree) => {
-      visit(tree, "element", (node: { tagName?: string; properties?: { id?: unknown } }) => {
+      visit(tree, "element", (node: Element) => {
         if (node.tagName === "h2" || node.tagName === "h3") {
           const id = node.properties?.id;
           if (id) {
             toc.push({
               id: String(id),
-              label: hastToString(node as never),
+              label: hastToString(node),
               level: node.tagName === "h2" ? 2 : 3,
             });
           }
