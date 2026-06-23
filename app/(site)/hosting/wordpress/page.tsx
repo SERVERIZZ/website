@@ -8,21 +8,16 @@ import {
   GitBranch,
   Headset,
 } from "lucide-react";
-import { BreadcrumbJsonLd } from "next-seo";
+import { BreadcrumbJsonLd, JsonLdScript } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Terminal } from "@/components/szz/terminal";
 import { WpPricingCard } from "@/components/szz/wp-pricing-card";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { wpLines } from "@/lib/szz-data";
-import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
+import { breadcrumbTrail, pageMetadataFor, serviceJsonLd } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Managed WordPress hosting",
-  description:
-    "WordPress that updates, backs up and secures itself. Core and plugin updates, malware scanning, caching and daily backups — all handled for you.",
-  path: "/hosting/wordpress",
-});
+export const metadata: Metadata = pageMetadataFor("/hosting/wordpress");
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
@@ -52,6 +47,11 @@ export default function WordPressPage() {
   return (
     <div style={{ maxWidth: 1180, margin: "0 auto", padding: "48px 24px 0" }}>
       <BreadcrumbJsonLd items={breadcrumbTrail("Managed WordPress hosting", "/hosting/wordpress")} />
+      <JsonLdScript
+        id="wordpress-service-jsonld"
+        scriptKey="wordpress-service-jsonld"
+        data={serviceJsonLd("/hosting/wordpress")}
+      />
       {/* breadcrumb */}
       <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)", marginBottom: 24 }}>
         <Link href="/hosting" className="szz-link-accent" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)" }}>
@@ -70,6 +70,9 @@ export default function WordPressPage() {
           <p style={{ margin: 0, maxWidth: 480, fontSize: 17, lineHeight: 1.6, color: muted }}>
             We handle core and plugin updates, malware scanning, caching and daily backups — so you
             can just write and sell.
+          </p>
+          <p style={{ margin: 0, maxWidth: 480, fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--szz-text-dim)" }}>
+            On the same hardened CloudLinux + Imunify360 stack as the rest of SERVERIZZ.
           </p>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             {pills.map((p) => (
