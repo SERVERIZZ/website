@@ -12,6 +12,8 @@ import { getTldPricing } from "@/lib/clientexec";
 import { FEATURED_TLDS } from "@/lib/domains";
 import { DomainSearch } from "@/components/szz/domain-search";
 
+export const metadata: Metadata = pageMetadataFor("/");
+
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
 const primary = "var(--szz-text-primary)";
@@ -45,8 +47,6 @@ const products = [
     priceColor: "var(--szz-green)",
   },
 ];
-
-export const metadata: Metadata = pageMetadataFor("/");
 
 export default async function HomePage() {
   const pricing = await getTldPricing(FEATURED_TLDS);

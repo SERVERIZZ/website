@@ -144,6 +144,18 @@ export const PAGE_SEO: PageSeo[] = [
     priority: 0.8,
   },
   {
+    path: "/ai-employees",
+    name: "AI Employees",
+    title: "AI Employees — Hire an AI Team for Your Business",
+    description:
+      "Hire a full team of AI Employees through SERVERIZZ × Marblism — running your inbox, social, SEO, lead-gen and calls 24/7. SERVERIZZ clients save 10% for life.",
+    targetKeyword: "AI employees for small business",
+    cluster: ["AI virtual assistant", "AI team for business", "Marblism AI employees"],
+    jsonLd: null,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  },
+  {
     path: "/why",
     name: "Why SERVERIZZ",
     title: "Why SERVERIZZ",
@@ -264,8 +276,8 @@ export function pageMetadataFor(path: string): Metadata {
   const meta = pageMetadata({ title: seo.title, description: seo.description, path });
   if (seo.inheritTitle) {
     delete meta.title;
-    if (meta.openGraph) delete (meta.openGraph as Record<string, unknown>).title;
-    if (meta.twitter) delete (meta.twitter as Record<string, unknown>).title;
+    if (meta.openGraph) (meta.openGraph as Record<string, unknown>).title = seo.title;
+    if (meta.twitter) (meta.twitter as Record<string, unknown>).title = seo.title;
   }
   return meta;
 }

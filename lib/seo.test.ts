@@ -66,6 +66,12 @@ describe("pageMetadataFor", () => {
     expect(meta.title).toBeUndefined();
     expect(meta.description).toMatch(/cPanel/i);
   });
+  it("keeps a non-empty OG/Twitter title on the home page (no empty og:title)", () => {
+    const meta = pageMetadataFor("/");
+    const brand = seoFor("/").title;
+    expect((meta.openGraph as Record<string, unknown>).title).toBe(brand);
+    expect((meta.twitter as Record<string, unknown>).title).toBe(brand);
+  });
 });
 
 describe("serviceJsonLd", () => {
