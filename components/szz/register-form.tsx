@@ -4,6 +4,7 @@ import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { TurnstileWidget } from "@/components/szz/turnstile-widget";
+import { trackEvent } from "@/lib/analytics";
 
 type Status = "idle" | "submitting" | "error" | "done";
 
@@ -50,13 +51,17 @@ export function RegisterForm({
       const data = await res.json().catch(() => ({}));
       if (res.ok && data?.ok) {
         setStatus("done");
+        // GA4 recommended event — no PII, just the conversion + method.
+        trackEvent("sign_up", { method: "email" });
         return;
       }
       setStatus("error");
       setError(typeof data?.error === "string" ? data.error : "We couldn't create your account.");
+      trackEvent("sign_up_error", { reason: "rejected" });
     } catch {
       setStatus("error");
       setError("Something went wrong. Please try again.");
+      trackEvent("sign_up_error", { reason: "network_error" });
     }
   }
 

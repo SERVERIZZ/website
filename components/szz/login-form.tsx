@@ -4,6 +4,7 @@ import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { TurnstileWidget } from "@/components/szz/turnstile-widget";
+import { trackEvent } from "@/lib/analytics";
 
 type Status = "idle" | "verifying" | "error";
 
@@ -62,6 +63,9 @@ export function LoginForm({
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data?.ok) {
+        // GA4 recommended event — no PII. Fire before the handoff navigation;
+        // gtag uses sendBeacon, so it survives the page unload below.
+        trackEvent("login", { method: "password" });
         // Credentials are valid — hand off to ClientExec so the browser
         // receives CE's (cross-domain) session cookie. Stay in "verifying"
         // while the navigation happens.
@@ -70,10 +74,12 @@ export function LoginForm({
       }
       setStatus("error");
       setError(typeof data?.error === "string" ? data.error : "Incorrect email or password.");
+      trackEvent("login_error", { reason: "rejected" });
       resetTurnstile();
     } catch {
       setStatus("error");
       setError("Something went wrong. Please try again.");
+      trackEvent("login_error", { reason: "network_error" });
       resetTurnstile();
     }
   }
