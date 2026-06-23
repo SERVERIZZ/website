@@ -209,6 +209,18 @@ export const PAGE_SEO: PageSeo[] = [
     changeFrequency: "monthly",
     priority: 0.6,
   },
+  {
+    path: "/blog",
+    name: "Newsroom",
+    title: "SERVERIZZ Newsroom — Hosting, WordPress & Small-Business Guides",
+    description:
+      "Plain-English field notes on hosting, WordPress, domains and running a small business on the web — from the team that keeps it all running.",
+    targetKeyword: "small business hosting blog",
+    cluster: ["WordPress guides", "hosting 101", "domains and email"],
+    jsonLd: null,
+    changeFrequency: "daily",
+    priority: 0.7,
+  },
 ];
 
 const PAGE_SEO_BY_PATH: Record<string, PageSeo> = Object.fromEntries(
