@@ -277,7 +277,7 @@ const RAW_POST: RawWpPost = {
   modified: "2026-06-19T10:00:00",
   title: { rendered: "How Managed Hosting Saves Time" },
   excerpt: { rendered: "<p>Updates, backups &amp; patches.</p>" },
-  content: { rendered: "<h2>Cost</h2><p>" + "word ".repeat(400) + "</p>" },
+  content: { rendered: "<h2>Cost</h2><p>" + "word ".repeat(399) + "</p>" }, // 399 + "Cost" = 400 words → 2 min
   categories: [3],
   _embedded: {
     author: [{ name: "Ada", slug: "ada", description: "Founder", avatar_urls: { "96": "https://x/a.png" } }],
