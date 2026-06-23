@@ -7,10 +7,15 @@ export function ArticleHero({ post }: { post: Post }) {
   return (
     <header style={{ display: "flex", flexDirection: "column", gap: 18 }}>
       <nav aria-label="Breadcrumb" style={{ fontSize: 13, color: "var(--szz-text-dim)" }}>
-        <Link href="/blog" style={{ color: "var(--szz-text-dim)" }}>Newsroom</Link>
-        {post.category && (
-          <> / <Link href={`/blog/category/${post.category.slug}`} style={{ color: post.category.colorVar }}>{post.category.name}</Link></>
-        )}
+        <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", gap: 4, alignItems: "center" }}>
+          <li><Link href="/blog" style={{ color: "var(--szz-text-dim)" }}>Newsroom</Link></li>
+          {post.category && (
+            <>
+              <li aria-hidden="true">/</li>
+              <li><Link href={`/blog/category/${post.category.slug}`} style={{ color: post.category.colorVar }}>{post.category.name}</Link></li>
+            </>
+          )}
+        </ol>
       </nav>
       {post.category && (
         <Badge variant="outline" style={{ alignSelf: "flex-start", color: post.category.colorVar, borderColor: post.category.colorVar }}>{post.category.name}</Badge>

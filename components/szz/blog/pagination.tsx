@@ -11,11 +11,17 @@ export function Pagination({ basePath, page, totalPages }: { basePath: string; p
     border: "1px solid var(--szz-border)", borderRadius: 8, padding: "8px 16px",
     pointerEvents: disabled ? "none" : "auto", opacity: disabled ? 0.5 : 1,
   });
+  const newerDisabled = page <= 1;
+  const olderDisabled = page >= totalPages;
   return (
     <nav aria-label="Pagination" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 14, paddingTop: 24 }}>
-      <Link href={href(Math.max(1, page - 1))} style={btn(page <= 1)} aria-disabled={page <= 1}>← Newer</Link>
+      {newerDisabled
+        ? <span style={btn(true)} aria-disabled="true">← Newer</span>
+        : <Link href={href(page - 1)} style={btn(false)}>← Newer</Link>}
       <span style={{ fontSize: 13, color: "var(--szz-text-dim)" }}>Page {page} of {totalPages}</span>
-      <Link href={href(Math.min(totalPages, page + 1))} style={btn(page >= totalPages)} aria-disabled={page >= totalPages}>Older →</Link>
+      {olderDisabled
+        ? <span style={btn(true)} aria-disabled="true">Older →</span>
+        : <Link href={href(page + 1)} style={btn(false)}>Older →</Link>}
     </nav>
   );
 }
