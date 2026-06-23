@@ -34,6 +34,11 @@ describe("readingMinutes", () => {
     expect(readingMinutes("<p>short</p>")).toBe(1);
     expect(readingMinutes("")).toBe(1);
   });
+
+  it("covers 200-word boundary: exactly 200 → 1, 201 → 2", () => {
+    expect(readingMinutes("w ".repeat(200))).toBe(1);
+    expect(readingMinutes("w ".repeat(201))).toBe(2);
+  });
 });
 
 describe("formatDate", () => {
@@ -50,6 +55,10 @@ describe("categoryColorVar", () => {
   });
   it("falls back to accent blue for unknown slugs", () => {
     expect(categoryColorVar("nope")).toBe("var(--szz-accent-blue)");
+  });
+  it("covers hosting-101 and domains-email slugs", () => {
+    expect(categoryColorVar("hosting-101")).toBe("var(--szz-accent-blue)");
+    expect(categoryColorVar("domains-email")).toBe("var(--szz-green)");
   });
 });
 
@@ -82,6 +91,20 @@ describe("mapPost", () => {
     expect(p.contentHtml).toContain('id="cost"');
     expect(p.toc).toEqual([{ id: "cost", label: "Cost", level: 2 }]);
   });
+
+  it("handles null author when _embedded has no author key", () => {
+    const noAuthor: RawWpPost = {
+      ...RAW_POST,
+      _embedded: {
+        "wp:featuredmedia": RAW_POST._embedded!["wp:featuredmedia"],
+        "wp:term": RAW_POST._embedded!["wp:term"],
+      },
+    };
+    const p = mapPost(noAuthor);
+    expect(p.author).toBeNull();
+    expect(p.contentHtml).toBeTruthy();
+    expect(p.toc).toBeTruthy();
+  });
 });
 
 describe("mapCategory", () => {
@@ -89,5 +112,11 @@ describe("mapCategory", () => {
     expect(mapCategory(RAW_CATEGORY)).toEqual({
       id: 3, slug: "small-business", name: "Small Business", count: 4, description: "Biz", colorVar: "var(--szz-green)",
     });
+  });
+
+  it("strips HTML and decodes entities in description", () => {
+    const catWithHtml: RawWpCategory = { id: 1, slug: "test", name: "Test", count: 2, description: "<p>Biz &amp; stuff</p>" };
+    const mapped = mapCategory(catWithHtml);
+    expect(mapped.description).toBe("Biz & stuff");
   });
 });
