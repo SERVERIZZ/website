@@ -10,15 +10,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { BadgeProps } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
+import { breadcrumbTrail, pageMetadataFor } from "@/lib/seo";
 import { getSystemStatus, type SystemStatusLevel } from "@/lib/uptime-kuma";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Support",
-  description:
-    "How can we help? A real account manager on every plan, 24/7 email tickets and a live status page.",
-  path: "/support",
-});
+export const metadata: Metadata = pageMetadataFor("/support");
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";

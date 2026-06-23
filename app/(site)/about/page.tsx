@@ -8,14 +8,9 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ImpactStatCards } from "@/components/szz/impact-stat-cards";
 import { aboutLines } from "@/lib/szz-data";
-import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
+import { breadcrumbTrail, pageMetadataFor } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata({
-  title: "About SERVERIZZ",
-  description:
-    "SERVERIZZ has been a one-person promise since 2014 — fast, well-managed hosting and a real human who picks up. Meet the founder and the story behind it.",
-  path: "/about",
-});
+export const metadata: Metadata = pageMetadataFor("/about");
 
 const display = "var(--font-heading)";
 const mono = "var(--font-mono)";

@@ -5,17 +5,12 @@ import { BreadcrumbJsonLd } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
+import { breadcrumbTrail, pageMetadataFor } from "@/lib/seo";
 import { getTldPricing } from "@/lib/clientexec";
 import { TLDS, formatYearlyPrice } from "@/lib/domains";
 import { DomainSearch } from "@/components/szz/domain-search";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Domains",
-  description:
-    "Search 400+ extensions, register in seconds and point it at your SERVERIZZ site automatically. Free WHOIS privacy on every domain.",
-  path: "/domains",
-});
+export const metadata: Metadata = pageMetadataFor("/domains");
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";

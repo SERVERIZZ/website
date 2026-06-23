@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Globe, LayoutTemplate, AtSign } from "lucide-react";
+import { pageMetadataFor } from "@/lib/seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Terminal } from "@/components/szz/terminal";
 import { Stat } from "@/components/szz/stat";
@@ -43,6 +45,8 @@ const products = [
     priceColor: "var(--szz-green)",
   },
 ];
+
+export const metadata: Metadata = pageMetadataFor("/");
 
 export default async function HomePage() {
   const pricing = await getTldPricing(FEATURED_TLDS);
