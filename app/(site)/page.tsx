@@ -11,6 +11,7 @@ import { heroLines } from "@/lib/szz-data";
 import { getTldPricing } from "@/lib/clientexec";
 import { FEATURED_TLDS } from "@/lib/domains";
 import { DomainSearch } from "@/components/szz/domain-search";
+import { HeroMeshBackdrop } from "@/components/szz/hero-mesh";
 
 export const metadata: Metadata = pageMetadataFor("/");
 
@@ -65,9 +66,15 @@ export default async function HomePage() {
 
   return (
     <div>
+      {/* hero + trust stats share one positioned wrapper so the cursor-interactive
+          mesh canvas spans both bands behind the content */}
+      <div style={{ position: "relative", overflow: "hidden" }}>
+      <HeroMeshBackdrop />
       {/* hero */}
       <section
         style={{
+          position: "relative",
+          zIndex: 1,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -116,6 +123,8 @@ export default async function HomePage() {
       {/* trust stats */}
       <section
         style={{
+          position: "relative",
+          zIndex: 1,
           display: "flex",
           justifyContent: "center",
           gap: 64,
@@ -128,6 +137,7 @@ export default async function HomePage() {
         <Stat value="<1s" label="average page load" variant="display" center />
         <Stat value="$0" label="to migrate your site" variant="display" center />
       </section>
+      </div>
 
       {/* products */}
       <section className="szz-section" style={{ background: "var(--szz-bg-card)" }}>
