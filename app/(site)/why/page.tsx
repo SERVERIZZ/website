@@ -17,14 +17,9 @@ import { Stat } from "@/components/szz/stat";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { heroLines } from "@/lib/szz-data";
-import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
+import { breadcrumbTrail, pageMetadataFor } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Why SERVERIZZ",
-  description:
-    "“Managed” should mean we actually manage it. Free migration, daily backups, 99.9% uptime and a dedicated account manager on every plan.",
-  path: "/why",
-});
+export const metadata: Metadata = pageMetadataFor("/why");
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
@@ -61,6 +56,9 @@ export default function WhyPage() {
         <p style={{ margin: 0, maxWidth: 560, fontSize: 17, lineHeight: 1.6, color: muted }}>
           No servers to patch, no surprise bills, no support mazes. Hand us the boring parts and get
           on with running your business.
+        </p>
+        <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--szz-text-dim)" }}>
+          Developer-friendly, low-density hosting — fewer accounts per server, served from our Miami datacenter.
         </p>
       </section>
 
