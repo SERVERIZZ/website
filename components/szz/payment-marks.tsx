@@ -31,14 +31,16 @@ export function PaymentMarks() {
       }}
     >
       {MARKS.map((m) => (
-        <FontAwesomeIcon
-          key={m.label}
-          icon={m.icon}
-          role="img"
-          aria-label={m.label}
-          title={m.label}
-          style={{ fontSize: 26 }}
-        />
+        // A role="list" requires role="listitem" children, so wrap each glyph.
+        <span key={m.label} role="listitem" style={{ display: "inline-flex" }}>
+          <FontAwesomeIcon
+            icon={m.icon}
+            role="img"
+            aria-label={m.label}
+            title={m.label}
+            style={{ fontSize: 26 }}
+          />
+        </span>
       ))}
     </div>
   );

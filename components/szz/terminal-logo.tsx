@@ -25,6 +25,7 @@ export function TerminalLogo({
     <span className={cn("szz-logo", className)} {...props}>
       <span
         className="szz-logo__chip"
+        aria-hidden="true"
         style={{
           transform: scale !== 1 ? `scale(${scale})` : undefined,
           transformOrigin: "left center",

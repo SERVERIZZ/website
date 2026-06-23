@@ -292,7 +292,10 @@ export function SiteNav() {
           rowGap: 10,
         }}
       >
-        <Link href="/" aria-label="SERVERIZZ home" style={{ display: "flex", alignItems: "center" }}>
+        {/* No aria-label: the visible "SERVERIZZ" wordmark is the accessible
+            name. An aria-label that adds words the visible text lacks trips
+            WCAG 2.5.3 (label-content-name-mismatch). */}
+        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
           <TerminalLogo size={24} />
         </Link>
 

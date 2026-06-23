@@ -45,8 +45,10 @@
   --szz-text-primary: #ffffff;
   --szz-text-light: #cbd5e1;
   --szz-text-muted: #94a3b8;
-  --szz-text-dim: #64748b;
-  --szz-text-faint: #475569;
+  /* dim/faint lightened to clear WCAG AA (>=4.5:1) on the dark surfaces
+     (#0b0e18 / #111827). Old #64748b/#475569 measured 3.7-4.0 / 2.3-2.5. */
+  --szz-text-dim: #828fa8;
+  --szz-text-faint: #76839c;
 
   --szz-accent-blue: #60a5fa;
   --szz-cta-blue: #2563eb;
@@ -204,8 +206,8 @@ html[data-theme="light"] .szz-term {
   --szz-bg-deep: #0b0e18;
   --szz-text-light: #cbd5e1;
   --szz-text-muted: #94a3b8;
-  --szz-text-dim: #64748b;
-  --szz-text-faint: #475569;
+  --szz-text-dim: #828fa8;
+  --szz-text-faint: #76839c;
   --szz-accent-blue: #60a5fa;
   --szz-border: #1e3a5f;
 }
