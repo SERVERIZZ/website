@@ -8,21 +8,16 @@ import {
   Lock,
   UserRound,
 } from "lucide-react";
-import { BreadcrumbJsonLd } from "next-seo";
+import { BreadcrumbJsonLd, JsonLdScript } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Terminal } from "@/components/szz/terminal";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { rsLines } from "@/lib/szz-data";
-import { breadcrumbTrail, pageMetadata } from "@/lib/seo";
+import { breadcrumbTrail, pageMetadataFor, serviceJsonLd } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Reseller hosting",
-  description:
-    "A boutique, single-node reseller plan for web designers and agencies. Spin up white-label cPanel accounts for your clients in WHM — they never see SERVERIZZ.",
-  path: "/hosting/reseller",
-});
+export const metadata: Metadata = pageMetadataFor("/hosting/reseller");
 
 const display = "var(--font-heading)";
 const mono = "var(--font-mono)";
@@ -104,6 +99,11 @@ export default function ResellerPage() {
   return (
     <div style={{ maxWidth: 1180, margin: "0 auto", padding: "48px 24px 0" }}>
       <BreadcrumbJsonLd items={breadcrumbTrail("Reseller hosting", "/hosting/reseller")} />
+      <JsonLdScript
+        id="reseller-service-jsonld"
+        scriptKey="reseller-service-jsonld"
+        data={serviceJsonLd("/hosting/reseller")}
+      />
       {/* breadcrumb */}
       <div style={{ fontFamily: mono, fontSize: 12, color: dim, marginBottom: 24 }}>
         <Link href="/hosting" className="szz-link-accent" style={{ fontFamily: mono, fontSize: 12, color: dim }}>
@@ -122,6 +122,9 @@ export default function ResellerPage() {
           <p style={{ margin: 0, maxWidth: 480, fontSize: 17, lineHeight: 1.6, color: muted }}>
             A boutique, single-node reseller plan for web designers and agencies. Spin up
             white-label cPanel accounts for your clients in WHM — they never see SERVERIZZ.
+          </p>
+          <p style={{ margin: 0, maxWidth: 480, fontFamily: mono, fontSize: 13, color: dim }}>
+            Managed cPanel reseller hosting on dedicated single-node resources — more headroom per client than crowded budget reseller plans.
           </p>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             {pills.map((p) => (
