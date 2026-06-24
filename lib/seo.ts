@@ -212,6 +212,23 @@ export const PAGE_SEO: PageSeo[] = [
     changeFrequency: "daily",
     priority: 0.7,
   },
+  {
+    path: "/offers/education",
+    name: "Students & Educators",
+    title: "Student & Educator Discount — 75% Off Hosting",
+    description:
+      "Students and educators get 75% off the SERVERIZZ Engineer package for 12 months — Node.js & Python app hosting with one-click GitHub deploys. Verify with your school email; free sticker pack included.",
+    targetKeyword: "student hosting discount",
+    cluster: [
+      "educator hosting discount",
+      "back to school hosting deal",
+      "student web hosting",
+      ".edu hosting discount",
+    ],
+    jsonLd: null,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  },
 ];
 
 const PAGE_SEO_BY_PATH: Record<string, PageSeo> = Object.fromEntries(

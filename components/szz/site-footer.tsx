@@ -5,49 +5,68 @@ import { PaymentMarks } from "@/components/szz/payment-marks";
 import { ImpactBadges } from "@/components/szz/impact-badges";
 import { LEGAL_DOCS } from "@/lib/legal";
 
-const COLUMNS: {
+type FooterMenu = {
   heading: string;
   links: { label: string; href?: string; external?: boolean; indent?: boolean; header?: boolean }[];
-}[] = [
-  {
-    heading: "PRODUCTS",
-    links: [
-      { label: "Hosting", header: true },
-      { label: "Shared", href: "/hosting", indent: true },
-      { label: "WordPress", href: "/hosting/wordpress", indent: true },
-      { label: "Domains", href: "/domains" },
-    ],
-  },
-  {
-    heading: "BUSINESS TOOLS",
-    links: [
-      { label: "AI Employees", href: "/ai-employees" },
-    ],
-  },
-  {
-    heading: "COMPANY",
-    links: [
-      { label: "Why Us", href: "/why" },
-      { label: "About", href: "/about" },
-      { label: "Regions", href: "/data-centers" },
-      { label: "Newsroom", href: "/blog" },
-    ],
-  },
-  {
-    heading: "SUPPORT",
-    links: [
-      { label: "Help Center", href: "/support" },
-      { label: "Status", href: "https://status.serverizz.com", external: true },
-      { label: "Contact", href: "/support" },
-    ],
-  },
-  {
-    heading: "LEGAL",
-    links: LEGAL_DOCS.map((doc) => ({
-      label: doc.label,
-      href: `/legal/${doc.slug}`,
-    })),
-  },
+};
+
+// Each entry is a footer column; a column may stack more than one menu vertically.
+const COLUMNS: FooterMenu[][] = [
+  [
+    {
+      heading: "PRODUCTS",
+      links: [
+        { label: "Hosting", header: true },
+        { label: "Shared", href: "/hosting", indent: true },
+        { label: "WordPress", href: "/hosting/wordpress", indent: true },
+        { label: "Domains", href: "/domains" },
+      ],
+    },
+  ],
+  [
+    {
+      heading: "BUSINESS TOOLS",
+      links: [
+        { label: "AI Employees", href: "/ai-employees" },
+      ],
+    },
+    {
+      heading: "SPECIAL OFFERS",
+      links: [
+        { label: "Students & Educators", href: "/offers/education" },
+      ],
+    },
+  ],
+  [
+    {
+      heading: "COMPANY",
+      links: [
+        { label: "Why Us", href: "/why" },
+        { label: "About", href: "/about" },
+        { label: "Regions", href: "/data-centers" },
+        { label: "Newsroom", href: "/blog" },
+      ],
+    },
+  ],
+  [
+    {
+      heading: "SUPPORT",
+      links: [
+        { label: "Help Center", href: "/support" },
+        { label: "Status", href: "https://status.serverizz.com", external: true },
+        { label: "Contact", href: "/support" },
+      ],
+    },
+  ],
+  [
+    {
+      heading: "LEGAL",
+      links: LEGAL_DOCS.map((doc) => ({
+        label: doc.label,
+        href: `/legal/${doc.slug}`,
+      })),
+    },
+  ],
 ];
 
 export function SiteFooter() {
@@ -90,49 +109,56 @@ export function SiteFooter() {
         </div>
 
         <div style={{ display: "flex", gap: 56, flexWrap: "wrap" }}>
-          {COLUMNS.map((col) => (
+          {COLUMNS.map((menus) => (
             <div
-              key={col.heading}
-              style={{ display: "flex", flexDirection: "column", gap: 10 }}
+              key={menus[0].heading}
+              style={{ display: "flex", flexDirection: "column", gap: 28 }}
             >
-              <span
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10,
-                  fontWeight: 700,
-                  letterSpacing: 2,
-                  color: "var(--szz-accent-blue)",
-                }}
-              >
-                {col.heading}
-              </span>
-              {col.links.map((link, i) =>
-                link.header || !link.href ? (
+              {menus.map((menu) => (
+                <div
+                  key={menu.heading}
+                  style={{ display: "flex", flexDirection: "column", gap: 10 }}
+                >
                   <span
-                    key={`${link.label}-${i}`}
                     style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: 13,
-                      color: "var(--szz-text-dim)",
-                      cursor: "default",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: 2,
+                      color: "var(--szz-accent-blue)",
                     }}
                   >
-                    {link.label}
+                    {menu.heading}
                   </span>
-                ) : (
-                  <Link
-                    key={`${link.label}-${i}`}
-                    href={link.href}
-                    className="szz-foot-link"
-                    style={link.indent ? { paddingLeft: 12 } : undefined}
-                    {...(link.external
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
-                  >
-                    {link.label}
-                  </Link>
-                )
-              )}
+                  {menu.links.map((link, i) =>
+                    link.header || !link.href ? (
+                      <span
+                        key={`${link.label}-${i}`}
+                        style={{
+                          fontFamily: "var(--font-body)",
+                          fontSize: 13,
+                          color: "var(--szz-text-dim)",
+                          cursor: "default",
+                        }}
+                      >
+                        {link.label}
+                      </span>
+                    ) : (
+                      <Link
+                        key={`${link.label}-${i}`}
+                        href={link.href}
+                        className="szz-foot-link"
+                        style={link.indent ? { paddingLeft: 12 } : undefined}
+                        {...(link.external
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
+                      >
+                        {link.label}
+                      </Link>
+                    )
+                  )}
+                </div>
+              ))}
             </div>
           ))}
         </div>
