@@ -15,7 +15,6 @@ const COLUMNS: {
       { label: "Hosting", header: true },
       { label: "Shared", href: "/hosting", indent: true },
       { label: "WordPress", href: "/hosting/wordpress", indent: true },
-      { label: "Reseller", href: "/hosting/reseller", indent: true },
       { label: "Domains", href: "/domains" },
     ],
   },

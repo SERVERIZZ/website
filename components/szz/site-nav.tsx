@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, Globe, LayoutTemplate, Store, type LucideIcon } from "lucide-react";
+import { ChevronDown, Globe, LayoutTemplate, type LucideIcon } from "lucide-react";
 import { TerminalLogo } from "@/components/szz/terminal-logo";
 import { ThemeToggle } from "@/components/szz/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -44,7 +44,6 @@ const NAV_LINKS: NavEntry[] = [
     items: [
       { href: "/hosting", label: "Shared", Icon: Globe },
       { href: "/hosting/wordpress", label: "WordPress", Icon: LayoutTemplate },
-      { href: "/hosting/reseller", label: "Reseller", Icon: Store },
     ],
   },
   { href: "/domains", label: "Domains" },

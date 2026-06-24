@@ -123,19 +123,6 @@ export const PAGE_SEO: PageSeo[] = [
     priority: 0.9,
   },
   {
-    path: "/hosting/reseller",
-    name: "Reseller hosting",
-    title: "cPanel Reseller Hosting — Managed & White-Label",
-    description:
-      "Managed, white-label cPanel reseller hosting on dedicated single-node resources. Spin up WHM accounts for your clients with free migration and $0 setup — they never see SERVERIZZ.",
-    targetKeyword: "cPanel reseller hosting",
-    cluster: ["managed reseller hosting", "white-label cPanel hosting", "reseller VPS cPanel"],
-    jsonLd: "Service",
-    serviceType: "Reseller web hosting",
-    changeFrequency: "monthly",
-    priority: 0.85,
-  },
-  {
     path: "/domains",
     name: "Domains",
     title: "Domains",
