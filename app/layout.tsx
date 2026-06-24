@@ -10,6 +10,7 @@ import "./globals.css";
 // injecting its own <style> at runtime (which causes oversized-icon flash).
 config.autoAddCss = false;
 import { AffiliateTracker } from "@/components/affiliate-tracker";
+import { InlineScript } from "@/components/inline-script";
 import {
   ORG,
   SITE_DESCRIPTION,
@@ -114,7 +115,7 @@ export default function RootLayout({
       className={`${sora.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <InlineScript html={themeScript} />
         <Script
           id="getterms-cmp-blocker"
           src={`${GETTERMS_BASE}/blocker/${GETTERMS_CMP_ID}/en-us?auto=true`}
