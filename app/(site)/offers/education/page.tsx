@@ -220,8 +220,8 @@ export default function EducationOfferPage() {
           <p style={{ margin: "24px auto 0", maxWidth: 580, fontSize: 18, lineHeight: 1.6, color: slate }}>
             Verify with your school email and get{" "}
             <strong style={{ color: ink }}>75% off the Engineer package for 12 months</strong> — the
-            plan that hosts Node.js &amp; Python apps with one-click GitHub deploys. Free domain and
-            sticker pack included.
+            plan that hosts Node.js &amp; Python apps with one-click GitHub deploys. Free sticker
+            pack included.
           </p>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginTop: 32, flexWrap: "wrap" }}>
             <VerifyCta
@@ -259,9 +259,6 @@ export default function EducationOfferPage() {
             </a>
           </div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginTop: 40, flexWrap: "wrap" }}>
-            <span style={{ transform: "rotate(-3deg)", background: "#22C55E", color: "#06310f", fontFamily: mono, fontWeight: 700, fontSize: 13, letterSpacing: ".5px", padding: "9px 15px", borderRadius: 9, boxShadow: "0 6px 16px rgba(34,197,94,.28)" }}>
-              FREE DOMAIN
-            </span>
             <span style={{ transform: "rotate(2deg)", background: "#60A5FA", color: "#06203f", fontFamily: mono, fontWeight: 700, fontSize: 13, letterSpacing: ".5px", padding: "9px 15px", borderRadius: 9, boxShadow: "0 6px 16px rgba(96,165,250,.3)" }}>
               FREE SSL
             </span>

@@ -217,7 +217,7 @@ export const PAGE_SEO: PageSeo[] = [
     name: "Students & Educators",
     title: "Student & Educator Discount — 75% Off Hosting",
     description:
-      "Students and educators get 75% off the SERVERIZZ Engineer package for 12 months — Node.js & Python app hosting with one-click GitHub deploys. Verify with your school email; free domain and sticker pack included.",
+      "Students and educators get 75% off the SERVERIZZ Engineer package for 12 months — Node.js & Python app hosting with one-click GitHub deploys. Verify with your school email; free sticker pack included.",
     targetKeyword: "student hosting discount",
     cluster: [
       "educator hosting discount",
