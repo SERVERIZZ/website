@@ -48,7 +48,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {post.author && <AuthorByline author={post.author} />}
           <RelatedPosts posts={related} />
         </div>
-        <aside><ArticleToc toc={post.toc} /></aside>
+        <aside style={{ alignSelf: "stretch" }}><ArticleToc toc={post.toc} /></aside>
       </div>
     </article>
   );

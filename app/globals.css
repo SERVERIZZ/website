@@ -546,7 +546,7 @@ html[data-theme="light"] .szz-term {
   line-height: 1.2;
   color: var(--szz-text-primary);
   margin-top: 2em;
-  scroll-margin-top: 88px;
+  scroll-margin-top: 112px;
 }
 .szz-prose h3 {
   font-family: var(--font-heading);
@@ -554,7 +554,7 @@ html[data-theme="light"] .szz-term {
   font-weight: 700;
   color: var(--szz-text-primary);
   margin-top: 1.6em;
-  scroll-margin-top: 88px;
+  scroll-margin-top: 112px;
 }
 .szz-prose p { color: var(--szz-text-light); }
 .szz-prose a { color: var(--szz-accent-blue); text-decoration: underline; text-underline-offset: 2px; }
