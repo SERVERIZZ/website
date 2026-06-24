@@ -45,13 +45,13 @@ export function EmojiRain() {
     };
 
     for (let i = 0; i < COUNT; i++) {
-      const size = rand(22, 40);
-      const landTop = footerTop - size - rand(0, 16);
+      const size = rand(38, 64);
+      const landTop = footerTop - size - rand(0, 20);
       const driftX = rand(-34, 34);
       const rotStart = rand(-45, 45);
       const rotEnd = rand(-18, 18);
-      const delay = rand(0, 600);
-      const fallDur = rand(820, 1060);
+      const delay = rand(0, 700);
+      const fallDur = rand(2400, 3200);
       // Start just above the top of the current viewport so the rain streaks
       // into view, then falls all the way down to the footer.
       const distance = landTop - (viewTop - rand(40, 220));
@@ -69,7 +69,7 @@ export function EmojiRain() {
           { opacity: 1, offset: 0.12 },
           { transform: "translate(0px, 0px) rotate(" + rotEnd + "deg)", opacity: 1 },
         ],
-        { duration: fallDur, delay, easing: "cubic-bezier(0.45, 0, 0.85, 1)", fill: "forwards" },
+        { duration: fallDur, delay, easing: "cubic-bezier(0.35, 0.12, 0.5, 1)", fill: "forwards" },
       );
 
       fall.onfinish = () => {
