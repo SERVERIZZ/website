@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { VerifyCta } from "@/components/szz/verify-cta";
 import {
   Hexagon,
   FileCode,
@@ -23,7 +23,6 @@ import { breadcrumbTrail, pageMetadataFor } from "@/lib/seo";
 export const metadata: Metadata = pageMetadataFor("/offers/education");
 
 const PATH = "/offers/education";
-const CTA_HREF = "/register?offer=back-to-school";
 
 const heading = "var(--font-heading)";
 const body = "var(--font-body)";
@@ -225,8 +224,7 @@ export default function EducationOfferPage() {
             sticker pack included.
           </p>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginTop: 32, flexWrap: "wrap" }}>
-            <Link
-              href={CTA_HREF}
+            <VerifyCta
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -242,7 +240,7 @@ export default function EducationOfferPage() {
             >
               Verify &amp; Save 75%
               <ArrowRight size={18} />
-            </Link>
+            </VerifyCta>
             <a
               href="#package"
               style={{
@@ -425,8 +423,7 @@ export default function EducationOfferPage() {
           <p style={{ margin: 0, maxWidth: 480, fontSize: 16, lineHeight: 1.6, color: "#DBEAFE" }}>
             Verify with your school email and start building today.
           </p>
-          <Link
-            href={CTA_HREF}
+          <VerifyCta
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -443,7 +440,7 @@ export default function EducationOfferPage() {
           >
             Verify &amp; Save 75%
             <ArrowRight size={18} />
-          </Link>
+          </VerifyCta>
         </div>
       </section>
     </div>
