@@ -27,7 +27,6 @@ describe("PAGE_SEO registry", () => {
   it("commercial titles carry their target keyword signal", () => {
     expect(seoFor("/hosting").title).toMatch(/CloudLinux/i);
     expect(seoFor("/hosting").title).toMatch(/Imunify360/i);
-    expect(seoFor("/hosting/reseller").title).toMatch(/Reseller/i);
     expect(seoFor("/hosting/wordpress").title).toMatch(/WordPress/i);
   });
 

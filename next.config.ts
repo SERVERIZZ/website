@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         destination: "/hosting/wordpress",
         permanent: true,
       },
+      {
+        source: "/hosting/reseller",
+        destination: "/hosting",
+        permanent: true,
+      },
     ];
   },
 };
