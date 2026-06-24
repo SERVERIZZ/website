@@ -31,9 +31,9 @@ export function BlogIndexView({
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 22 }}>
               {posts.map((p) => <PostCard key={p.slug} post={p} />)}
             </div>
-          ) : (
+          ) : !featured ? (
             <p style={{ color: "var(--szz-text-muted)", fontSize: 16 }}>No posts published yet — check back soon.</p>
-          )}
+          ) : null}
           <Pagination basePath="/blog" page={page} totalPages={totalPages} />
         </div>
       </section>
