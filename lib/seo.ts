@@ -123,6 +123,24 @@ export const PAGE_SEO: PageSeo[] = [
     priority: 0.9,
   },
   {
+    path: "/vps",
+    name: "Cloud VPS",
+    title: "Cloud VPS Hosting — NVMe Virtual Servers with Full Root",
+    description:
+      "High-performance NVMe cloud VPS with full root access, your choice of OS and DDoS protection — deploy across 32 global regions in under a minute. Managed support and automated backups optional.",
+    targetKeyword: "cloud VPS hosting",
+    cluster: [
+      "NVMe VPS hosting",
+      "virtual private server",
+      "full root VPS",
+      "managed VPS hosting",
+    ],
+    jsonLd: "Service",
+    serviceType: "Virtual private server",
+    changeFrequency: "monthly",
+    priority: 0.9,
+  },
+  {
     path: "/domains",
     name: "Domains",
     title: "Domains",

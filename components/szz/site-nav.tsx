@@ -46,6 +46,7 @@ const NAV_LINKS: NavEntry[] = [
       { href: "/hosting/wordpress", label: "WordPress", Icon: LayoutTemplate },
     ],
   },
+  { href: "/vps", label: "VPS" },
   { href: "/domains", label: "Domains" },
   { href: "/support", label: "Support" },
 ];
