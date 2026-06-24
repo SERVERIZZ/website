@@ -263,17 +263,19 @@ export function SiteNav() {
             Scheduled maintenance in progress — you may notice slower performance. View status →
           </Link>
         ) : (
-          <span
+          <Link
+            href="/offers/education"
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: 11,
               fontWeight: 500,
               letterSpacing: ".5px",
               color: "var(--szz-text-muted)",
+              textDecoration: "none",
             }}
           >
-            Free site migrations on every plan — we do the moving for you.
-          </span>
+            Students and educators save 75% on our Engineer plan – learn more →
+          </Link>
         )}
       </div>
 
