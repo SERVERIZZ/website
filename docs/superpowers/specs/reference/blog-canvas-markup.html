@@ -1,0 +1,251 @@
+<!-- ============================ BLOG ============================ -->
+  <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ false }}">
+  <div>
+
+    <!-- ---------- BLOG INDEX ---------- -->
+    <sc-if value="{{ blogIsIndex }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <section style="border-bottom:1px solid var(--szz-border);background:var(--szz-bg-card);padding:80px 48px 50px">
+        <div style="max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:18px">
+          <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.SectionEyebrow" hint-size="auto,16px">Newsroom</x-import>
+          <h1 style="margin:0;max-width:760px;font-family:var(--font-heading);font-size:46px;font-weight:700;line-height:1.06;letter-spacing:-1.5px;color:var(--szz-text-primary)">Field notes for getting online.</h1>
+          <p style="margin:0;max-width:600px;font-size:17px;line-height:1.6;color:var(--szz-text-muted)">Plain-English guides to hosting, WordPress, domains and running a small business on the web — written by the people who keep it all running.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button onClick="{{ goBlog }}" style="cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:500;color:#ffffff;background:var(--szz-cta-blue);border:1px solid var(--szz-cta-blue);border-radius:999px;padding:7px 15px">Newsroom</button>
+            <sc-for list="{{ blogCats }}" as="c" hint-placeholder-count="5">
+              <button onClick="{{ c.open }}" style="cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:500;color:var(--szz-text-muted);background:transparent;border:1px solid var(--szz-border);border-radius:999px;padding:7px 15px" style-hover="color:var(--szz-text-primary);border-color:var(--szz-accent-blue)">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding:50px 48px 30px">
+        <div style="max-width:1180px;margin:0 auto">
+          <button onClick="{{ blogFeatured.open }}" style="display:block;width:100%;text-align:left;background:none;border:none;padding:0;cursor:pointer">
+            <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Card" interactive="{{ true }}" hint-size="100%,300px">
+              <div style="display:grid;grid-template-columns:1.05fr 1fr;gap:32px;align-items:center">
+                <div style="position:relative;overflow:hidden;border-radius:10px;background:var(--szz-bg-raised);border:1px solid var(--szz-border);aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+                  <i data-lucide="image" width="32" height="32" style="color:var(--szz-text-faint)"></i>
+                  <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--szz-text-dim)">FEATURED IMAGE</span>
+                  <span style="position:absolute;top:14px;left:14px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:1.5px;color:{{ blogFeatured.accent }};background:var(--szz-bg-deep);border:1px solid var(--szz-border);border-radius:999px;padding:4px 10px">{{ blogFeatured.catLabel }}</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:14px">
+                  <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Badge" variant="accent" hint-size="auto,22px">Featured</x-import>
+                  <h2 style="margin:0;font-family:var(--font-heading);font-size:28px;font-weight:700;line-height:1.18;letter-spacing:-.5px;color:var(--szz-text-primary)">{{ blogFeatured.title }}</h2>
+                  <p style="margin:0;font-size:15px;line-height:1.65;color:var(--szz-text-muted)">{{ blogFeatured.excerpt }}</p>
+                  <div style="display:flex;align-items:center;gap:14px;font-family:var(--font-mono);font-size:12px;color:var(--szz-text-dim)"><span>{{ blogFeatured.date }}</span><span style="width:3px;height:3px;border-radius:999px;background:var(--szz-text-faint)"></span><span>{{ blogFeatured.read }} min read</span></div>
+                </div>
+              </div>
+            </x-import>
+          </button>
+        </div>
+      </section>
+
+      <section style="padding:20px 48px 70px">
+        <div class="fill-cards" style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+          <sc-for list="{{ blogRecent }}" as="p" hint-placeholder-count="6">
+            <button onClick="{{ p.open }}" style="display:block;width:100%;height:100%;text-align:left;background:none;border:none;padding:0;cursor:pointer">
+              <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Card" interactive="{{ true }}" hint-size="100%,330px">
+                <div style="display:flex;flex-direction:column;gap:16px;height:100%">
+                  <div style="position:relative;overflow:hidden;border-radius:8px;background:var(--szz-bg-raised);border:1px solid var(--szz-border);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center">
+                    <i data-lucide="image" width="26" height="26" style="color:var(--szz-text-faint)"></i>
+                    <span style="position:absolute;top:12px;left:12px;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:1.5px;color:{{ p.accent }};background:var(--szz-bg-deep);border:1px solid var(--szz-border);border-radius:999px;padding:3px 8px">{{ p.catLabel }}</span>
+                  </div>
+                  <h3 style="margin:0;font-family:var(--font-heading);font-size:18px;font-weight:700;line-height:1.25;letter-spacing:-.3px;color:var(--szz-text-primary)">{{ p.title }}</h3>
+                  <p style="margin:0;font-size:13px;line-height:1.6;color:var(--szz-text-muted)">{{ p.excerpt }}</p>
+                  <div style="display:flex;align-items:center;gap:12px;margin-top:auto;font-family:var(--font-mono);font-size:11px;color:var(--szz-text-dim)"><span>{{ p.date }}</span><span style="width:3px;height:3px;border-radius:999px;background:var(--szz-text-faint)"></span><span>{{ p.read }} min</span></div>
+                </div>
+              </x-import>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- newsletter -->
+      <section style="padding:0 48px 90px">
+        <div style="max-width:1180px;margin:0 auto">
+          <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Card" glow="{{ true }}" hint-size="100%,180px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap">
+              <div style="display:flex;flex-direction:column;gap:10px;max-width:520px">
+                <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.SectionEyebrow" tone="green" slashes="{{ false }}" hint-size="auto,14px">Newsletter</x-import>
+                <h2 style="margin:0;font-family:var(--font-heading);font-size:26px;font-weight:700;line-height:1.15;letter-spacing:-.5px;color:var(--szz-text-primary)">One useful email a month. No noise.</h2>
+                <p style="margin:0;font-size:14px;line-height:1.6;color:var(--szz-text-muted)">Practical tips on hosting, speed and running your site — straight to your inbox. Unsubscribe any time.</p>
+              </div>
+              <div class="szz-inline-search" style="display:flex;gap:10px;width:100%;max-width:420px">
+                <div style="flex:1"><x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Input" type="email" placeholder="you@yourbusiness.com" hint-size="100%,48px"></x-import></div>
+                <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Button" variant="primary" size="lg" hint-size="120px,48px">Subscribe</x-import>
+              </div>
+            </div>
+          </x-import>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <!-- ---------- ARTICLE ---------- -->
+    <sc-if value="{{ blogIsArticle }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1180px;margin:0 auto;padding:40px 48px 0">
+      <div style="font-family:var(--font-mono);font-size:12px;color:var(--szz-text-dim);margin-bottom:26px"><button onClick="{{ goBlog }}" style="background:none;border:none;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:var(--szz-text-dim);padding:0">Blog</button> / <button onClick="{{ article.openCat }}" style="background:none;border:none;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:var(--szz-accent-blue);padding:0">{{ article.catLabel }}</button></div>
+
+      <div style="display:grid;grid-template-columns:1fr 240px;gap:56px;align-items:start">
+        <!-- main -->
+        <article style="min-width:0;max-width:720px">
+          <div style="display:flex;flex-direction:column;gap:20px;margin-bottom:30px">
+            <button onClick="{{ article.openCat }}" style="align-self:flex-start;cursor:pointer;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:1px;color:{{ article.accent }};background:transparent;border:1px solid var(--szz-border);border-radius:999px;padding:4px 12px">{{ article.catLabel }}</button>
+            <h1 style="margin:0;font-family:var(--font-heading);font-size:42px;font-weight:700;line-height:1.1;letter-spacing:-1.5px;color:var(--szz-text-primary)">{{ article.title }}</h1>
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-bottom:24px;border-bottom:1px solid var(--szz-border)">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:40px;height:40px;border-radius:999px;background:var(--gradient-cta);border:1px solid var(--szz-border);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--szz-accent-blue)">RB</div>
+                <div style="display:flex;flex-direction:column;gap:2px">
+                  <span style="font-size:13px;font-weight:600;color:var(--szz-text-primary)">Ry Bealey</span>
+                  <span style="font-family:var(--font-mono);font-size:11px;color:var(--szz-text-dim)">{{ article.date }} · {{ article.read }} min read</span>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:12px;color:var(--szz-text-dim);margin-right:2px">Share</span>
+                <a href="#" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--szz-border);display:flex;align-items:center;justify-content:center;color:var(--szz-text-muted)" style-hover="border-color:var(--szz-accent-blue);color:var(--szz-text-primary)"><i data-lucide="send" width="15" height="15"></i></a>
+                <a href="#" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--szz-border);display:flex;align-items:center;justify-content:center;color:var(--szz-text-muted)" style-hover="border-color:var(--szz-accent-blue);color:var(--szz-text-primary)"><i data-lucide="mail" width="15" height="15"></i></a>
+                <a href="#" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--szz-border);display:flex;align-items:center;justify-content:center;color:var(--szz-text-muted)" style-hover="border-color:var(--szz-accent-blue);color:var(--szz-text-primary)"><i data-lucide="link" width="15" height="15"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- hero graphic -->
+          <div style="position:relative;overflow:hidden;border-radius:12px;background:var(--szz-bg-raised);border:1px solid var(--szz-border);aspect-ratio:16/7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-bottom:36px">
+            <i data-lucide="image" width="34" height="34" style="color:var(--szz-text-faint)"></i>
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--szz-text-dim)">FEATURED IMAGE</span>
+            <span style="position:absolute;top:16px;left:16px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:1.5px;color:{{ article.accent }};background:var(--szz-bg-deep);border:1px solid var(--szz-border);border-radius:999px;padding:4px 10px">{{ article.catLabel }}</span>
+          </div>
+
+          <!-- body -->
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <p style="margin:0;font-size:17px;line-height:1.75;color:var(--szz-text-light)">Running a website sounds simple until it isn't. Somewhere between the plugin that broke checkout and the 2am email saying your site is down, "just hosting" turns into a part-time job you never applied for. Here's how managed hosting quietly gives that time back.</p>
+
+            <h2 id="art-cost" style="margin:18px 0 0;font-family:var(--font-heading);font-size:26px;font-weight:700;letter-spacing:-.5px;color:var(--szz-text-primary)">The hidden cost of "just hosting"</h2>
+            <p style="margin:0;font-size:17px;line-height:1.75;color:var(--szz-text-light)">Cheap hosting isn't cheap if it costs you a Saturday. The sticker price ignores the real expense: the hours you spend patching, troubleshooting and worrying. For most small-business owners, that's the single most expensive line item — your own time.</p>
+            <p style="margin:0;font-size:17px;line-height:1.75;color:var(--szz-text-light)">Managed hosting flips the model. Instead of handing you a server and wishing you luck, it treats the maintenance as the product.</p>
+
+            <h2 id="art-updates" style="margin:18px 0 0;font-family:var(--font-heading);font-size:26px;font-weight:700;letter-spacing:-.5px;color:var(--szz-text-primary)">Updates & patching, handled</h2>
+            <p style="margin:0;font-size:17px;line-height:1.75;color:var(--szz-text-light)">Core updates, plugin updates, security patches — they arrive constantly, and skipping them is how sites get hacked. On managed hosting, they're tested and applied for you, usually before you'd even have seen the notification.</p>
+            <div style="border:1px solid var(--szz-border);border-radius:10px;background:#0B0E18;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--szz-border)"><span style="width:8px;height:8px;border-radius:999px;background:#e06c5b"></span><span style="width:8px;height:8px;border-radius:999px;background:#e3b341"></span><span style="width:8px;height:8px;border-radius:999px;background:#7bbf6a"></span><span style="font-family:var(--font-mono);font-size:11px;color:var(--szz-text-dim);margin-left:8px">auto-update.log</span></div>
+              <div style="padding:16px;font-family:var(--font-mono);font-size:13px;line-height:1.9"><div style="color:#7bbf6a">✓ wordpress-core 6.8.1 → 6.8.2</div><div style="color:#7bbf6a">✓ 14 plugins updated, 0 conflicts</div><div style="color:#7bbf6a">✓ nightly backup verified</div><div style="color:#94a3b8"># next run: tomorrow 03:00 CT</div></div>
+            </div>
+
+            <h2 id="art-backups" style="margin:18px 0 0;font-family:var(--font-heading);font-size:26px;font-weight:700;letter-spacing:-.5px;color:var(--szz-text-primary)">Backups you never think about</h2>
+            <p style="margin:0;font-size:17px;line-height:1.75;color:var(--szz-text-light)">A good backup is one you never have to think about — until the one day you do. Managed hosting runs them automatically and, just as importantly, makes restoring a one-click affair:</p>
+            <ul style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px">
+              <li style="font-size:17px;line-height:1.7;color:var(--szz-text-light)"><strong style="color:var(--szz-text-primary)">Automatic &amp; daily</strong> — every site, every night, kept for 30 days.</li>
+              <li style="font-size:17px;line-height:1.7;color:var(--szz-text-light)"><strong style="color:var(--szz-text-primary)">One-click restore</strong> — roll the whole site back to any day without a support ticket.</li>
+              <li style="font-size:17px;line-height:1.7;color:var(--szz-text-light)"><strong style="color:var(--szz-text-primary)">Off-server copies</strong> — so a bad day for the server isn't a bad day for your data.</li>
+            </ul>
+
+            <!-- inline newsletter CTA -->
+            <div style="border-left:2px solid var(--szz-accent-blue);background:var(--szz-bg-card);border-radius:0 10px 10px 0;padding:20px 24px;margin:10px 0">
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <span style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:var(--szz-text-primary)">Enjoying this? Get one like it a month.</span>
+                <div class="szz-inline-search" style="display:flex;gap:10px;max-width:420px">
+                  <div style="flex:1"><x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Input" type="email" placeholder="you@yourbusiness.com" hint-size="100%,44px"></x-import></div>
+                  <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Button" variant="primary" size="md" hint-size="110px,44px">Subscribe</x-import>
+                </div>
+              </div>
+            </div>
+
+            <h2 id="art-support" style="margin:18px 0 0;font-family:var(--font-heading);font-size:26px;font-weight:700;letter-spacing:-.5px;color:var(--szz-text-primary)">A human when it matters</h2>
+            <p style="margin:0;font-size:17px;line-height:1.75;color:var(--szz-text-light)">Automation handles the routine. For everything else, the difference between a good host and a great one is whether a real person picks up. With a dedicated account manager, the answer is yes — and they already know your setup.</p>
+
+            <h2 id="art-math" style="margin:18px 0 0;font-family:var(--font-heading);font-size:26px;font-weight:700;letter-spacing:-.5px;color:var(--szz-text-primary)">The time math</h2>
+            <p style="margin:0;font-size:17px;line-height:1.75;color:var(--szz-text-light)">Add it up — updates, backups, the occasional fire — and most owners spend well over ten hours a month babysitting a website. Managed hosting buys those hours back. That's the whole pitch, and it's enough.</p>
+          </div>
+
+          <!-- product CTA -->
+          <div style="margin:40px 0 10px">
+            <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Card" glow="{{ true }}" hint-size="100%,160px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+                <div style="display:flex;flex-direction:column;gap:8px;max-width:440px">
+                  <span style="font-family:var(--font-heading);font-size:22px;font-weight:700;letter-spacing:-.5px;color:var(--szz-text-primary)">Let us handle the hosting.</span>
+                  <span style="font-size:14px;line-height:1.6;color:var(--szz-text-muted)">Free migration, daily backups and a dedicated account manager on every plan. Get those hours back.</span>
+                </div>
+                <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Button" variant="primary" size="lg" onClick="{{ goRegister }}" hint-size="160px,48px">Get started</x-import>
+              </div>
+            </x-import>
+          </div>
+        </article>
+
+        <!-- sticky TOC -->
+        <aside style="position:sticky;top:128px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--szz-accent-blue)">ON THIS PAGE</span>
+          <div style="display:flex;flex-direction:column;gap:10px;border-left:1px solid var(--szz-border);padding-left:16px">
+            <sc-for list="{{ articleToc }}" as="t" hint-placeholder-count="5">
+              <button onClick="{{ t.goto }}" style="text-align:left;background:none;border:none;cursor:pointer;font-family:var(--font-body);font-size:13px;line-height:1.4;color:var(--szz-text-muted);padding:0" style-hover="color:var(--szz-text-primary)">{{ t.label }}</button>
+            </sc-for>
+          </div>
+        </aside>
+      </div>
+
+      <!-- related -->
+      <section style="padding:70px 0 90px;margin-top:50px;border-top:1px solid var(--szz-border)">
+        <h2 style="margin:0 0 24px;font-family:var(--font-heading);font-size:24px;font-weight:700;letter-spacing:-.5px;color:var(--szz-text-primary)">Keep reading</h2>
+        <div class="fill-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+          <sc-for list="{{ blogRelated }}" as="p" hint-placeholder-count="3">
+            <button onClick="{{ p.open }}" style="display:block;width:100%;height:100%;text-align:left;background:none;border:none;padding:0;cursor:pointer">
+              <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Card" interactive="{{ true }}" hint-size="100%,300px">
+                <div style="display:flex;flex-direction:column;gap:14px;height:100%">
+                  <div style="position:relative;overflow:hidden;border-radius:8px;background:var(--szz-bg-raised);border:1px solid var(--szz-border);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center">
+                    <i data-lucide="image" width="26" height="26" style="color:var(--szz-text-faint)"></i>
+                    <span style="position:absolute;top:12px;left:12px;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:1.5px;color:{{ p.accent }};background:var(--szz-bg-deep);border:1px solid var(--szz-border);border-radius:999px;padding:3px 8px">{{ p.catLabel }}</span>
+                  </div>
+                  <h3 style="margin:0;font-family:var(--font-heading);font-size:17px;font-weight:700;line-height:1.25;letter-spacing:-.3px;color:var(--szz-text-primary)">{{ p.title }}</h3>
+                  <div style="display:flex;align-items:center;gap:12px;margin-top:auto;font-family:var(--font-mono);font-size:11px;color:var(--szz-text-dim)"><span>{{ p.date }}</span><span style="width:3px;height:3px;border-radius:999px;background:var(--szz-text-faint)"></span><span>{{ p.read }} min</span></div>
+                </div>
+              </x-import>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <!-- ---------- CATEGORY ARCHIVE ---------- -->
+    <sc-if value="{{ blogIsCategory }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <section style="border-bottom:1px solid var(--szz-border);background:var(--szz-bg-card);padding:70px 48px 44px">
+        <div style="max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:16px">
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--szz-text-dim)"><button onClick="{{ goBlog }}" style="background:none;border:none;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:var(--szz-text-dim);padding:0">Blog</button> / <span style="color:{{ category.accent }}">{{ category.label }}</span></div>
+          <h1 style="margin:0;font-family:var(--font-heading);font-size:42px;font-weight:700;line-height:1.08;letter-spacing:-1.5px;color:var(--szz-text-primary)">{{ category.label }}</h1>
+          <p style="margin:0;max-width:600px;font-size:16px;line-height:1.6;color:var(--szz-text-muted)">{{ category.desc }}</p>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button onClick="{{ goBlog }}" style="cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:500;color:var(--szz-text-muted);background:transparent;border:1px solid var(--szz-border);border-radius:999px;padding:7px 15px" style-hover="color:var(--szz-text-primary);border-color:var(--szz-accent-blue)">Newsroom</button>
+            <sc-for list="{{ catChips }}" as="c" hint-placeholder-count="5">
+              <button onClick="{{ c.open }}" style="cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:500;color:{{ c.fg }};background:{{ c.bg }};border:1px solid {{ c.bd }};border-radius:999px;padding:7px 15px">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding:50px 48px 70px">
+        <div class="fill-cards" style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+          <sc-for list="{{ category.posts }}" as="p" hint-placeholder-count="3">
+            <button onClick="{{ p.open }}" style="display:block;width:100%;height:100%;text-align:left;background:none;border:none;padding:0;cursor:pointer">
+              <x-import component-from-global-scope="SERVERIZZDesignSystem_770d6c.Card" interactive="{{ true }}" hint-size="100%,330px">
+                <div style="display:flex;flex-direction:column;gap:16px;height:100%">
+                  <div style="position:relative;overflow:hidden;border-radius:8px;background:var(--szz-bg-raised);border:1px solid var(--szz-border);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center">
+                    <i data-lucide="image" width="26" height="26" style="color:var(--szz-text-faint)"></i>
+                    <span style="position:absolute;top:12px;left:12px;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:1.5px;color:{{ p.accent }};background:var(--szz-bg-deep);border:1px solid var(--szz-border);border-radius:999px;padding:3px 8px">{{ p.catLabel }}</span>
+                  </div>
+                  <h3 style="margin:0;font-family:var(--font-heading);font-size:18px;font-weight:700;line-height:1.25;letter-spacing:-.3px;color:var(--szz-text-primary)">{{ p.title }}</h3>
+                  <p style="margin:0;font-size:13px;line-height:1.6;color:var(--szz-text-muted)">{{ p.excerpt }}</p>
+                  <div style="display:flex;align-items:center;gap:12px;margin-top:auto;font-family:var(--font-mono);font-size:11px;color:var(--szz-text-dim)"><span>{{ p.date }}</span><span style="width:3px;height:3px;border-radius:999px;background:var(--szz-text-faint)"></span><span>{{ p.read }} min</span></div>
+                </div>
+              </x-import>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+  </div>
+  </sc-if>
+
+  
