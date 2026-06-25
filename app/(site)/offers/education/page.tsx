@@ -448,6 +448,24 @@ export default function EducationOfferPage() {
           </VerifyCta>
         </div>
       </section>
+
+      {/* fine print */}
+      <section style={{ background: cream, borderTop: `1px solid ${hair}` }}>
+        <div style={{ maxWidth: 880, margin: "0 auto", padding: "28px 40px", textAlign: "center" }}>
+          <p style={{ margin: 0, fontFamily: mono, fontSize: 12, lineHeight: 1.6, color: "#94A3B8" }}>
+            Offer ends September 30, 2026. See our{" "}
+            <a
+              href="https://go.serverizz.com/index.php?fuse=home&controller=announcements&view=announcement&ann_id=4"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: slate2, textDecoration: "underline" }}
+            >
+              Back to School Promotional Offer Terms &amp; Conditions
+            </a>{" "}
+            for full details.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
