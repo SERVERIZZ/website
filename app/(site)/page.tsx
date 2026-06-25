@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Globe, LayoutTemplate, AtSign } from "lucide-react";
+import { Globe, LayoutTemplate, Server, Cpu, AtSign } from "lucide-react";
 import { pageMetadataFor } from "@/lib/seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { Terminal } from "@/components/szz/terminal";
@@ -38,6 +38,24 @@ const products = [
     title: "WordPress",
     body: "Managed WordPress that updates, backs up and secures itself. You just write and sell.",
     price: "from $15/mo →",
+    priceColor: "var(--szz-accent-blue)",
+  },
+  {
+    href: "/vps",
+    Icon: Server,
+    iconColor: "var(--szz-accent-blue)",
+    title: "Cloud VPS",
+    body: "Full root on high-performance NVMe virtual servers. Your stack, your OS, scale on demand.",
+    price: "from $29/mo →",
+    priceColor: "var(--szz-accent-blue)",
+  },
+  {
+    href: "/dedicated",
+    Icon: Cpu,
+    iconColor: "var(--szz-accent-blue)",
+    title: "Dedicated",
+    body: "A whole single-tenant machine, managed end to end. Dedicated cores and a guided migration.",
+    price: "from $279/mo →",
     priceColor: "var(--szz-accent-blue)",
   },
   {
@@ -153,15 +171,16 @@ export default async function HomePage() {
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
             <SectionEyebrow>Products</SectionEyebrow>
             <h2 style={{ margin: 0, fontFamily: display, fontSize: "clamp(28px, 5vw, 40px)", fontWeight: 700, lineHeight: 1.12, letterSpacing: "-1px", color: primary }}>
-              Everything for your name
+              Everything you need to ship
             </h2>
             <p style={{ margin: 0, fontSize: 16, color: muted }}>
-              Three simple products. Email comes free with every hosting plan.
+              From shared hosting to dedicated metal — and the domain to put it on. Email&apos;s free
+              with every hosting plan.
             </p>
           </div>
-          <div className="szz-grid-3 fill-cards">
+          <div className="fill-cards" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 20 }}>
             {products.map(({ href, Icon, iconColor, title, body, price, priceColor }) => (
-              <Link key={title} href={href} style={{ minWidth: 0 }}>
+              <Link key={title} href={href} style={{ flex: "1 1 300px", maxWidth: 373, minWidth: 0 }}>
                 <Card surface="deep" interactive style={{ height: "100%" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: 14, height: "100%" }}>
                     <div style={{ width: 48, height: 48, borderRadius: 10, background: "var(--szz-border)", display: "flex", alignItems: "center", justifyContent: "center" }}>
