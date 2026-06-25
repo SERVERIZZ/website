@@ -222,6 +222,12 @@ function MobileNav({
 }) {
   const [hostingOpen, setHostingOpen] = React.useState(false);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
+  React.useEffect(() => {
+    if (!open) setHostingOpen(false);
+  }, [open]);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
   // Escape closes the overlay; body scroll is locked while it is open.
   React.useEffect(() => {
     if (!open) return;
@@ -246,7 +252,7 @@ function MobileNav({
         position: "fixed",
         inset: 0,
         zIndex: 100,
-        background: "var(--szz-bg-page)",
+        background: "var(--szz-bg-deep)",
         display: "flex",
         flexDirection: "column",
         padding: "16px 20px 32px",
