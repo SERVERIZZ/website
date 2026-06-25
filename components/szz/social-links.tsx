@@ -6,6 +6,7 @@ import {
   faXTwitter,
   faYoutube,
   faLinkedinIn,
+  faGithub,
 } from "@fortawesome/free-brands-svg-icons";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
@@ -16,6 +17,7 @@ const SOCIALS: { icon: IconDefinition; label: string; href: string }[] = [
   { icon: faXTwitter, label: "X", href: "https://x.com/serverizz" },
   { icon: faYoutube, label: "YouTube", href: "https://www.youtube.com/@serverizz" },
   { icon: faLinkedinIn, label: "LinkedIn", href: "https://www.linkedin.com/company/szzweb/" },
+  { icon: faGithub, label: "GitHub", href: "https://github.com/SERVERIZZ" },
 ];
 
 export function SocialLinks() {
