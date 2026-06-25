@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, Globe, LayoutTemplate, type LucideIcon } from "lucide-react";
+import { ChevronDown, Globe, LayoutTemplate, Menu, X, type LucideIcon } from "lucide-react";
 import { TerminalLogo } from "@/components/szz/terminal-logo";
 import { ThemeToggle } from "@/components/szz/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -207,6 +207,246 @@ function NavDropdown({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function MobileNav({
+  open,
+  onClose,
+  pathname,
+}: {
+  open: boolean;
+  onClose: () => void;
+  pathname: string;
+}) {
+  const [hostingOpen, setHostingOpen] = React.useState(false);
+
+  // Escape closes the overlay; body scroll is locked while it is open.
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      id="mobile-nav"
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 100,
+        background: "var(--szz-bg-page)",
+        display: "flex",
+        flexDirection: "column",
+        padding: "16px 20px 32px",
+        overflowY: "auto",
+      }}
+    >
+      {/* top row: logo + close */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Link
+          href="/"
+          onClick={onClose}
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <TerminalLogo size={24} />
+        </Link>
+        <button
+          type="button"
+          aria-label="Close menu"
+          onClick={onClose}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 40,
+            height: 40,
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            color: "var(--szz-text-primary)",
+          }}
+        >
+          <X size={24} />
+        </button>
+      </div>
+
+      {/* links */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          marginTop: 24,
+        }}
+      >
+        {NAV_LINKS.map((link) => {
+          if ("items" in link) {
+            return (
+              <div
+                key={link.label}
+                style={{ display: "flex", flexDirection: "column" }}
+              >
+                <button
+                  type="button"
+                  aria-expanded={hostingOpen}
+                  onClick={() => setHostingOpen((v) => !v)}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    background: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    fontFamily: "var(--font-body)",
+                    fontSize: 20,
+                    fontWeight: 600,
+                    color: "var(--szz-text-primary)",
+                    padding: "12px 0",
+                  }}
+                >
+                  {link.label}
+                  <ChevronDown
+                    size={20}
+                    style={{
+                      transform: hostingOpen ? "rotate(180deg)" : "none",
+                      transition: "transform .15s ease",
+                    }}
+                  />
+                </button>
+                {hostingOpen && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 2,
+                      paddingLeft: 16,
+                      paddingBottom: 8,
+                    }}
+                  >
+                    {link.items.map((it) => {
+                      const active =
+                        it.href === "/hosting"
+                          ? pathname === "/hosting"
+                          : pathname.startsWith(it.href);
+                      return (
+                        <Link
+                          key={it.href}
+                          href={it.href}
+                          onClick={onClose}
+                          className="szz-nav-link"
+                          data-active={active}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 10,
+                            fontFamily: "var(--font-body)",
+                            fontSize: 16,
+                            fontWeight: 500,
+                            color: active
+                              ? "var(--szz-text-primary)"
+                              : "var(--szz-text-muted)",
+                            padding: "10px 0",
+                          }}
+                        >
+                          {it.Icon && (
+                            <it.Icon
+                              size={18}
+                              style={{
+                                flexShrink: 0,
+                                color: "var(--szz-accent-blue)",
+                              }}
+                            />
+                          )}
+                          {it.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          const active =
+            link.href === "/"
+              ? pathname === "/"
+              : pathname.startsWith(link.href);
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={onClose}
+              className="szz-nav-link"
+              data-active={active}
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: 20,
+                fontWeight: 600,
+                color: active
+                  ? "var(--szz-text-primary)"
+                  : "var(--szz-text-muted)",
+                padding: "12px 0",
+              }}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* actions */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+          marginTop: 32,
+          paddingTop: 24,
+          borderTop: "1px solid var(--szz-border-subtle)",
+        }}
+      >
+        <Link
+          href="/login"
+          onClick={onClose}
+          style={{
+            fontFamily: "var(--font-body)",
+            fontSize: 16,
+            fontWeight: 500,
+            color: "var(--szz-text-primary)",
+          }}
+        >
+          Log In
+        </Link>
+        <Button
+          asChild
+          variant="primary"
+          size="md"
+          style={{ width: "100%", justifyContent: "center" }}
+        >
+          <Link href="/register" onClick={onClose}>
+            Get Started
+          </Link>
+        </Button>
+        <ThemeToggle />
+      </div>
     </div>
   );
 }
