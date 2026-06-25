@@ -21,6 +21,7 @@ const COLUMNS: FooterMenu[][] = [
         { label: "Shared", href: "/hosting", indent: true },
         { label: "WordPress", href: "/hosting/wordpress", indent: true },
         { label: "VPS", href: "/vps" },
+        { label: "Dedicated", href: "/dedicated" },
         { label: "Domains", href: "/domains" },
       ],
     },

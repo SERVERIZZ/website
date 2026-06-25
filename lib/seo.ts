@@ -141,6 +141,24 @@ export const PAGE_SEO: PageSeo[] = [
     priority: 0.9,
   },
   {
+    path: "/dedicated",
+    name: "Dedicated Servers",
+    title: "Dedicated Servers — Managed Single-Tenant Bare Metal",
+    description:
+      "Fully-managed dedicated servers — single-tenant bare metal with dedicated cores, NVMe-class storage, full root access and a guided migration. METAL plans from $279/mo, hardened and monitored by our team.",
+    targetKeyword: "managed dedicated servers",
+    cluster: [
+      "bare metal hosting",
+      "single-tenant server",
+      "managed dedicated hosting",
+      "dedicated server with cPanel",
+    ],
+    jsonLd: "Service",
+    serviceType: "Dedicated server hosting",
+    changeFrequency: "monthly",
+    priority: 0.9,
+  },
+  {
     path: "/domains",
     name: "Domains",
     title: "Domains",

@@ -48,6 +48,7 @@ const NAV_LINKS: NavEntry[] = [
     ],
   },
   { href: "/vps", label: "VPS" },
+  { href: "/dedicated", label: "Dedicated" },
   { href: "/domains", label: "Domains" },
   { href: "/support", label: "Support" },
 ];
