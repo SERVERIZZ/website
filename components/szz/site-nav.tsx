@@ -228,11 +228,41 @@ function MobileNav({
   }, [open]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
+  const overlayRef = React.useRef<HTMLDivElement>(null);
+  const closeBtnRef = React.useRef<HTMLButtonElement>(null);
+
+  React.useEffect(() => {
+    if (!open) return;
+    const prevFocused = document.activeElement as HTMLElement | null;
+    closeBtnRef.current?.focus();
+    return () => {
+      prevFocused?.focus();
+    };
+  }, [open]);
+
   // Escape closes the overlay; body scroll is locked while it is open.
   React.useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key === "Tab" && overlayRef.current) {
+        const focusables = overlayRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     document.addEventListener("keydown", onKey);
     const prevOverflow = document.body.style.overflow;
@@ -247,7 +277,11 @@ function MobileNav({
 
   return (
     <div
+      ref={overlayRef}
       id="mobile-nav"
+      role="dialog"
+      aria-modal={true}
+      aria-label="Site menu"
       style={{
         position: "fixed",
         inset: 0,
@@ -275,6 +309,7 @@ function MobileNav({
           <TerminalLogo size={24} />
         </Link>
         <button
+          ref={closeBtnRef}
           type="button"
           aria-label="Close menu"
           onClick={onClose}
@@ -313,6 +348,7 @@ function MobileNav({
                 <button
                   type="button"
                   aria-expanded={hostingOpen}
+                  aria-controls="mobile-nav-hosting"
                   onClick={() => setHostingOpen((v) => !v)}
                   style={{
                     display: "inline-flex",
@@ -339,6 +375,7 @@ function MobileNav({
                 </button>
                 {hostingOpen && (
                   <div
+                    id="mobile-nav-hosting"
                     style={{
                       display: "flex",
                       flexDirection: "column",
