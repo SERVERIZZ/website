@@ -383,6 +383,16 @@ html[data-theme="light"] .szz-btn--ghost:hover { --_fg: var(--szz-text-primary);
 /* Nav + footer link hovers (muted → primary) */
 .szz-nav-link { transition: color var(--duration-fast) var(--ease-standard); }
 .szz-nav-link:hover { color: var(--szz-text-primary) !important; }
+
+/* ---------- Responsive nav (mobile menu) ---------- */
+.szz-nav-desktop { display: flex; }
+.szz-nav-mobile { display: none; }
+@media (max-width: 900px) {
+  .szz-nav-desktop { display: none !important; }
+  .szz-nav-mobile { display: flex !important; }
+  .szz-nav--mobile-pad { padding: 12px 20px !important; }
+}
+
 .szz-foot-link {
   text-align: left;
   background: none;
