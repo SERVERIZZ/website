@@ -460,6 +460,7 @@ function MobileNav({
 export function SiteNav() {
   const pathname = usePathname();
   const maintenance = useMaintenanceStatus();
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (
     <div
@@ -528,6 +529,7 @@ export function SiteNav() {
 
       {/* main nav */}
       <nav
+        className="szz-nav--mobile-pad"
         style={{
           display: "flex",
           alignItems: "center",
@@ -547,7 +549,7 @@ export function SiteNav() {
           <TerminalLogo size={24} />
         </Link>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+        <div className="szz-nav-desktop" style={{ alignItems: "center", gap: 4 }}>
           {NAV_LINKS.map((link) =>
             "items" in link ? (
               <NavDropdown
@@ -571,7 +573,7 @@ export function SiteNav() {
           )}
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div className="szz-nav-desktop" style={{ alignItems: "center", gap: 16 }}>
           <Link
             href="/login"
             style={{
@@ -588,7 +590,39 @@ export function SiteNav() {
           </Button>
           <ThemeToggle />
         </div>
+
+        <div className="szz-nav-mobile" style={{ alignItems: "center", gap: 12 }}>
+          <Button asChild variant="primary" size="sm">
+            <Link href="/register">Get Started</Link>
+          </Button>
+          <button
+            type="button"
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMenuOpen(true)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 40,
+              height: 40,
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+              color: "var(--szz-text-primary)",
+            }}
+          >
+            <Menu size={24} />
+          </button>
+        </div>
       </nav>
+
+      <MobileNav
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        pathname={pathname}
+      />
     </div>
   );
 }
