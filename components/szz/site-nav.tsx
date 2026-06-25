@@ -212,6 +212,8 @@ function NavDropdown({
   );
 }
 
+const MOBILE_NAV_ANIM_MS = 200;
+
 function MobileNav({
   open,
   onClose,
@@ -232,14 +234,51 @@ function MobileNav({
   const overlayRef = React.useRef<HTMLDivElement>(null);
   const closeBtnRef = React.useRef<HTMLButtonElement>(null);
 
+  // Enter/exit animation. `mounted` keeps the overlay in the DOM through its
+  // exit fade; `visible` drives the open vs closed styles. `reduceMotion`
+  // drops the slide (keeping only a fade) for users who ask for less motion.
+  const [mounted, setMounted] = React.useState(open);
+  const [visible, setVisible] = React.useState(open);
+  const [reduceMotion, setReduceMotion] = React.useState(false);
+
+  /* eslint-disable react-hooks/set-state-in-effect */
   React.useEffect(() => {
-    if (!open) return;
+    setReduceMotion(
+      typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    );
+  }, []);
+
+  React.useEffect(() => {
+    if (open) {
+      setMounted(true);
+      // Two rAFs so the closed styles paint before flipping to visible —
+      // otherwise the browser skips the opening transition.
+      let raf2 = 0;
+      const raf1 = requestAnimationFrame(() => {
+        raf2 = requestAnimationFrame(() => setVisible(true));
+      });
+      return () => {
+        cancelAnimationFrame(raf1);
+        cancelAnimationFrame(raf2);
+      };
+    }
+    setVisible(false);
+    const t = setTimeout(() => setMounted(false), MOBILE_NAV_ANIM_MS);
+    return () => clearTimeout(t);
+  }, [open]);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  // Move focus into the overlay once it has actually mounted; restore focus
+  // to the trigger when it closes.
+  React.useEffect(() => {
+    if (!open || !mounted) return;
     const prevFocused = document.activeElement as HTMLElement | null;
     closeBtnRef.current?.focus();
     return () => {
       prevFocused?.focus();
     };
-  }, [open]);
+  }, [open, mounted]);
 
   // Escape closes the overlay; body scroll is locked while it is open.
   React.useEffect(() => {
@@ -274,7 +313,7 @@ function MobileNav({
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!mounted) return null;
 
   // Rendered through a portal to document.body: the sticky nav wrapper sets
   // backdrop-filter, which makes it the containing block for fixed-position
@@ -296,6 +335,13 @@ function MobileNav({
         flexDirection: "column",
         padding: "16px 20px 32px",
         overflowY: "auto",
+        opacity: visible ? 1 : 0,
+        transform:
+          reduceMotion || visible ? "translateY(0)" : "translateY(-8px)",
+        transition: reduceMotion
+          ? `opacity ${MOBILE_NAV_ANIM_MS}ms var(--ease-standard, ease)`
+          : `opacity ${MOBILE_NAV_ANIM_MS}ms var(--ease-standard, ease), transform ${MOBILE_NAV_ANIM_MS}ms var(--ease-standard, ease)`,
+        willChange: "opacity, transform",
       }}
     >
       {/* top row: logo + close */}
