@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, Globe, LayoutTemplate, type LucideIcon } from "lucide-react";
+import { ChevronDown, Globe, LayoutTemplate, Menu, X, type LucideIcon } from "lucide-react";
 import { TerminalLogo } from "@/components/szz/terminal-logo";
 import { ThemeToggle } from "@/components/szz/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -211,9 +212,344 @@ function NavDropdown({
   );
 }
 
+const MOBILE_NAV_ANIM_MS = 200;
+
+function MobileNav({
+  open,
+  onClose,
+  pathname,
+}: {
+  open: boolean;
+  onClose: () => void;
+  pathname: string;
+}) {
+  const [hostingOpen, setHostingOpen] = React.useState(false);
+
+  /* eslint-disable react-hooks/set-state-in-effect */
+  React.useEffect(() => {
+    if (!open) setHostingOpen(false);
+  }, [open]);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  const overlayRef = React.useRef<HTMLDivElement>(null);
+  const closeBtnRef = React.useRef<HTMLButtonElement>(null);
+
+  // Enter/exit animation. `mounted` keeps the overlay in the DOM through its
+  // exit fade; `visible` drives the open vs closed styles. `reduceMotion`
+  // drops the slide (keeping only a fade) for users who ask for less motion.
+  const [mounted, setMounted] = React.useState(open);
+  const [visible, setVisible] = React.useState(open);
+  const [reduceMotion, setReduceMotion] = React.useState(false);
+
+  /* eslint-disable react-hooks/set-state-in-effect */
+  React.useEffect(() => {
+    setReduceMotion(
+      typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    );
+  }, []);
+
+  React.useEffect(() => {
+    if (open) {
+      setMounted(true);
+      // Two rAFs so the closed styles paint before flipping to visible —
+      // otherwise the browser skips the opening transition.
+      let raf2 = 0;
+      const raf1 = requestAnimationFrame(() => {
+        raf2 = requestAnimationFrame(() => setVisible(true));
+      });
+      return () => {
+        cancelAnimationFrame(raf1);
+        cancelAnimationFrame(raf2);
+      };
+    }
+    setVisible(false);
+    const t = setTimeout(() => setMounted(false), MOBILE_NAV_ANIM_MS);
+    return () => clearTimeout(t);
+  }, [open]);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  // Move focus into the overlay once it has actually mounted; restore focus
+  // to the trigger when it closes.
+  React.useEffect(() => {
+    if (!open || !mounted) return;
+    const prevFocused = document.activeElement as HTMLElement | null;
+    closeBtnRef.current?.focus();
+    return () => {
+      prevFocused?.focus();
+    };
+  }, [open, mounted]);
+
+  // Escape closes the overlay; body scroll is locked while it is open.
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key === "Tab" && overlayRef.current) {
+        const focusables = overlayRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open, onClose]);
+
+  if (!mounted) return null;
+
+  // Rendered through a portal to document.body: the sticky nav wrapper sets
+  // backdrop-filter, which makes it the containing block for fixed-position
+  // descendants — that would clamp this overlay to the nav's box instead of
+  // the viewport. Portaling escapes that ancestor entirely.
+  return createPortal(
+    <div
+      ref={overlayRef}
+      id="mobile-nav"
+      role="dialog"
+      aria-modal={true}
+      aria-label="Site menu"
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 100,
+        background: "var(--szz-bg-deep)",
+        display: "flex",
+        flexDirection: "column",
+        padding: "16px 20px 32px",
+        overflowY: "auto",
+        opacity: visible ? 1 : 0,
+        transform:
+          reduceMotion || visible ? "translateY(0)" : "translateY(-8px)",
+        transition: reduceMotion
+          ? `opacity ${MOBILE_NAV_ANIM_MS}ms var(--ease-standard, ease)`
+          : `opacity ${MOBILE_NAV_ANIM_MS}ms var(--ease-standard, ease), transform ${MOBILE_NAV_ANIM_MS}ms var(--ease-standard, ease)`,
+        willChange: "opacity, transform",
+      }}
+    >
+      {/* top row: logo + close */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Link
+          href="/"
+          onClick={onClose}
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <TerminalLogo size={24} />
+        </Link>
+        <button
+          ref={closeBtnRef}
+          type="button"
+          aria-label="Close menu"
+          onClick={onClose}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 40,
+            height: 40,
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            color: "var(--szz-text-primary)",
+          }}
+        >
+          <X size={24} />
+        </button>
+      </div>
+
+      {/* links */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          marginTop: 24,
+        }}
+      >
+        {NAV_LINKS.map((link) => {
+          if ("items" in link) {
+            return (
+              <div
+                key={link.label}
+                style={{ display: "flex", flexDirection: "column" }}
+              >
+                <button
+                  type="button"
+                  aria-expanded={hostingOpen}
+                  aria-controls="mobile-nav-hosting"
+                  onClick={() => setHostingOpen((v) => !v)}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    background: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    fontFamily: "var(--font-body)",
+                    fontSize: 20,
+                    fontWeight: 600,
+                    color: "var(--szz-text-primary)",
+                    padding: "12px 0",
+                  }}
+                >
+                  {link.label}
+                  <ChevronDown
+                    size={20}
+                    style={{
+                      transform: hostingOpen ? "rotate(180deg)" : "none",
+                      transition: "transform .15s ease",
+                    }}
+                  />
+                </button>
+                {hostingOpen && (
+                  <div
+                    id="mobile-nav-hosting"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 2,
+                      paddingLeft: 16,
+                      paddingBottom: 8,
+                    }}
+                  >
+                    {link.items.map((it) => {
+                      const active =
+                        it.href === "/hosting"
+                          ? pathname === "/hosting"
+                          : pathname.startsWith(it.href);
+                      return (
+                        <Link
+                          key={it.href}
+                          href={it.href}
+                          onClick={onClose}
+                          className="szz-nav-link"
+                          data-active={active}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 10,
+                            fontFamily: "var(--font-body)",
+                            fontSize: 16,
+                            fontWeight: 500,
+                            color: active
+                              ? "var(--szz-text-primary)"
+                              : "var(--szz-text-muted)",
+                            padding: "10px 0",
+                          }}
+                        >
+                          {it.Icon && (
+                            <it.Icon
+                              size={18}
+                              style={{
+                                flexShrink: 0,
+                                color: "var(--szz-accent-blue)",
+                              }}
+                            />
+                          )}
+                          {it.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          const active =
+            link.href === "/"
+              ? pathname === "/"
+              : pathname.startsWith(link.href);
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={onClose}
+              className="szz-nav-link"
+              data-active={active}
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: 20,
+                fontWeight: 600,
+                color: active
+                  ? "var(--szz-text-primary)"
+                  : "var(--szz-text-muted)",
+                padding: "12px 0",
+              }}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* actions */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+          marginTop: 32,
+          paddingTop: 24,
+          borderTop: "1px solid var(--szz-border-subtle)",
+        }}
+      >
+        <Link
+          href="/login"
+          onClick={onClose}
+          style={{
+            fontFamily: "var(--font-body)",
+            fontSize: 16,
+            fontWeight: 500,
+            color: "var(--szz-text-primary)",
+          }}
+        >
+          Log In
+        </Link>
+        <Button
+          asChild
+          variant="primary"
+          size="md"
+          style={{ width: "100%", justifyContent: "center" }}
+        >
+          <Link href="/register" onClick={onClose}>
+            Get Started
+          </Link>
+        </Button>
+        <ThemeToggle />
+      </div>
+    </div>,
+    document.body
+  );
+}
+
 export function SiteNav() {
   const pathname = usePathname();
   const maintenance = useMaintenanceStatus();
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (
     <div
@@ -282,6 +618,7 @@ export function SiteNav() {
 
       {/* main nav */}
       <nav
+        className="szz-nav--mobile-pad"
         style={{
           display: "flex",
           alignItems: "center",
@@ -301,7 +638,7 @@ export function SiteNav() {
           <TerminalLogo size={24} />
         </Link>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+        <div className="szz-nav-desktop" style={{ alignItems: "center", gap: 4 }}>
           {NAV_LINKS.map((link) =>
             "items" in link ? (
               <NavDropdown
@@ -325,7 +662,7 @@ export function SiteNav() {
           )}
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div className="szz-nav-desktop" style={{ alignItems: "center", gap: 16 }}>
           <Link
             href="/login"
             style={{
@@ -342,7 +679,39 @@ export function SiteNav() {
           </Button>
           <ThemeToggle />
         </div>
+
+        <div className="szz-nav-mobile" style={{ alignItems: "center", gap: 12 }}>
+          <Button asChild variant="primary" size="sm">
+            <Link href="/register">Get Started</Link>
+          </Button>
+          <button
+            type="button"
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMenuOpen(true)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 40,
+              height: 40,
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+              color: "var(--szz-text-primary)",
+            }}
+          >
+            <Menu size={24} />
+          </button>
+        </div>
       </nav>
+
+      <MobileNav
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        pathname={pathname}
+      />
     </div>
   );
 }
