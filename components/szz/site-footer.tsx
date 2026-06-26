@@ -5,6 +5,7 @@ import { PaymentMarks } from "@/components/szz/payment-marks";
 import { SocialLinks } from "@/components/szz/social-links";
 import { ImpactBadges } from "@/components/szz/impact-badges";
 import { LEGAL_DOCS } from "@/lib/legal";
+import { ORG } from "@/lib/seo";
 
 type FooterMenu = {
   heading: string;
@@ -23,8 +24,8 @@ const COLUMNS: FooterMenu[][] = [
         { label: "VPS", href: "/vps" },
         { label: "Dedicated", href: "/dedicated" },
         { label: "Domains", href: "/domains" },
-      ],
         { label: "Web & Software", href: "/services/web-development" },
+      ],
     },
   ],
   [
@@ -99,17 +100,25 @@ export function SiteFooter() {
           </span>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <a
-              href="mailto:howdy@serverizz.com"
+              href={`mailto:${ORG.email}`}
               style={{ fontSize: 13, color: "var(--szz-text-muted)" }}
             >
-              howdy@serverizz.com
+              {ORG.email}
             </a>
+            <a
+              href={`tel:${ORG.phone}`}
+              style={{ fontSize: 13, color: "var(--szz-text-muted)" }}
+            >
+              {ORG.phoneDisplay}
+            </a>
+            <span style={{ fontSize: 13, color: "var(--szz-text-muted)" }}>
+              {ORG.faxDisplay} fax
+            </span>
             <span style={{ fontSize: 13, lineHeight: 1.6, color: "var(--szz-text-dim)" }}>
-              1606 Headway Circle
+              {ORG.address.streetAddress}
               <br />
-              Suite 9317
-              <br />
-              Austin, TX 78754
+              {ORG.address.addressLocality}, {ORG.address.addressRegion}{" "}
+              {ORG.address.postalCode}
             </span>
           </div>
           <SocialLinks />

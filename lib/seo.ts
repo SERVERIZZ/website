@@ -35,6 +35,10 @@ export const ORG = {
   phone: "+15128597520",
   /** Human-readable phone for display in the footer. */
   phoneDisplay: "+1 (512) 859-7520",
+  /** E.164 for tel: links and JSON-LD faxNumber fields. */
+  fax: "+17373578187",
+  /** Human-readable fax for display in the footer. */
+  faxDisplay: "+1 (737) 357-8187",
   address: {
     streetAddress: "1606 Headway Circle, Suite 9317",
     addressLocality: "Austin",
@@ -159,10 +163,6 @@ export const PAGE_SEO: PageSeo[] = [
     priority: 0.9,
   },
   {
-    path: "/domains",
-    name: "Domains",
-    title: "Domains",
-  {
     path: "/services/web-development",
     name: "Web & Software",
     title: "Web & Software Development — Sites, Apps & Care Plans",
@@ -180,6 +180,10 @@ export const PAGE_SEO: PageSeo[] = [
     changeFrequency: "monthly",
     priority: 0.8,
   },
+  {
+    path: "/domains",
+    name: "Domains",
+    title: "Domains",
     description:
       "Search 400+ extensions, register in seconds and point it at your SERVERIZZ site automatically. Free WHOIS privacy on every domain.",
     targetKeyword: "domain registration",
@@ -402,6 +406,7 @@ export function localBusinessJsonLd(): Record<string, unknown> {
     url: SITE_URL,
     email: ORG.email,
     telephone: ORG.phone,
+    faxNumber: ORG.fax,
     image: OG_IMAGE_URL,
     address: { "@type": "PostalAddress", ...ORG.address },
     areaServed: [...AREA_SERVED],
