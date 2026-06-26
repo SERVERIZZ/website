@@ -4,7 +4,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, CodeXml, Globe, LayoutTemplate, Menu, X, type LucideIcon } from "lucide-react";
+import { ChevronDown, CodeXml, Globe, LayoutTemplate, Menu, TrendingUp, X, type LucideIcon } from "lucide-react";
 import { TerminalLogo } from "@/components/szz/terminal-logo";
 import { ThemeToggle } from "@/components/szz/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -52,7 +52,10 @@ const NAV_LINKS: NavEntry[] = [
   { href: "/domains", label: "Domains" },
   {
     label: "Services",
-    items: [{ href: "/services/web-development", label: "Web & Software", Icon: CodeXml }],
+    items: [
+      { href: "/services/web-development", label: "Web & Software", Icon: CodeXml },
+      { href: "/services/seo", label: "SEO", Icon: TrendingUp },
+    ],
   },
   { href: "/support", label: "Support" },
 ];

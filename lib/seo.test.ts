@@ -30,6 +30,15 @@ describe("PAGE_SEO registry", () => {
     expect(seoFor("/hosting/wordpress").title).toMatch(/WordPress/i);
   });
 
+  it("registers the SEO services page as a Service", () => {
+    const seo = seoFor("/services/seo");
+    expect(seo.name).toBe("SEO");
+    expect(seo.title).toMatch(/SEO/i);
+    expect(seo.jsonLd).toBe("Service");
+    const data = serviceJsonLd("/services/seo");
+    expect(data.serviceType).toBe("Search engine optimization");
+  });
+
   it("home description mentions managed cPanel hosting and Austin", () => {
     expect(seoFor("/").description).toMatch(/cPanel/i);
     expect(seoFor("/").description).toMatch(/Austin/i);

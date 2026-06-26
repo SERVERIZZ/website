@@ -33,6 +33,7 @@ const COLUMNS: FooterMenu[][] = [
       heading: "SERVICES",
       links: [
         { label: "Web & Software", href: "/services/web-development" },
+        { label: "SEO", href: "/services/seo" },
       ],
     },
     {
