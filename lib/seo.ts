@@ -162,6 +162,24 @@ export const PAGE_SEO: PageSeo[] = [
     path: "/domains",
     name: "Domains",
     title: "Domains",
+  {
+    path: "/services/web-development",
+    name: "Web & Software",
+    title: "Web & Software Development — Sites, Apps & Care Plans",
+    description:
+      "Custom websites, WordPress/CMS builds and bespoke web applications — designed, built and hosted by one managed team. Fixed-scope launch packages, milestone-based app builds and ongoing care plans on our own infrastructure.",
+    targetKeyword: "web development and hosting",
+    cluster: [
+      "custom website development",
+      "WordPress development agency",
+      "custom web application development",
+      "website care plans",
+    ],
+    jsonLd: "Service",
+    serviceType: "Web development",
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
     description:
       "Search 400+ extensions, register in seconds and point it at your SERVERIZZ site automatically. Free WHOIS privacy on every domain.",
     targetKeyword: "domain registration",

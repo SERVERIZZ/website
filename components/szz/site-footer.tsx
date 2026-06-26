@@ -24,6 +24,7 @@ const COLUMNS: FooterMenu[][] = [
         { label: "Dedicated", href: "/dedicated" },
         { label: "Domains", href: "/domains" },
       ],
+        { label: "Web & Software", href: "/services/web-development" },
     },
   ],
   [
