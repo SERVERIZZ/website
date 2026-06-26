@@ -129,7 +129,7 @@ function NavDropdown({
           position: "relative",
           display: "inline-flex",
           alignItems: "center",
-          gap: 4,
+          gap: 5,
           background: "transparent",
           border: "none",
           cursor: "pointer",
@@ -142,7 +142,8 @@ function NavDropdown({
       >
         {label}
         <ChevronDown
-          size={14}
+          size={13}
+          strokeWidth={2.5}
           style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform .15s ease" }}
         />
         {groupActive && (
@@ -162,19 +163,19 @@ function NavDropdown({
       {open && (
         <div
           role="menu"
-          style={{ position: "absolute", top: "100%", left: 0, paddingTop: 6, zIndex: 60 }}
+          style={{ position: "absolute", top: "100%", left: 0, paddingTop: 10, zIndex: 60 }}
         >
           <div
             style={{
-              minWidth: 180,
+              minWidth: 230,
               display: "flex",
               flexDirection: "column",
               gap: 2,
-              padding: 6,
-              borderRadius: 10,
+              padding: 8,
+              borderRadius: 12,
               background: "var(--szz-bg-card)",
-              border: "1px solid var(--szz-border-subtle)",
-              boxShadow: "0 12px 32px rgba(0,0,0,.18)",
+              border: "1px solid var(--szz-border)",
+              boxShadow: "var(--shadow-glow-blue)",
             }}
           >
             {items.map((it) => {
@@ -184,24 +185,25 @@ function NavDropdown({
                   key={it.href}
                   href={it.href}
                   role="menuitem"
-                  className="szz-nav-link"
+                  className="szz-nav-link szz-nav-dd-item"
                   data-active={active}
                   onClick={() => setOpen(false)}
                   style={{
-                    display: "inline-flex",
+                    display: "flex",
+                    width: "100%",
                     alignItems: "center",
-                    gap: 10,
+                    gap: 12,
                     fontFamily: "var(--font-body)",
                     fontSize: 14,
                     fontWeight: 500,
                     color: active ? "var(--szz-text-primary)" : "var(--szz-text-muted)",
-                    padding: "8px 10px",
-                    borderRadius: 6,
+                    padding: "10px 12px",
+                    borderRadius: 8,
                   }}
                 >
                   {it.Icon && (
                     <it.Icon
-                      size={16}
+                      size={18}
                       style={{ flexShrink: 0, color: "var(--szz-accent-blue)" }}
                     />
                   )}

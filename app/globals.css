@@ -413,6 +413,10 @@ html[data-theme="light"] .szz-btn--ghost:hover { --_fg: var(--szz-text-primary);
 .szz-nav-link { transition: color var(--duration-fast) var(--ease-standard); }
 .szz-nav-link:hover { color: var(--szz-text-primary) !important; }
 
+/* Dropdown menu items: fill with the raised surface on hover */
+.szz-nav-dd-item { transition: background var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+.szz-nav-dd-item:hover { background: var(--szz-bg-raised); }
+
 /* ---------- Responsive nav (mobile menu) ---------- */
 .szz-nav-desktop { display: flex; }
 .szz-nav-mobile { display: none; }

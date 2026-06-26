@@ -1,5 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
+import { Mail, Phone, Printer, MapPin } from "lucide-react";
 import { TerminalLogo } from "@/components/szz/terminal-logo";
 import { PaymentMarks } from "@/components/szz/payment-marks";
 import { SocialLinks } from "@/components/szz/social-links";
@@ -98,27 +99,55 @@ export function SiteFooter() {
           <span style={{ fontSize: 13, fontStyle: "italic", color: "var(--szz-text-dim)" }}>
             ship infrastructure. ship software. ship brands.
           </span>
-          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <a
               href={`mailto:${ORG.email}`}
-              style={{ fontSize: 13, color: "var(--szz-text-muted)" }}
+              className="szz-foot-link"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
             >
+              <Mail size={15} style={{ flexShrink: 0, color: "var(--szz-accent-blue)" }} />
               {ORG.email}
             </a>
             <a
               href={`tel:${ORG.phone}`}
-              style={{ fontSize: 13, color: "var(--szz-text-muted)" }}
+              className="szz-foot-link"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
             >
+              <Phone size={15} style={{ flexShrink: 0, color: "var(--szz-accent-blue)" }} />
               {ORG.phoneDisplay}
             </a>
-            <span style={{ fontSize: 13, color: "var(--szz-text-muted)" }}>
-              {ORG.faxDisplay} fax
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                fontSize: 13,
+                color: "var(--szz-text-muted)",
+              }}
+            >
+              <Printer size={15} style={{ flexShrink: 0, color: "var(--szz-accent-blue)" }} />
+              {ORG.faxDisplay} <span style={{ color: "var(--szz-text-dim)" }}>fax</span>
             </span>
-            <span style={{ fontSize: 13, lineHeight: 1.6, color: "var(--szz-text-dim)" }}>
-              {ORG.address.streetAddress}
-              <br />
-              {ORG.address.addressLocality}, {ORG.address.addressRegion}{" "}
-              {ORG.address.postalCode}
+            <span
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 8,
+                fontSize: 13,
+                lineHeight: 1.6,
+                color: "var(--szz-text-dim)",
+              }}
+            >
+              <MapPin
+                size={15}
+                style={{ flexShrink: 0, marginTop: 3, color: "var(--szz-accent-blue)" }}
+              />
+              <span>
+                {ORG.address.streetAddress}
+                <br />
+                {ORG.address.addressLocality}, {ORG.address.addressRegion}{" "}
+                {ORG.address.postalCode}
+              </span>
             </span>
           </div>
           <SocialLinks />
