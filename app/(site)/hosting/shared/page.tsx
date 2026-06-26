@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { PlanPricing } from "@/components/szz/plan-pricing";
 import { breadcrumbTrail, pageMetadataFor, serviceJsonLd } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadataFor("/hosting");
+export const metadata: Metadata = pageMetadataFor("/hosting/shared");
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
@@ -88,11 +88,11 @@ const cell = { padding: "14px 20px" } as const;
 export default function HostingPage() {
   return (
     <div>
-      <BreadcrumbJsonLd items={breadcrumbTrail("Hosting plans", "/hosting")} />
+      <BreadcrumbJsonLd items={breadcrumbTrail("Shared hosting plans", "/hosting/shared")} />
       <JsonLdScript
         id="hosting-service-jsonld"
         scriptKey="hosting-service-jsonld"
-        data={serviceJsonLd("/hosting")}
+        data={serviceJsonLd("/hosting/shared")}
       />
       {/* hero */}
       <section

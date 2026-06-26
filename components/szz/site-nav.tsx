@@ -43,7 +43,7 @@ const NAV_LINKS: NavEntry[] = [
   {
     label: "Hosting",
     items: [
-      { href: "/hosting", label: "Shared", Icon: Globe },
+      { href: "/hosting/shared", label: "Shared", Icon: Globe },
       { href: "/hosting/wordpress", label: "WordPress", Icon: LayoutTemplate },
     ],
   },
@@ -174,8 +174,7 @@ function NavDropdown({
             }}
           >
             {items.map((it) => {
-              const active =
-                it.href === "/hosting" ? pathname === "/hosting" : pathname.startsWith(it.href);
+              const active = pathname.startsWith(it.href);
               return (
                 <Link
                   key={it.href}
@@ -437,10 +436,7 @@ function MobileNav({
                     }}
                   >
                     {link.items.map((it) => {
-                      const active =
-                        it.href === "/hosting"
-                          ? pathname === "/hosting"
-                          : pathname.startsWith(it.href);
+                      const active = pathname.startsWith(it.href);
                       return (
                         <Link
                           key={it.href}

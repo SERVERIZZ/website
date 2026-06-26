@@ -18,7 +18,7 @@ const COLUMNS: FooterMenu[][] = [
       heading: "PRODUCTS",
       links: [
         { label: "Hosting", header: true },
-        { label: "Shared", href: "/hosting", indent: true },
+        { label: "Shared", href: "/hosting/shared", indent: true },
         { label: "WordPress", href: "/hosting/wordpress", indent: true },
         { label: "VPS", href: "/vps" },
         { label: "Dedicated", href: "/dedicated" },

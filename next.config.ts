@@ -14,17 +14,23 @@ const nextConfig: NextConfig = {
     // wins) and before the filesystem. All 308 (permanent) for SEO.
     return [
       { source: "/wordpress", destination: "/hosting/wordpress", permanent: true },
-      { source: "/hosting/reseller", destination: "/hosting", permanent: true },
 
-      // Infrastructure / products (specific first, then catch-all -> /hosting)
+      // Shared hosting moved /hosting -> /hosting/shared. Exact match only, so
+      // /hosting/wordpress and /hosting/shared are not shadowed. All other
+      // shared-hosting targets below point straight at /hosting/shared to avoid
+      // redirect chains.
+      { source: "/hosting", destination: "/hosting/shared", permanent: true },
+      { source: "/hosting/reseller", destination: "/hosting/shared", permanent: true },
+
+      // Infrastructure / products (specific first, then catch-all -> /hosting/shared)
       { source: "/infrastructure/virtual-private-servers", destination: "/vps", permanent: true },
       { source: "/infrastructure/dedicated-servers", destination: "/dedicated", permanent: true },
-      { source: "/infrastructure/grid-hosting", destination: "/hosting", permanent: true },
-      { source: "/infrastructure/:path*", destination: "/hosting", permanent: true },
+      { source: "/infrastructure/grid-hosting", destination: "/hosting/shared", permanent: true },
+      { source: "/infrastructure/:path*", destination: "/hosting/shared", permanent: true },
       { source: "/server/vps-1-1-1", destination: "/vps", permanent: true },
       { source: "/virtual-machines", destination: "/vps", permanent: true },
-      { source: "/grid/:path*", destination: "/hosting", permanent: true },
-      { source: "/addon/:path*", destination: "/hosting", permanent: true },
+      { source: "/grid/:path*", destination: "/hosting/shared", permanent: true },
+      { source: "/addon/:path*", destination: "/hosting/shared", permanent: true },
 
       // Web design (discontinued -> contact/support)
       { source: "/service/web-design", destination: "/support", permanent: true },

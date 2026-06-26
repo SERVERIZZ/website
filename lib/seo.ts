@@ -91,8 +91,8 @@ export const PAGE_SEO: PageSeo[] = [
     priority: 1,
   },
   {
-    path: "/hosting",
-    name: "Hosting plans",
+    path: "/hosting/shared",
+    name: "Shared hosting plans",
     title: "Secure cPanel Hosting on CloudLinux + Imunify360",
     description:
       "Fully-managed cPanel hosting hardened with CloudLinux and Imunify360 — PHP Selector, CageFS isolation, Node.js and Python apps, daily backups and a dedicated account manager. Free migration.",

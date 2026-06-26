@@ -25,8 +25,8 @@ describe("PAGE_SEO registry", () => {
   });
 
   it("commercial titles carry their target keyword signal", () => {
-    expect(seoFor("/hosting").title).toMatch(/CloudLinux/i);
-    expect(seoFor("/hosting").title).toMatch(/Imunify360/i);
+    expect(seoFor("/hosting/shared").title).toMatch(/CloudLinux/i);
+    expect(seoFor("/hosting/shared").title).toMatch(/Imunify360/i);
     expect(seoFor("/hosting/wordpress").title).toMatch(/WordPress/i);
   });
 
@@ -56,8 +56,8 @@ describe("ROUTES", () => {
 
 describe("pageMetadataFor", () => {
   it("sets a self-referencing canonical and the registry title", () => {
-    const meta = pageMetadataFor("/hosting");
-    expect(meta.alternates?.canonical).toBe("/hosting");
+    const meta = pageMetadataFor("/hosting/shared");
+    expect(meta.alternates?.canonical).toBe("/hosting/shared");
     expect(meta.title).toBe("Secure cPanel Hosting on CloudLinux + Imunify360");
   });
   it("omits the title on the home page so the root default applies", () => {
@@ -75,7 +75,7 @@ describe("pageMetadataFor", () => {
 
 describe("serviceJsonLd", () => {
   it("builds a Service node for a hosting product page", () => {
-    const data = serviceJsonLd("/hosting");
+    const data = serviceJsonLd("/hosting/shared");
     expect(data["@type"]).toBe("Service");
     expect(data.serviceType).toBe("Web hosting");
     expect((data.provider as Record<string, unknown>).name).toBeDefined();

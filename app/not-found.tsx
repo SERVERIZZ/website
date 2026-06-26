@@ -12,7 +12,7 @@ const muted = "var(--szz-text-muted)";
 
 // Secondary "jump to" links under the CTAs, mirroring the design comp.
 const quickLinks = [
-  { href: "/hosting", label: "Hosting" },
+  { href: "/hosting/shared", label: "Hosting" },
   { href: "/domains", label: "Domains" },
   { href: "/blog", label: "Newsroom" },
   { href: "/support", label: "Support" },

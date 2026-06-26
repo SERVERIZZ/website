@@ -54,7 +54,7 @@ export default function WordPressPage() {
       />
       {/* breadcrumb */}
       <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)", marginBottom: 24 }}>
-        <Link href="/hosting" className="szz-link-accent" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)" }}>
+        <Link href="/hosting/shared" className="szz-link-accent" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--szz-text-dim)" }}>
           Plans
         </Link>{" "}
         / <span style={{ color: "var(--szz-accent-blue)" }}>WordPress Hosting</span>
@@ -131,7 +131,7 @@ export default function WordPressPage() {
               Tell us about your site and your account manager will point you to the right one.
             </p>
             <Button asChild variant="outline" size="lg">
-              <Link href="/hosting">Compare all plans →</Link>
+              <Link href="/hosting/shared">Compare all plans →</Link>
             </Button>
           </div>
         </Card>

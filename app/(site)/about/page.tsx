@@ -247,7 +247,7 @@ export default function AboutPage() {
         </p>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
           <Button asChild variant="primary" size="lg">
-            <Link href="/hosting">See plans</Link>
+            <Link href="/hosting/shared">See plans</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
             <Link href="/support">Say hello</Link>
