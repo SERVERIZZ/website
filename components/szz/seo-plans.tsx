@@ -109,6 +109,8 @@ export function SeoPlans() {
       {/* billing toggle (centered) */}
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div
+          role="group"
+          aria-label="Billing period"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -119,10 +121,10 @@ export function SeoPlans() {
             padding: 5,
           }}
         >
-          <button type="button" onClick={() => setBilling("monthly")} style={toggleBtn(!annual)}>
+          <button type="button" onClick={() => setBilling("monthly")} aria-pressed={!annual} style={toggleBtn(!annual)}>
             Monthly
           </button>
-          <button type="button" onClick={() => setBilling("annual")} style={toggleBtn(annual)}>
+          <button type="button" onClick={() => setBilling("annual")} aria-pressed={annual} style={toggleBtn(annual)}>
             Annual{" "}
             <span
               style={{
