@@ -181,6 +181,24 @@ export const PAGE_SEO: PageSeo[] = [
     priority: 0.8,
   },
   {
+    path: "/services/seo",
+    name: "SEO",
+    title: "Managed SEO Services — Technical SEO, Content & Local",
+    description:
+      "Managed SEO for small business — technical, content and local optimization handled for you, with clear monthly reporting and AI-search visibility in ChatGPT and Gemini. Start with a free audit.",
+    targetKeyword: "managed SEO services",
+    cluster: [
+      "local SEO",
+      "technical SEO",
+      "SEO content marketing",
+      "AI search optimization",
+    ],
+    jsonLd: "Service",
+    serviceType: "Search engine optimization",
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+  {
     path: "/domains",
     name: "Domains",
     title: "Domains",
