@@ -195,6 +195,47 @@ const carePlans: CarePlan[] = [
   },
 ];
 
+/** À la carte add-on services (two-column price list). */
+type AddOn = { label: string; price: string; green?: boolean };
+
+const addOns: AddOn[] = [
+  { label: "Logo & brand basics", price: "$1,500+" },
+  { label: "Copywriting / content", price: "$150/pg" },
+  { label: "Advanced SEO audit", price: "$1,500+" },
+  { label: "Accessibility (WCAG) pass", price: "$2,000+" },
+  { label: "Platform migration", price: "$750+" },
+  { label: "Additional language / locale", price: "$1,000+" },
+  { label: "Extra revision round", price: "$400+" },
+  { label: "Rush / expedited delivery", price: "+25–50%", green: true },
+];
+
+/** "How we work" process steps. */
+type Step = { num: string; title: string; body: string; green?: boolean };
+
+const steps: Step[] = [
+  {
+    num: "01",
+    title: "Scope",
+    body: "We agree exactly what's included — in writing — before a pixel moves.",
+  },
+  {
+    num: "02",
+    title: "Build",
+    body: "Design and development in approved milestones you sign off as we go.",
+  },
+  {
+    num: "03",
+    title: "Launch",
+    body: "We deploy to our managed infrastructure, test, and hand over the keys.",
+  },
+  {
+    num: "04",
+    title: "Care",
+    body: "A care plan keeps it secure, fast and improving — for the long haul.",
+    green: true,
+  },
+];
+
 const h2 = (children: ReactNode, max?: number) => (
   <h2
     style={{
@@ -507,8 +548,94 @@ export default function WebDevelopmentPage() {
         </div>
       </section>
 
+      {/* à la carte */}
+      <section style={{ padding: "20px 48px 60px" }}>
+        <div
+          style={{
+            maxWidth: 1080,
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: 14,
+          }}
+        >
+          <SectionEyebrow>À la carte</SectionEyebrow>
+          {h2("Add what you need")}
+          <div
+            className="szz-grid-2"
+            style={{ marginTop: 22, columnGap: 56, rowGap: 0, alignItems: "start" }}
+          >
+            {addOns.map((item) => (
+              <div
+                key={item.label}
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  justifyContent: "space-between",
+                  gap: 16,
+                  padding: "18px 2px",
+                  borderBottom: "1px solid var(--szz-border)",
+                }}
+              >
+                <span style={{ fontSize: 16, color: light }}>{item.label}</span>
+                <span
+                  style={{
+                    fontFamily: mono,
+                    fontSize: 15,
+                    fontWeight: 500,
+                    whiteSpace: "nowrap",
+                    color: item.green ? "var(--szz-green)" : "var(--szz-accent-blue)",
+                  }}
+                >
+                  {item.price}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* how we work */}
+      <section style={{ background: "var(--szz-bg-card)", padding: "80px 48px" }}>
+        <div
+          style={{
+            maxWidth: 1080,
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: 14,
+          }}
+        >
+          <SectionEyebrow>How we work</SectionEyebrow>
+          {h2("Clear scope. No surprises.")}
+          <div className="szz-grid-4" style={{ marginTop: 32, gap: 24, alignItems: "start" }}>
+            {steps.map((step) => (
+              <div
+                key={step.num}
+                style={{ display: "flex", flexDirection: "column", gap: 8 }}
+              >
+                <span
+                  style={{
+                    fontFamily: mono,
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: step.green ? "var(--szz-green)" : "var(--szz-accent-blue)",
+                  }}
+                >
+                  {step.num}
+                </span>
+                <span style={{ fontFamily: display, fontSize: 20, fontWeight: 700, color: primary }}>
+                  {step.title}
+                </span>
+                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: muted }}>{step.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section style={{ padding: "0 24px 90px" }}>
+      <section style={{ background: "var(--szz-bg-card)", padding: "0 24px 90px" }}>
         <div style={{ maxWidth: 1080, margin: "0 auto" }}>
           <Card glow>
             <div
