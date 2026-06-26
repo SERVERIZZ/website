@@ -12,15 +12,13 @@ import type { BadgeProps } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { breadcrumbTrail, pageMetadataFor } from "@/lib/seo";
 import { getSystemStatus, type SystemStatusLevel } from "@/lib/uptime-kuma";
+import { resolveTurnstileSiteKey } from "@/lib/turnstile";
 
 export const metadata: Metadata = pageMetadataFor("/support");
 
 const display = "var(--font-heading)";
 const muted = "var(--szz-text-muted)";
 const primary = "var(--szz-text-primary)";
-
-// Cloudflare's always-pass test site key — overridden by env in real environments.
-const TEST_SITE_KEY = "1x00000000000000000000AA";
 
 const channels: {
   Icon: LucideIcon;
@@ -65,7 +63,7 @@ export default async function SupportPage() {
     getSupportTicketTypes(),
     getSystemStatus(),
   ]);
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? TEST_SITE_KEY;
+  const siteKey = resolveTurnstileSiteKey(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
   const statusBadge = (
     <Badge variant={STATUS_VARIANT[status.level]} dot>
       {status.label}

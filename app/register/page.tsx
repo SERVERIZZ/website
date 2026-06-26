@@ -4,15 +4,13 @@ import { Rocket, BadgeCheck, UserRound, type LucideIcon } from "lucide-react";
 import { TerminalLogo } from "@/components/szz/terminal-logo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { RegisterForm } from "@/components/szz/register-form";
+import { resolveTurnstileSiteKey } from "@/lib/turnstile";
 
 export const metadata: Metadata = {
   title: "Get started",
   description: "Create your SERVERIZZ account — migration included.",
   alternates: { canonical: "/register" },
 };
-
-// Cloudflare's always-pass test site key — overridden by env in real environments.
-const TEST_SITE_KEY = "1x00000000000000000000AA";
 
 const features: { Icon: LucideIcon; color: string; text: string }[] = [
   { Icon: Rocket, color: "var(--szz-accent-blue)", text: "Free, hands-off migration" },
@@ -21,7 +19,7 @@ const features: { Icon: LucideIcon; color: string; text: string }[] = [
 ];
 
 export default function RegisterPage() {
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? TEST_SITE_KEY;
+  const siteKey = resolveTurnstileSiteKey(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "var(--szz-bg-deep)" }}>
       {/* left brand panel */}

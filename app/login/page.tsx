@@ -6,6 +6,7 @@ import { SectionEyebrow } from "@/components/szz/section-eyebrow";
 import { LoginForm } from "@/components/szz/login-form";
 import { buildLoginUrl, buildForgotPasswordUrl } from "@/lib/clientexec";
 import { isLoggedOut } from "@/lib/login";
+import { resolveTurnstileSiteKey } from "@/lib/turnstile";
 
 export const metadata: Metadata = {
   title: "Sign in",
@@ -13,9 +14,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
   alternates: { canonical: "/login" },
 };
-
-// Cloudflare's always-pass test site key — overridden by env in real environments.
-const TEST_SITE_KEY = "1x00000000000000000000AA";
 
 const features: { Icon: LucideIcon; color: string; text: string }[] = [
   { Icon: Gauge, color: "var(--szz-accent-blue)", text: "Real-time site health & uptime" },
@@ -29,7 +27,7 @@ export default async function LoginPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const loggedOut = isLoggedOut(await searchParams);
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? TEST_SITE_KEY;
+  const siteKey = resolveTurnstileSiteKey(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "var(--szz-bg-deep)" }}>
       {/* left brand panel */}
