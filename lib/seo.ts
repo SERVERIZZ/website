@@ -193,7 +193,7 @@ export const PAGE_SEO: PageSeo[] = [
     priority: 0.8,
   },
   {
-    path: "/ai-employees",
+    path: "/business-tools/ai-employees",
     name: "AI Employees",
     title: "AI Employees — Hire an AI Team for Your Business",
     description:

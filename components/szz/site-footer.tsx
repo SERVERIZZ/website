@@ -25,15 +25,20 @@ const COLUMNS: FooterMenu[][] = [
         { label: "VPS", href: "/vps" },
         { label: "Dedicated", href: "/dedicated" },
         { label: "Domains", href: "/domains" },
-        { label: "Web & Software", href: "/services/web-development" },
       ],
     },
   ],
   [
     {
+      heading: "SERVICES",
+      links: [
+        { label: "Web & Software", href: "/services/web-development" },
+      ],
+    },
+    {
       heading: "BUSINESS TOOLS",
       links: [
-        { label: "AI Employees", href: "/ai-employees" },
+        { label: "AI Employees", href: "/business-tools/ai-employees" },
       ],
     },
     {

@@ -15,6 +15,9 @@ const nextConfig: NextConfig = {
     return [
       { source: "/wordpress", destination: "/hosting/wordpress", permanent: true },
 
+      // AI Employees moved /ai-employees -> /business-tools/ai-employees.
+      { source: "/ai-employees", destination: "/business-tools/ai-employees", permanent: true },
+
       // Shared hosting moved /hosting -> /hosting/shared. Exact match only, so
       // /hosting/wordpress and /hosting/shared are not shadowed. All other
       // shared-hosting targets below point straight at /hosting/shared to avoid

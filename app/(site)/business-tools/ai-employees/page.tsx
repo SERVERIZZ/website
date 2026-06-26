@@ -29,7 +29,7 @@ import { Button } from "@/components/ui/button";
 import { aiTeamLines } from "@/lib/szz-data";
 import { breadcrumbTrail, pageMetadataFor } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadataFor("/ai-employees");
+export const metadata: Metadata = pageMetadataFor("/business-tools/ai-employees");
 
 const display = "var(--font-heading)";
 const mono = "var(--font-mono)";
@@ -93,7 +93,7 @@ const faqs: { q: string; a: string }[] = [
 export default function AiEmployeesPage() {
   return (
     <div>
-      <BreadcrumbJsonLd items={breadcrumbTrail("AI Employees", "/ai-employees")} />
+      <BreadcrumbJsonLd items={breadcrumbTrail("AI Employees", "/business-tools/ai-employees")} />
 
       {/* hero */}
       <section className="szz-section" style={{ padding: "72px 48px 60px" }}>
