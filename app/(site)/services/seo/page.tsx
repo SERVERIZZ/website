@@ -286,7 +286,7 @@ export default function SeoPage() {
       </section>
 
       {/* CTA */}
-      <section style={{ background: "var(--szz-bg-card)", padding: "0 24px 90px" }}>
+      <section style={{ padding: "0 24px 90px" }}>
         <div style={{ maxWidth: 1080, margin: "0 auto" }}>
           <Card glow>
             <div
