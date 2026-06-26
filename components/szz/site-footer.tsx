@@ -97,14 +97,16 @@ export function SiteFooter() {
             ship infrastructure. ship software. ship brands.
           </span>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-            <span style={{ fontSize: 13, color: "var(--szz-text-muted)" }}>
+            <a
+              href="mailto:howdy@serverizz.com"
+              style={{ fontSize: 13, color: "var(--szz-text-muted)" }}
+            >
               howdy@serverizz.com
-            </span>
-            <span style={{ fontSize: 13, color: "var(--szz-text-muted)" }}>
-              +1 (512) 859-7520
-            </span>
+            </a>
             <span style={{ fontSize: 13, lineHeight: 1.6, color: "var(--szz-text-dim)" }}>
-              1606 Headway Circle, Suite 9317
+              1606 Headway Circle
+              <br />
+              Suite 9317
               <br />
               Austin, TX 78754
             </span>
