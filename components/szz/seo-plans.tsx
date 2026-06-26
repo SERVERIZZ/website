@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +21,8 @@ type Tier = {
   monthly: string;
   annual: string;
   cta: string;
+  /** External order URL — opens in a new tab. */
+  href: string;
   bestFor: string;
   popular?: boolean;
   variant: "primary" | "secondary";
@@ -35,6 +36,7 @@ const tiers: Tier[] = [
     monthly: "169",
     annual: "149",
     cta: "Start with Foundation",
+    href: "https://go.serverizz.com/order.php?step=1&productGroup=7&product=593",
     bestFor: "Best for new sites & single local businesses.",
     variant: "secondary",
     features: [
@@ -51,6 +53,7 @@ const tiers: Tier[] = [
     monthly: "449",
     annual: "399",
     cta: "Choose Growth",
+    href: "https://go.serverizz.com/order.php?step=1&productGroup=7&product=594",
     bestFor: "Best for growing local & service businesses.",
     popular: true,
     variant: "primary",
@@ -68,6 +71,7 @@ const tiers: Tier[] = [
     monthly: "899",
     annual: "799",
     cta: "Choose Authority",
+    href: "https://go.serverizz.com/order.php?step=1&productGroup=7&product=595",
     bestFor: "Best for competitive niches & market leaders.",
     variant: "secondary",
     features: [
@@ -180,7 +184,9 @@ export function SeoPlans() {
                 {billNote}
               </span>
               <Button asChild variant={tier.variant} size="md" style={{ width: "100%" }}>
-                <Link href="/support">{tier.cta}</Link>
+                <a href={tier.href} target="_blank" rel="noopener noreferrer">
+                  {tier.cta}
+                </a>
               </Button>
               <div style={{ height: 1, background: "var(--szz-border)" }} />
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
