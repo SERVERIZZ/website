@@ -37,10 +37,6 @@ const textPrimary = "var(--szz-text-primary)";
 const textBody = "var(--szz-text-muted)";
 const textFaint = "var(--szz-text-faint)";
 
-// Fixed dark ink for text that always sits on a bright marker/sticker, where it
-// must stay dark regardless of the active theme.
-const ink = "#0B0E18";
-
 type Tile = { Icon: LucideIcon; title: string; body: string };
 
 const engineerFeatures: Tile[] = [
@@ -224,7 +220,7 @@ export default function EducationOfferPage() {
           >
             Your portfolio, hosted{" "}
             <HighlightSweep color="#FCD34D">
-              <span style={{ color: ink }}>75% off</span>
+              <span style={{ color: textPrimary }}>75% off</span>
             </HighlightSweep>{" "}
             all year.
           </h1>
@@ -297,7 +293,7 @@ export default function EducationOfferPage() {
             <h2 style={{ margin: "14px 0 12px", fontFamily: heading, fontWeight: 700, fontSize: "clamp(28px, 5vw, 36px)", letterSpacing: "-1px", color: textPrimary }}>
               Built for builders.{" "}
               <HighlightSweep color="#BBF7D0">
-                <span style={{ color: ink }}>75% off.</span>
+                <span style={{ color: textPrimary }}>75% off.</span>
               </HighlightSweep>
             </h2>
             <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: textBody }}>
