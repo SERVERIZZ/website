@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { EyeOff, Forward, Settings2, RefreshCcw } from "lucide-react";
 import { BreadcrumbJsonLd } from "next-seo";
 import { SectionEyebrow } from "@/components/szz/section-eyebrow";
@@ -100,12 +99,14 @@ export default async function DomainsPage() {
                   Already own a domain?
                 </h3>
                 <p style={{ margin: 0, fontSize: 15, color: muted }}>
-                  Transfer it in free, or just point it at your site — your account manager handles
+                  Transfer it in, or just point it at your site — your account manager handles
                   the DNS.
                 </p>
               </div>
               <Button asChild variant="primary" size="lg">
-                <Link href="/support">Transfer a domain</Link>
+                <a href="https://go.serverizz.com/order.php?step=1&productGroup=2" target="_blank" rel="noopener noreferrer">
+                  Transfer a domain
+                </a>
               </Button>
             </div>
           </Card>
