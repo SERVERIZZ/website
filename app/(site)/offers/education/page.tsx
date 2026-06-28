@@ -29,11 +29,17 @@ const heading = "var(--font-heading)";
 const body = "var(--font-body)";
 const mono = "var(--font-mono)";
 
+// Theme-reactive surface/text tokens — these flip with the light/dark toggle.
+const pageBg = "var(--szz-bg-deep)";
+const cardBg = "var(--szz-bg-card)";
+const border = "var(--szz-border)";
+const textPrimary = "var(--szz-text-primary)";
+const textBody = "var(--szz-text-muted)";
+const textFaint = "var(--szz-text-faint)";
+
+// Fixed dark ink for text that always sits on a bright marker/sticker, where it
+// must stay dark regardless of the active theme.
 const ink = "#0B0E18";
-const slate = "#475569";
-const slate2 = "#64748B";
-const cream = "#FBFAF6";
-const hair = "#ECE7DC";
 
 type Tile = { Icon: LucideIcon; title: string; body: string };
 
@@ -103,48 +109,48 @@ const majors: {
   {
     Icon: Terminal,
     bar: "#2563EB",
-    tileBg: "#DBEAFE",
-    tileColor: "#2563EB",
+    tileBg: "rgba(37, 99, 235, 0.12)",
+    tileColor: "#3B82F6",
     title: "Computer Science",
     body: "Deploy Node.js & Python apps, APIs, and thesis demos — straight from your GitHub repo.",
   },
   {
     Icon: Layout,
     bar: "#60A5FA",
-    tileBg: "#DBEAFE",
-    tileColor: "#2563EB",
+    tileBg: "rgba(96, 165, 250, 0.14)",
+    tileColor: "#3B82F6",
     title: "Web Design",
     body: "Responsive sites & SPAs on fast global hosting. Free SSL, staging URLs, 1-click WordPress.",
   },
   {
     Icon: Palette,
     bar: "#22C55E",
-    tileBg: "#DCFCE7",
-    tileColor: "#16a34a",
+    tileBg: "rgba(34, 197, 94, 0.14)",
+    tileColor: "#22C55E",
     title: "Graphic Design",
     body: "A portfolio that loads instantly. Image-optimized CDN so hi-res work never lags.",
   },
   {
     Icon: Gamepad2,
     bar: "#F59E0B",
-    tileBg: "#FEF3C7",
-    tileColor: "#d97706",
+    tileBg: "rgba(245, 158, 11, 0.15)",
+    tileColor: "#F59E0B",
     title: "Game Design",
     body: "Host playable WebGL builds & devlogs. Spin up multiplayer test servers on demand.",
   },
   {
     Icon: ImageIcon,
     bar: "#EF4444",
-    tileBg: "#FEE2E2",
-    tileColor: "#dc2626",
+    tileBg: "rgba(239, 68, 68, 0.13)",
+    tileColor: "#EF4444",
     title: "Art & Portfolio",
     body: "Your name, your domain, your gallery — a home recruiters & galleries actually visit.",
   },
   {
     Icon: GraduationCap,
     bar: "#8B5CF6",
-    tileBg: "#EDE9FE",
-    tileColor: "#7c3aed",
+    tileBg: "rgba(139, 92, 246, 0.15)",
+    tileColor: "#8B5CF6",
     title: "Educators & Faculty",
     body: "Host course sites, class projects, and research. Pre-K through higher ed — same 75% off.",
   },
@@ -185,7 +191,7 @@ const eyebrow = (text: string) => (
       fontSize: 13,
       letterSpacing: 2,
       textTransform: "uppercase",
-      color: "#16a34a",
+      color: "var(--szz-green)",
     }}
   >
     {text}
@@ -194,14 +200,14 @@ const eyebrow = (text: string) => (
 
 export default function EducationOfferPage() {
   return (
-    <div style={{ background: cream, fontFamily: body }}>
+    <div style={{ background: pageBg, fontFamily: body }}>
       <BreadcrumbJsonLd
         items={breadcrumbTrail("Students & Educators — Back to School", PATH)}
       />
       <EmojiRain />
 
       {/* hero */}
-      <section style={{ background: cream }}>
+      <section style={{ background: pageBg }}>
         <div style={{ maxWidth: 880, margin: "0 auto", padding: "74px 40px 64px", textAlign: "center" }}>
           {eyebrow("// HEY_STUDENTS & EDUCATORS")}
           <h1
@@ -213,15 +219,18 @@ export default function EducationOfferPage() {
               fontSize: "clamp(40px, 8vw, 68px)",
               lineHeight: 1.03,
               letterSpacing: "-2.5px",
-              color: ink,
+              color: textPrimary,
             }}
           >
             Your portfolio, hosted{" "}
-            <HighlightSweep color="#FCD34D">75% off</HighlightSweep> all year.
+            <HighlightSweep color="#FCD34D">
+              <span style={{ color: ink }}>75% off</span>
+            </HighlightSweep>{" "}
+            all year.
           </h1>
-          <p style={{ margin: "24px auto 0", maxWidth: 580, fontSize: 18, lineHeight: 1.6, color: slate }}>
+          <p style={{ margin: "24px auto 0", maxWidth: 580, fontSize: 18, lineHeight: 1.6, color: textBody }}>
             Verify with your school email and get{" "}
-            <strong style={{ color: ink }}>75% off the Engineer package for 12 months</strong> — the
+            <strong style={{ color: textPrimary }}>75% off the Engineer package for 12 months</strong> — the
             plan that hosts Node.js &amp; Python apps with one-click GitHub deploys. Free sticker
             pack included.
           </p>
@@ -251,9 +260,9 @@ export default function EducationOfferPage() {
                 gap: 7,
                 fontWeight: 700,
                 fontSize: 16,
-                color: ink,
+                color: textPrimary,
                 textDecoration: "none",
-                borderBottom: `2px solid ${ink}`,
+                borderBottom: `2px solid ${textPrimary}`,
                 paddingBottom: 2,
               }}
             >
@@ -273,7 +282,7 @@ export default function EducationOfferPage() {
             <span style={{ transform: "rotate(-2deg)", background: "#FCD34D", color: "#3d2c00", fontFamily: mono, fontWeight: 700, fontSize: 13, letterSpacing: ".5px", padding: "9px 15px", borderRadius: 9, boxShadow: "0 6px 16px rgba(245,158,11,.3)" }}>
               FREE STICKERS ★
             </span>
-            <span style={{ transform: "rotate(3deg)", background: ink, color: "#fff", fontFamily: mono, fontWeight: 700, fontSize: 13, letterSpacing: ".5px", padding: "9px 15px", borderRadius: 9, boxShadow: "0 6px 16px rgba(11,14,24,.25)" }}>
+            <span style={{ transform: "rotate(3deg)", background: textPrimary, color: pageBg, fontFamily: mono, fontWeight: 700, fontSize: 13, letterSpacing: ".5px", padding: "9px 15px", borderRadius: 9, boxShadow: "0 6px 16px rgba(11,14,24,.25)" }}>
               $6.25/mo
             </span>
           </div>
@@ -281,79 +290,82 @@ export default function EducationOfferPage() {
       </section>
 
       {/* engineer package */}
-      <section id="package" style={{ background: "#fff", borderTop: `1px solid ${hair}` }}>
+      <section id="package" style={{ background: cardBg, borderTop: `1px solid ${border}` }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "72px 40px" }}>
           <div style={{ textAlign: "center", maxWidth: 660, margin: "0 auto 40px" }}>
             {eyebrow("// THE_ENGINEER_PACKAGE")}
-            <h2 style={{ margin: "14px 0 12px", fontFamily: heading, fontWeight: 700, fontSize: "clamp(28px, 5vw, 36px)", letterSpacing: "-1px", color: ink }}>
-              Built for builders. <HighlightSweep color="#BBF7D0">75% off.</HighlightSweep>
+            <h2 style={{ margin: "14px 0 12px", fontFamily: heading, fontWeight: 700, fontSize: "clamp(28px, 5vw, 36px)", letterSpacing: "-1px", color: textPrimary }}>
+              Built for builders.{" "}
+              <HighlightSweep color="#BBF7D0">
+                <span style={{ color: ink }}>75% off.</span>
+              </HighlightSweep>
             </h2>
-            <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: slate }}>
-              The deal runs on our <strong style={{ color: ink }}>Engineer package</strong> — the plan
+            <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: textBody }}>
+              The deal runs on our <strong style={{ color: textPrimary }}>Engineer package</strong> — the plan
               that hosts real Node.js and Python apps and connects straight to GitHub. Coders ship from
               the repo; designers and artists build the same site with WordPress, cPanel, or the SITEJET
               drag-and-drop builder.
             </p>
           </div>
 
-          <div style={{ background: "#F2F6FF", border: "1px solid #DBE4F5", borderRadius: 18, padding: 32 }} className="szz-grid-3">
+          <div style={{ background: "rgba(37, 99, 235, 0.06)", border: "1px solid rgba(37, 99, 235, 0.18)", borderRadius: 18, padding: 32 }} className="szz-grid-3">
             {engineerFeatures.map(({ Icon, title, body: copy }) => (
               <div key={title} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <span style={{ width: 46, height: 46, borderRadius: 12, background: "#fff", border: "1px solid #DBE4F5", color: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ width: 46, height: 46, borderRadius: 12, background: cardBg, border: "1px solid rgba(37, 99, 235, 0.2)", color: "#3B82F6", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <Icon size={22} />
                 </span>
-                <h3 style={{ margin: 0, fontFamily: heading, fontWeight: 700, fontSize: 18, color: ink }}>{title}</h3>
-                <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: slate2 }}>{copy}</p>
+                <h3 style={{ margin: 0, fontFamily: heading, fontWeight: 700, fontSize: 18, color: textPrimary }}>{title}</h3>
+                <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: textBody }}>{copy}</p>
               </div>
             ))}
           </div>
 
-          <div style={{ marginTop: 18, background: cream, border: `1px solid ${hair}`, borderRadius: 18, padding: "26px 32px" }}>
+          <div style={{ marginTop: 18, background: pageBg, border: `1px solid ${border}`, borderRadius: 18, padding: "26px 32px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-              <span style={{ width: 30, height: 30, borderRadius: 8, background: "#FEF3C7", color: "#d97706", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ width: 30, height: 30, borderRadius: 8, background: "rgba(245, 158, 11, 0.15)", color: "#F59E0B", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Sparkles size={18} />
               </span>
-              <h3 style={{ margin: 0, fontFamily: heading, fontWeight: 700, fontSize: 17, color: ink }}>
+              <h3 style={{ margin: 0, fontFamily: heading, fontWeight: 700, fontSize: 17, color: textPrimary }}>
                 More art than code? Build it without writing any.
               </h3>
             </div>
             <div className="szz-grid-3">
               {noCodeTools.map(({ Icon, title, body: copy }) => (
                 <div key={title} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                  <span style={{ width: 40, height: 40, flex: "none", borderRadius: 11, background: "#fff", border: `1px solid ${hair}`, color: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <span style={{ width: 40, height: 40, flex: "none", borderRadius: 11, background: cardBg, border: `1px solid ${border}`, color: "#3B82F6", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Icon size={20} />
                   </span>
                   <div>
-                    <h4 style={{ margin: "0 0 3px", fontFamily: heading, fontWeight: 700, fontSize: 15, color: ink }}>{title}</h4>
-                    <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: slate2 }}>{copy}</p>
+                    <h4 style={{ margin: "0 0 3px", fontFamily: heading, fontWeight: 700, fontSize: 15, color: textPrimary }}>{title}</h4>
+                    <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: textBody }}>{copy}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <p style={{ textAlign: "center", margin: "24px 0 0", fontFamily: mono, fontSize: 12, color: "#94A3B8" }}>
+          <p style={{ textAlign: "center", margin: "24px 0 0", fontFamily: mono, fontSize: 12, color: textFaint }}>
             Engineer package · <span style={{ textDecoration: "line-through" }}>$25/mo</span>{" "}
-            <strong style={{ color: "#16a34a" }}>$6.25/mo</strong>{" "}
+            <strong style={{ color: "var(--szz-green)" }}>$6.25/mo</strong>{" "}
             billed annually for verified students &amp; educators · 12 months
           </p>
         </div>
       </section>
 
       {/* steps */}
-      <section id="how" style={{ background: "#fff", borderTop: `1px solid ${hair}` }}>
+      <section id="how" style={{ background: cardBg, borderTop: `1px solid ${border}` }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "72px 40px" }}>
-          <h2 style={{ margin: "0 0 44px", textAlign: "center", fontFamily: heading, fontWeight: 700, fontSize: "clamp(28px, 5vw, 36px)", letterSpacing: "-1px", color: ink }}>
+          <h2 style={{ margin: "0 0 44px", textAlign: "center", fontFamily: heading, fontWeight: 700, fontSize: "clamp(28px, 5vw, 36px)", letterSpacing: "-1px", color: textPrimary }}>
             Three steps. Thirty seconds.
           </h2>
           <div className="szz-grid-3" style={{ gap: 28 }}>
             {steps.map(({ n, title, body: copy, green }) => (
               <div key={n} style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 14 }}>
-                <span style={{ width: 60, height: 60, borderRadius: 999, background: green ? "#DCFCE7" : "#DBEAFE", color: green ? "#16a34a" : "#2563EB", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: heading, fontWeight: 700, fontSize: 24 }}>
+                <span style={{ width: 60, height: 60, borderRadius: 999, background: green ? "rgba(34, 197, 94, 0.14)" : "rgba(37, 99, 235, 0.12)", color: green ? "#22C55E" : "#3B82F6", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: heading, fontWeight: 700, fontSize: 24 }}>
                   {n}
                 </span>
-                <h3 style={{ margin: 0, fontFamily: heading, fontWeight: 700, fontSize: 19, color: ink }}>{title}</h3>
-                <p style={{ margin: 0, maxWidth: 250, fontSize: 14, lineHeight: 1.55, color: slate2 }}>{copy}</p>
+                <h3 style={{ margin: 0, fontFamily: heading, fontWeight: 700, fontSize: 19, color: textPrimary }}>{title}</h3>
+                <p style={{ margin: 0, maxWidth: 250, fontSize: 14, lineHeight: 1.55, color: textBody }}>{copy}</p>
               </div>
             ))}
           </div>
@@ -361,24 +373,24 @@ export default function EducationOfferPage() {
       </section>
 
       {/* by major */}
-      <section id="majors" style={{ background: cream, borderTop: `1px solid ${hair}` }}>
+      <section id="majors" style={{ background: pageBg, borderTop: `1px solid ${border}` }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "72px 40px" }}>
-          <h2 style={{ margin: "0 0 6px", textAlign: "center", fontFamily: heading, fontWeight: 700, fontSize: "clamp(28px, 5vw, 36px)", letterSpacing: "-1px", color: ink }}>
+          <h2 style={{ margin: "0 0 6px", textAlign: "center", fontFamily: heading, fontWeight: 700, fontSize: "clamp(28px, 5vw, 36px)", letterSpacing: "-1px", color: textPrimary }}>
             Pick your major. We&apos;ve got you.
           </h2>
-          <p style={{ margin: "0 0 40px", textAlign: "center", fontSize: 15, color: slate2 }}>
+          <p style={{ margin: "0 0 40px", textAlign: "center", fontSize: 15, color: textBody }}>
             One Engineer plan, tuned for whatever you&apos;re building.
           </p>
           <div className="szz-grid-3" style={{ gap: 22 }}>
             {majors.map(({ Icon, bar, tileBg, tileColor, title, body: copy }) => (
-              <div key={title} style={{ background: "#fff", border: `1px solid ${hair}`, borderRadius: 16, overflow: "hidden" }}>
+              <div key={title} style={{ background: cardBg, border: `1px solid ${border}`, borderRadius: 16, overflow: "hidden" }}>
                 <div style={{ height: 6, background: bar }} />
                 <div style={{ padding: 26, display: "flex", flexDirection: "column", gap: 12 }}>
                   <span style={{ width: 44, height: 44, borderRadius: 11, background: tileBg, color: tileColor, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Icon size={22} />
                   </span>
-                  <h3 style={{ margin: 0, fontFamily: heading, fontWeight: 700, fontSize: 18, color: ink }}>{title}</h3>
-                  <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: slate2 }}>{copy}</p>
+                  <h3 style={{ margin: 0, fontFamily: heading, fontWeight: 700, fontSize: 18, color: textPrimary }}>{title}</h3>
+                  <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: textBody }}>{copy}</p>
                 </div>
               </div>
             ))}
@@ -387,9 +399,9 @@ export default function EducationOfferPage() {
       </section>
 
       {/* faq */}
-      <section id="faq" style={{ background: "#fff", borderTop: `1px solid ${hair}` }}>
+      <section id="faq" style={{ background: cardBg, borderTop: `1px solid ${border}` }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "72px 40px" }}>
-          <h2 style={{ margin: "0 0 36px", textAlign: "center", fontFamily: heading, fontWeight: 700, fontSize: "clamp(28px, 5vw, 36px)", letterSpacing: "-1px", color: ink }}>
+          <h2 style={{ margin: "0 0 36px", textAlign: "center", fontFamily: heading, fontWeight: 700, fontSize: "clamp(28px, 5vw, 36px)", letterSpacing: "-1px", color: textPrimary }}>
             Got questions?
           </h2>
           <div style={{ maxWidth: 760, margin: "0 auto", display: "flex", flexDirection: "column" }}>
@@ -397,17 +409,17 @@ export default function EducationOfferPage() {
               <div
                 key={q}
                 style={{
-                  borderTop: `1px solid ${hair}`,
-                  borderBottom: i === faqs.length - 1 ? `1px solid ${hair}` : undefined,
+                  borderTop: `1px solid ${border}`,
+                  borderBottom: i === faqs.length - 1 ? `1px solid ${border}` : undefined,
                   padding: "20px 0",
                   display: "flex",
                   gap: 18,
                 }}
               >
-                <span style={{ fontFamily: mono, fontSize: 13, fontWeight: 700, color: "#22C55E", flex: "none", width: 24 }}>Q.</span>
+                <span style={{ fontFamily: mono, fontSize: 13, fontWeight: 700, color: "var(--szz-green)", flex: "none", width: 24 }}>Q.</span>
                 <div>
-                  <h4 style={{ margin: "0 0 5px", fontFamily: heading, fontWeight: 700, fontSize: 16, color: ink }}>{q}</h4>
-                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: slate2 }}>{a}</p>
+                  <h4 style={{ margin: "0 0 5px", fontFamily: heading, fontWeight: 700, fontSize: 16, color: textPrimary }}>{q}</h4>
+                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: textBody }}>{a}</p>
                 </div>
               </div>
             ))}
@@ -450,15 +462,15 @@ export default function EducationOfferPage() {
       </section>
 
       {/* fine print */}
-      <section style={{ background: cream, borderTop: `1px solid ${hair}` }}>
+      <section style={{ background: pageBg, borderTop: `1px solid ${border}` }}>
         <div style={{ maxWidth: 880, margin: "0 auto", padding: "28px 40px", textAlign: "center" }}>
-          <p style={{ margin: 0, fontFamily: mono, fontSize: 12, lineHeight: 1.6, color: "#94A3B8" }}>
+          <p style={{ margin: 0, fontFamily: mono, fontSize: 12, lineHeight: 1.6, color: textFaint }}>
             Offer ends September 30, 2026. See our{" "}
             <a
               href="https://go.serverizz.com/index.php?fuse=home&controller=announcements&view=announcement&ann_id=4"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: slate2, textDecoration: "underline" }}
+              style={{ color: textBody, textDecoration: "underline" }}
             >
               Back to School Promotional Offer Terms &amp; Conditions
             </a>{" "}
