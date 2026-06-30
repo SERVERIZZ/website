@@ -10,6 +10,7 @@ import "./globals.css";
 // injecting its own <style> at runtime (which causes oversized-icon flash).
 config.autoAddCss = false;
 import { AffiliateTracker } from "@/components/affiliate-tracker";
+import { AccessibilityWidget } from "@/components/accessibility-widget";
 import { InlineScript } from "@/components/inline-script";
 import {
   ORG,
@@ -159,6 +160,7 @@ export default function RootLayout({
         />
         {children}
         <AffiliateTracker />
+        <AccessibilityWidget />
         <Script
           id="getterms-cmp-widget"
           src={`${GETTERMS_BASE}/widget/${GETTERMS_CMP_ID}/en-us?auto=true`}
