@@ -40,6 +40,7 @@ const COLUMNS: FooterMenu[][] = [
       heading: "BUSINESS TOOLS",
       links: [
         { label: "AI Employees", href: "/business-tools/ai-employees" },
+        { label: "Web Accessibility", href: "/business-tools/web-accessibility" },
       ],
     },
     {
