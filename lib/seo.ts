@@ -240,6 +240,23 @@ export const PAGE_SEO: PageSeo[] = [
     priority: 0.6,
   },
   {
+    path: "/business-tools/resell-domain-names",
+    name: "Wholesale Domains",
+    title: "Wholesale Domains — Become a Domain Reseller",
+    description:
+      "Resell domains under your own brand on the SERVERIZZ × eNom platform. Buy 1,000+ TLDs at wholesale, set your own retail prices, and keep the margin from a white-label storefront. Self-serve sign-up — no ticket needed to start.",
+    targetKeyword: "become a domain reseller",
+    cluster: [
+      "wholesale domain reseller",
+      "white-label domain reseller",
+      "eNom domain reseller",
+      "sell domains under your brand",
+    ],
+    jsonLd: null,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  },
+  {
     path: "/data-centers",
     name: "Data Centers",
     title: "Global Data Center Regions — Low-Latency Hosting",
