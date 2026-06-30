@@ -223,6 +223,23 @@ export const PAGE_SEO: PageSeo[] = [
     priority: 0.7,
   },
   {
+    path: "/business-tools/web-accessibility",
+    name: "Web Accessibility",
+    title: "Web Accessibility — AccessWidget by accessiBe",
+    description:
+      "Make your site accessible to everyone. AccessWidget by accessiBe is an AI-powered tool that helps your website meet ADA and WCAG 2.1 AA standards — installed in two lines and working around the clock. Available to every SERVERIZZ customer.",
+    targetKeyword: "website accessibility widget",
+    cluster: [
+      "ADA compliance widget",
+      "WCAG 2.1 AA compliance",
+      "accessiBe AccessWidget",
+      "AI accessibility remediation",
+    ],
+    jsonLd: null,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  },
+  {
     path: "/data-centers",
     name: "Data Centers",
     title: "Global Data Center Regions — Low-Latency Hosting",
